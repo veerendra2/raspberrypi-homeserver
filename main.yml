@@ -1,0 +1,50 @@
+# Author: Veerendra Kakumanu
+# Description: An Ansible playbook to install necessary packages on my RPi4
+
+- name: Raspberry Pi Homeserver
+  hosts: localhost
+  connection: local
+  become: yes
+  gather_facts: yes
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  vars_files:
+    - vars.yml
+    - secrets.yml
+
+  # pre_tasks:
+  #   - name: Run Update
+  #     apt:
+  #       upgrade: true
+  #       update_cache: yes
+  #     ignore_errors: yes
+  #     become: yes
+
+  # post_tasks:
+  #   - name: Run autoremove
+  #     apt:
+  #       autoremove: yes
+  #     become: yes
+
+  handlers:
+    - name: Include handlers
+      import_tasks: tasks/handlers.yml
+
+  tasks:
+    # - name: Install Packages
+    #   import_tasks: tasks/install-pkgs.yml
+
+    - name: Setup monitoring
+      import_tasks: tasks/monitoring.yml
+
+    - name: Setup pihole server
+      import_tasks: tasks/pihole.yml
+
+    - name: Setup yacht server
+      import_tasks: tasks/yacht.yml
+
+    - name: Setup homer
+      import_tasks: tasks/homer.yml
+
+    - name: Setup nginx proxy
+      import_tasks: tasks/nginx.yml

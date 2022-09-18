@@ -1,0 +1,13 @@
+---
+- name: Synchronize directory
+  synchronize:
+    src: apps/yacht/
+    dest: "/opt/apps/yacht/"
+    delete: false
+    recursive: true
+    perms: false
+
+- name: Run docker-compose up
+  docker_compose:
+    project_src: "/opt/apps/pihole/"
+    build: false

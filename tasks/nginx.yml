@@ -1,0 +1,32 @@
+---
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+  become: true
+
+- name: Fetching ssl keys status
+  stat:
+    path: "{{ item }}"
+  register: output
+  with_items:
+    - /etc/nginx/ssl/server.key
+    - /etc/nginx/ssl/server.pem
+
+- block:
+    - name: Create directories
+      file:
+        path: /etc/nginx/ssl
+        state: directory
+
+    - name: Generating self-signed certificates if required
+      shell: |
+        openssl req -x509 -nodes -subj '/CN=atom' -days 365 \
+        -newkey rsa:2048 -keyout /opt/nginx/ssl/server.key -out /opt/nginx/ssl/server.pem
+  when: not output.results[0].stat.exists or not output.results[1].stat.exists
+
+- name: Copy nginx config
+  copy:
+    src: apps/nginx/nginx.conf
+    dest: /etc/nginx/conf.d/default.conf
+  become: true

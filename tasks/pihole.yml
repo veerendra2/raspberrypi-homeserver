@@ -1,0 +1,13 @@
+---
+- name: Synchronize pihole directory
+  synchronize:
+    src: apps/pihole/
+    dest: "/opt/apps/pihole/"
+    delete: false
+    recursive: true
+    perms: false
+
+- name: Run docker-compose up
+  docker_compose:
+    project_src: "/opt/apps/pihole/"
+    build: false

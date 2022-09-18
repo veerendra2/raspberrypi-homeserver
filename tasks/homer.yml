@@ -1,0 +1,13 @@
+---
+- name: Synchronize homer directory.
+  synchronize:
+    src: homer/
+    dest: "/opt/homer/"
+    delete: false
+    recursive: true
+    perms: false
+
+- name: Run docker-compose up
+  docker_compose:
+    project_src: "/opt/homer/"
+    build: false

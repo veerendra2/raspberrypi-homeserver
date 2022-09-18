@@ -48,7 +48,7 @@ services:
     expose:
       - 3000
     ports:
-      - 127.0.0.1:300:3000
+      - 127.0.0.1:3000:3000
     networks:
       - monitoring
     labels:
