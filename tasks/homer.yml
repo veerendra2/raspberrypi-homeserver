@@ -1,13 +1,21 @@
 ---
+- set_fact:
+    project_dir: /opt/apps/homer/
+
+- name: Create project directory
+  file:
+    path: "{{ project_dir }}"
+    state: directory
+
 - name: Synchronize homer directory.
   synchronize:
-    src: homer/
-    dest: "/opt/homer/"
+    src: apps/homer/
+    dest: "{{ project_dir }}"
     delete: false
     recursive: true
     perms: false
 
 - name: Run docker-compose up
   docker_compose:
-    project_src: "/opt/homer/"
+    project_src: "{{ project_dir }}"
     build: false

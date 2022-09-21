@@ -34,17 +34,17 @@
     # - name: Install Packages
     #   import_tasks: tasks/install-pkgs.yml
 
-    - name: Setup monitoring
-      import_tasks: tasks/monitoring.yml
+    # - name: Setup monitoring
+    #   import_tasks: tasks/monitoring.yml
 
-    - name: Setup pihole server
-      import_tasks: tasks/pihole.yml
+    # - name: Setup pihole server
+    #   import_tasks: tasks/pihole.yml
 
-    - name: Setup yacht server
-      import_tasks: tasks/yacht.yml
+    # - name: Setup yacht server
+    #   import_tasks: tasks/yacht.yml
 
-    - name: Setup homer
-      import_tasks: tasks/homer.yml
+    # - name: Setup homer
+    #   import_tasks: tasks/homer.yml
 
     - name: Setup nginx proxy
       import_tasks: tasks/nginx.yml

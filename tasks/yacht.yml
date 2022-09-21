@@ -1,13 +1,21 @@
 ---
+- set_fact:
+    project_dir: /opt/apps/yacht/
+
+- name: Create project directory
+  file:
+    path: "{{ project_dir }}"
+    state: directory
+
 - name: Synchronize directory
   synchronize:
     src: apps/yacht/
-    dest: "/opt/apps/yacht/"
+    dest: "{{ project_dir }}"
     delete: false
     recursive: true
     perms: false
 
 - name: Run docker-compose up
   docker_compose:
-    project_src: "/opt/apps/pihole/"
+    project_src: "{{ project_dir }}"
     build: false
