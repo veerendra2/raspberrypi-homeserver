@@ -5,9 +5,18 @@ services:
     image: pihole/pihole:latest
     container_name: pihole
     restart: unless-stopped
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80/tcp"
     env_file:
-      - ./.env
+      - .env
     volumes:
       - './etc-pihole:/etc/pihole'
       - './etc-dnsmasq.d:/etc/dnsmasq.d'
-    network_mode: host
+    networks:
+      - front-tier
+
+networks:
+  front-tier:
+    external: true

@@ -5,11 +5,18 @@ services:
     image: selfhostedpro/yacht
     container_name: yacht
     restart: unless-stopped
-    ports:
-      - 8000:8000
+    expose:
+      - 8000
     volumes:
       - yacht:/config
       - /var/run/docker.sock:/var/run/docker.sock
       - /opt/apps:/config/compose
+    networks:
+      - front-tier
+
+networks:
+  front-tier:
+    external: true
+
 volumes:
   yacht:

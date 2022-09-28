@@ -61,7 +61,7 @@ services:
       - name: "Pi-hole"
         logo: "assets/tools/pi-hole.png"
         subtitle: "Network-wide ad blocking"
-        tag: "dhcp"
+        tag: "dns"
         url: "/pihole"
       - name: "Yacht"
         logo: "assets/tools/yacht.png"

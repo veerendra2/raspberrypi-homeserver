@@ -1,7 +1,9 @@
 version: '3'
 
 networks:
-  monitoring:
+  front-tier:
+    external: true
+  back-tier:
     external: true
 
 volumes:
@@ -26,10 +28,11 @@ services:
     restart: unless-stopped
     expose:
       - 9090
-    ports:
-      - 127.0.0.1:9090:9090
+    #ports:
+    #  - 127.0.0.1:9090:9090
     networks:
-      - monitoring
+      - front-tier
+      - back-tier
     labels:
       group: "monitoring"
 
@@ -47,10 +50,11 @@ services:
     restart: unless-stopped
     expose:
       - 3000
-    ports:
-      - 127.0.0.1:3000:3000
+    #ports:
+    #  - 127.0.0.1:3000:3000
     networks:
-      - monitoring
+      - front-tier
+      - back-tier
     labels:
       group: "monitoring"
 
@@ -72,7 +76,7 @@ services:
     expose:
       - 9100
     networks:
-      - monitoring
+      - back-tier
     labels:
       group: "monitoring"
 
@@ -94,7 +98,7 @@ services:
     expose:
       - 8080
     networks:
-      - monitoring
+      - back-tier
     labels:
       group: "monitoring"
 
@@ -112,7 +116,8 @@ services:
     command:
       - '--config.file=/config/blackbox.yml'
     networks:
-      - monitoring
+      - front-tier
+      - back-tier
 
   speedtest:
     expose:
@@ -122,4 +127,5 @@ services:
     depends_on:
       - prometheus
     networks:
-      - monitoring
+      - front-tier
+      - back-tier

@@ -4,8 +4,14 @@ services:
   homer:
     image: b4bz/homer:v22.07.2
     container_name: homer
-    restart: unless-stopped
     volumes:
       - ./assets/:/www/assets
-    ports:
-      - 127.0.0.1:8080:8080
+    expose:
+      - 8080
+    restart: unless-stopped
+    networks:
+      - front-tier
+
+networks:
+  front-tier:
+    external: true
