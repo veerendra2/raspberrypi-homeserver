@@ -4,7 +4,6 @@
 - name: Raspberry Pi Homeserver
   hosts: localhost
   connection: local
-  become: yes
   gather_facts: yes
   vars:
     ansible_python_interpreter: /usr/bin/python3
@@ -46,5 +45,3 @@
     # - name: Setup homer
     #   import_tasks: tasks/homer.yml
 
-    - name: Setup nginx proxy
-      import_tasks: tasks/nginx.yml

@@ -10,44 +10,31 @@
     update_cache: yes
   become: true
 
-- name: Install Snap Packages
+- name: Install Snap packages
   snap:
     name: "{{ snaps }}"
     classic: yes
   become: true
 
-- name: Install Python packges
+- name: Install PyPI packges
   pip:
-    name: "{{ pip_pkgs }}"
-  become: true
+    name: "{{ pypi }}"
+    state: present
+    executable: "pip3"
 
-- name: Download tools/scripts
+- name: Download scripts
   get_url:
     url: "{{ item.value }}"
-    dest: "/usr/local/bin/"
-    mode: "0766"
-  loop: "{{ lookup('dict', tools) }}"
-  become: true
+    dest: "/tmp/{{ item.key }}.sh"
+    mode: "0776"
+  loop: "{{ lookup('dict', scripts) }}"
 
-- name: Download dotfiles install script
-  get_url:
-    url: https://raw.githubusercontent.com/veerendra2/dotfiles/master/install.sh
-    dest: /tmp/install-dotfiles.sh
-    mode: 0775
-
-- name: Run dotfiles install script
-  command: /tmp/install-dotfiles.sh
-
-- name: Download Docker install convenience script
-  get_url:
-    url: https://get.docker.com/
-    dest: /tmp/get-docker.sh
-    mode: 0775
-
-- name: Run Docker install convenience script
-  command: /tmp/get-docker.sh
+- name: Run scripts
+  command: "/tmp/{{ item.key }}.sh"
   environment:
     CHANNEL: stable
+  become: yes
+  loop: "{{ lookup('dict', scripts) }}"
 
 - name: Ensure Docker is started.
   service:
@@ -55,15 +42,9 @@
     state: started
     enabled: true
 
-- name: Install docker-compose using pip
-  pip:
-    name: docker-compose
-    state: present
-    executable: "pip3"
-
 - name: Ensure docker users are added to the docker group
   user:
-    name: "{{ ansible_env.USER }}"
+    name: "{{ CUR_USER }}"
     groups: docker
     append: true
   become: true
@@ -72,13 +53,14 @@
   shell: |
     go env -w GO111MODULE=off
     go get -u github.com/bettercap/bettercap
+    ls -lah
 
 - name: Install bettercap
   shell: |
     mv {{ CUR_USER_HOME }}/go/bin/bettercap /usr/local/bin/
     rm -rf {{ CUR_USER_HOME }}/go
     bettercap -version
-  become: true
+  become: yes
   register: output
 
 - name: Display bettercap version
