@@ -1,7 +1,7 @@
 ---
 - set_fact:
-    app: homer
-    project_dir: /opt/apps/homer/
+    app: portainer
+    project_dir: /opt/apps/portainer/
 
 - name: Create project directory | {{ app }}
   file:
@@ -10,9 +10,9 @@
     owner: "{{ ansible_env.USER }}"
   become: yes
 
-- name: Synchronize homer directory | {{ app }}
+- name: Synchronize directory | {{ app }}
   synchronize:
-    src: apps/homer/
+    src: apps/portainer/
     dest: "{{ project_dir }}"
     delete: false
     recursive: true

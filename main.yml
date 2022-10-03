@@ -39,9 +39,11 @@
     # - name: Setup pihole server
     #   import_tasks: tasks/pihole.yml
 
-    # - name: Setup yacht server
-    #   import_tasks: tasks/yacht.yml
+    - name: Setup portainer server
+      import_tasks: tasks/portainer.yml
 
     # - name: Setup homer
     #   import_tasks: tasks/homer.yml
 
+    - name: Setup nginx
+      import_tasks: tasks/nginx.yml

@@ -1,33 +1,41 @@
 ---
-- name: Install nginx
-  apt:
-    name: nginx
-    state: present
-  become: true
+- set_fact:
+    app: nginx
+    project_dir: /opt/apps/nginx
 
-- name: Fetching ssl keys status
+- name: Create project directory | {{ app }}
+  file:
+    path: "{{ project_dir }}"
+    state: directory
+    owner: "{{ ansible_env.USER }}"
+  become: yes
+
+- name: Synchronize directory | {{ app }}
+  synchronize:
+    src: apps/nginx/
+    dest: "{{ project_dir }}"
+    delete: false
+    recursive: true
+    perms: false
+
+- name: Fetching ssl keys status | {{ app }}
   stat:
     path: "{{ item }}"
   register: output
   with_items:
-    - /etc/nginx/ssl/server.key
-    - /etc/nginx/ssl/server.pem
+    - "{{ project_dir }}/ssl/server.key"
+    - "{{ project_dir }}/ssl/server.pem"
 
-- block:
-    - name: Create directories
-      file:
-        path: /etc/nginx/ssl
-        state: directory
-
-    - name: Generating self-signed certificates if required
-      shell: |
-        openssl req -x509 -nodes -subj '/CN=atom' -days 365 \
-        -newkey rsa:2048 -keyout /etc/nginx/ssl/server.key -out /etc/nginx/ssl/server.pem
+- name: Generating self-signed certificates if required | {{ app }}
+  shell: |
+    openssl req -x509 -nodes -subj '/CN={{ rpi_hostname }}' -days 365 \
+    -newkey rsa:2048 \
+    -keyout "{{ project_dir }}/ssl/server.key" \
+    -out "{{ project_dir }}/ssl/server.pem"
   when: not output.results[0].stat.exists or not output.results[1].stat.exists
   become: true
 
-- name: Copy nginx config
-  copy:
-    src: files/nginx.conf
-    dest: /etc/nginx/conf.d/default.conf
-  become: true
+- name: Run docker-compose up | {{ app }}
+  docker_compose:
+    project_src: "{{ project_dir }}"
+    build: false

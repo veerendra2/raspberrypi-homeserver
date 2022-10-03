@@ -1,13 +1,16 @@
 ---
 - set_fact:
+    app: monitoring
     project_dir: /opt/apps/monitoring/
 
-- name: Create project directory
+- name: Create project directory | {{ app }}
   file:
     path: "{{ project_dir }}"
     state: directory
+    owner: "{{ ansible_env.USER }}"
+  become: yes
 
-- name: Synchronize monitoring directory
+- name: Synchronize monitoring directory | {{ app }}
   synchronize:
     src: apps/monitoring/
     dest: "{{ project_dir }}"
@@ -15,13 +18,14 @@
     recursive: true
     perms: false
 
-- name: Create networks
+- name: Create networks | {{ app }}
   docker_network:
     name: "{{ item }}"
   with_items:
-    - monitoring
+    - front-tier
+    - back-tier
 
-- name: Run docker-compose up
+- name: Run docker-compose up | {{ app }}
   docker_compose:
     project_src: "{{ project_dir }}"
     build: false

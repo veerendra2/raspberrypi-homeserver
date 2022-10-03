@@ -4,6 +4,7 @@ services:
   homer:
     image: b4bz/homer:v22.07.2
     container_name: homer
+    hostname: homer
     volumes:
       - ./assets/:/www/assets
     expose:
