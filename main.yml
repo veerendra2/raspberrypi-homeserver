@@ -35,10 +35,10 @@
     - name: Setup monitoring
       import_tasks: tasks/monitoring.yml
 
-    - name: Setup pihole server
+    - name: Setup pihole
       import_tasks: tasks/pihole.yml
 
-    - name: Setup portainer server
+    - name: Setup portainer
       import_tasks: tasks/portainer.yml
 
     - name: Setup homer
