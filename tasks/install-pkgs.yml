@@ -16,7 +16,7 @@
     classic: yes
   become: true
 
-- name: Install PyPI packges
+- name: Install PyPI packages
   pip:
     name: "{{ pypi }}"
     state: present
@@ -73,28 +73,3 @@
   when: output.rc == 0
   ignore_errors: true
   become: true
-
-# - name: Configure ngrok
-#   block:
-#     - name: Create ngrok config directory /opt/ngrok
-#       file:
-#         path: /opt/ngrok
-#         state: directory
-
-#     - name: Generate ngrok config
-#       template:
-#         src: templates/ngrok.yml.j2
-#         dest: /opt/ngrok/ngrok.yml
-
-#     - name: Copy systemd unit file
-#       copy:
-#         src: files/ngrok.service
-#         dest: /lib/systemd/system
-
-#     - name: start ngrok daemon
-#       systemd:
-#         name: ngrok
-#         enabled: true
-#         state: started
-#       ignore_errors: true
-#   become: true

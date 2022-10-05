@@ -62,7 +62,7 @@ services:
         logo: "assets/tools/pi-hole.png"
         subtitle: "Network-wide ad blocking"
         tag: "dns"
-        url: "/pihole"
+        url: "/admin"
       - name: "Portainer"
         logo: "assets/tools/portainer.png"
         subtitle: "A container management UI"

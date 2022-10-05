@@ -1,9 +1,8 @@
 # Author: Veerendra Kakumanu
-# Description: An Ansible playbook to install necessary packages on my RPi4
+# Description: An Ansible playbook to make simple Raspberry Pi homeserver
 
 - name: Raspberry Pi Homeserver
-  hosts: localhost
-  connection: local
+  hosts: all
   gather_facts: yes
   vars:
     ansible_python_interpreter: /usr/bin/python3
@@ -11,39 +10,39 @@
     - vars.yml
     - secrets.yml
 
-  # pre_tasks:
-  #   - name: Run Update
-  #     apt:
-  #       upgrade: true
-  #       update_cache: yes
-  #     ignore_errors: yes
-  #     become: yes
+  pre_tasks:
+    - name: Run Update
+      apt:
+        upgrade: true
+        update_cache: yes
+      ignore_errors: yes
+      become: yes
 
-  # post_tasks:
-  #   - name: Run autoremove
-  #     apt:
-  #       autoremove: yes
-  #     become: yes
+  post_tasks:
+    - name: Run autoremove
+      apt:
+        autoremove: yes
+      become: yes
 
   handlers:
     - name: Include handlers
       import_tasks: tasks/handlers.yml
 
   tasks:
-    # - name: Install Packages
-    #   import_tasks: tasks/install-pkgs.yml
+    - name: Install Packages
+      import_tasks: tasks/install-pkgs.yml
 
-    # - name: Setup monitoring
-    #   import_tasks: tasks/monitoring.yml
+    - name: Setup monitoring
+      import_tasks: tasks/monitoring.yml
 
-    # - name: Setup pihole server
-    #   import_tasks: tasks/pihole.yml
+    - name: Setup pihole server
+      import_tasks: tasks/pihole.yml
 
     - name: Setup portainer server
       import_tasks: tasks/portainer.yml
 
-    # - name: Setup homer
-    #   import_tasks: tasks/homer.yml
+    - name: Setup homer
+      import_tasks: tasks/homer.yml
 
     - name: Setup nginx
       import_tasks: tasks/nginx.yml
