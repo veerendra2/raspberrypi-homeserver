@@ -1,0 +1,28 @@
+
+version: "3"
+
+services:
+  portainer:
+    container_name: portainer
+    hostname: portainer
+    restart: always
+    image: portainer/portainer-ce:linux-arm64
+    command:
+      - -H
+      - unix:///var/run/docker.sock
+      - --admin-password='$$2y$$05$$4cl0I8JTj38R7MqQ4P49..ynxcxik/LyVTrwoDcC8QZ7IaeKLTTuG'
+    networks:
+      - front-tier
+    expose:
+      - 9443
+      - 8000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+
+networks:
+  front-tier:
+    external: true
+
+volumes:
+  portainer_data:

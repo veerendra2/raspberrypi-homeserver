@@ -1,0 +1,60 @@
+rpi_hostname: "atom"
+
+pkgs:
+  - "neofetch"
+  - "net-tools"
+  - "iotop"
+  - "blktrace"
+  - "ethtool"
+  - "nmap"
+  - "socat"
+  - "bridge-utils"
+  - "conntrack"
+  - "python3-scapy"
+  - "wipe"
+  - "htop"
+  - "screen"
+  - "traceroute"
+  - "ssh"
+  - "secure-delete"
+  - "makepasswd"
+  - "pwgen"
+  - "tree"
+  - "macchanger"
+  - "unzip"
+  - "p7zip-full"
+  - "apt-transport-https"
+  - "ca-certificates"
+  - "gnupg"
+  - "curl"
+  - "wireless-tools"
+  - "openvpn"
+  - "python3-pip"
+  - "openssl"
+  - "aircrack-ng"
+  - "nmap"
+  - "hostapd"
+  - "dsniff"
+  - "libpcap-dev"
+  - "libusb-1.0-0"
+  - "libnetfilter-queue-dev"
+  - "build-essential"
+  - "golang"
+  - "gettext"
+  - "dhcpcd5"
+  - "isc-dhcp-server"
+  - "git"
+  - "libusb-1.0-0-dev"
+
+snaps:
+  - ngrok
+
+pypi:
+  - requests
+  - beautifulsoup4
+  - ansible
+  - docker-compose
+
+scripts:
+  dotfiles: https://raw.githubusercontent.com/veerendra2/dotfiles/master/install.sh
+  docker: https://get.docker.com/
