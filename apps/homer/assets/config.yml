@@ -45,26 +45,35 @@ links:
     target: "_blank"
 
 services:
-  - name: "Applications"
+  - name: "Monitoring"
     icon: "fas fa-cloud"
     items:
       - name: "Grafana"
         logo: "assets/tools/grafana.png"
         subtitle: "Visualization web application"
-        tag: "monitoring"
-        url: "/grafana"
+        url: "/grafana/"
       - name: "Prometheus"
         logo: "assets/tools/prometheus.png"
         subtitle: "Systems monitoring and alerting tool"
-        tag: "monitoring"
-        url: "/prometheus"
+        url: "/prometheus/"
+  - name: DNS
+    icon: "fas fa-cloud"
+    items:
       - name: "Pi-hole"
         logo: "assets/tools/pi-hole.png"
         subtitle: "Network-wide ad blocking"
-        tag: "dns"
-        url: "/admin"
+        url: "/admin/"
+  - name: Management
+    icon: "fas fa-cloud"
+    items:
       - name: "Portainer"
         logo: "assets/tools/portainer.png"
         subtitle: "A container management UI"
-        tag: "monitoring"
-        url: "/portainer"
+        url: "/portainer/"
+  - name: Media Streaming
+    icon: "fas fa-cloud"
+    items:
+      - name: "Jellyfin"
+        logo: "assets/tools/jellyfin.png"
+        subtitle: "Multimedia streaming"
+        url: "/jellyfin/"

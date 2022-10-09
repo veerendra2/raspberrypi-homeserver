@@ -44,5 +44,8 @@
     - name: Setup homer
       import_tasks: tasks/homer.yml
 
+    - name: Setup jellyfin
+      import_tasks: tasks/jellyfin.yml
+
     - name: Setup nginx
       import_tasks: tasks/nginx.yml

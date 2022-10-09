@@ -1,0 +1,18 @@
+version: "3"
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:10.8.5
+    container_name: jellyfin
+    hostname: jellyfin
+    volumes:
+      - jellyfin:/config
+      - jellyfin:/cache
+      - ./config/network.xml:/config/config/network.xml
+      - /media:/media:ro
+    env_file:
+      - .env
+    restart: "unless-stopped"
+    network_mode: "host"
+
+volumes:
+  jellyfin:
