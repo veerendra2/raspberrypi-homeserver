@@ -1,0 +1,24 @@
+---
+- set_fact:
+    app: jellyfin
+    project_dir: /opt/apps/jellyfin/
+
+- name: Create project directory | {{ app }}
+  file:
+    path: "{{ project_dir }}"
+    state: directory
+    owner: "{{ ansible_env.USER }}"
+  become: yes
+
+- name: Synchronize directory | {{ app }}
+  synchronize:
+    src: apps/jellyfin/
+    dest: "{{ project_dir }}"
+    delete: false
+    recursive: true
+    perms: false
+
+- name: Run docker-compose up | {{ app }}
+  docker_compose:
+    project_src: "{{ project_dir }}"
+    build: false
