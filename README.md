@@ -39,6 +39,11 @@
       <img src="https://user-images.githubusercontent.com/8393701/194766544-2b539ee7-cb51-426f-9174-a98c1f94a044.png" alt="Jellyfin" width="60"/> <br /> Jellyfin
     </center>
   </td>
+  <td>
+    <center>
+      <img src="https://user-images.githubusercontent.com/8393701/195693675-b363b46a-146d-49f0-9182-6fc59b3e281d.png" alt="Nextcloud" width="60"/> <br /> Nextcloud
+    </center>
+  </td>
 </tr>
 </table>
 

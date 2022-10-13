@@ -6,7 +6,7 @@ services:
     container_name: portainer
     hostname: portainer
     restart: always
-    image: portainer/portainer-ce:linux-arm64
+    image: portainer/portainer-ce:linux-arm64-2.15.1-alpine
     command:
       - -H
       - unix:///var/run/docker.sock

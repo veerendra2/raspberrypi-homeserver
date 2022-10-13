@@ -12,7 +12,7 @@ volumes:
 
 services:
   prometheus:
-    image: prom/prometheus:v2.37.0
+    image: prom/prometheus:v2.39.0
     container_name: prometheus
     hostname: prometheus
     volumes:
@@ -38,7 +38,7 @@ services:
       group: "monitoring"
 
   grafana:
-    image: grafana/grafana:9.0.3
+    image: grafana/grafana:9.2.0
     container_name: grafana
     hostname: grafana
     volumes:
@@ -61,7 +61,7 @@ services:
       group: "monitoring"
 
   nodeexporter:
-    image: prom/node-exporter:v1.3.1
+    image: prom/node-exporter:v1.4.0
     container_name: nodeexporter
     hostname: nodeexporter
     volumes:
@@ -84,7 +84,7 @@ services:
       group: "monitoring"
 
   cadvisor:
-    image: zcube/cadvisor:latest # For ARM
+    image: zcube/cadvisor:v0.45.0 # For ARM
     container_name: cadvisor
     hostname: cadvisor
     privileged: true

@@ -1,0 +1,53 @@
+version: '3'
+
+volumes:
+  nextcloud:
+  postgres:
+
+services:
+  postgres:
+    image: arm64v8/postgres:14-alpine
+    hostname: postgres
+    container_name: postgres
+    restart: always
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    env_file:
+      - ./.env_postgres
+    secrets:
+      - postgres_db
+      - postgres_password
+      - postgres_user
+
+  nextcloud:
+    image: arm64v8/nextcloud:24.0.6-fpm-alpine
+    hostname: nextcloud
+    container_name: nextcloud
+    restart: always
+    ports:
+      - 9000:9000
+    links:
+      - postgres
+    volumes:
+      - nextcloud:/var/www/html
+    env_file:
+      - ./.env_nextcloud
+    secrets:
+      - nextcloud_admin_password
+      - nextcloud_admin_user
+      - postgres_db
+      - postgres_password
+      - postgres_user
+
+
+secrets:
+  nextcloud_admin_password:
+    file: ./secrets/nextcloud_admin_password.txt # put admin password in this file
+  nextcloud_admin_user:
+    file: ./secrets/nextcloud_admin_user.txt # put admin username in this file
+  postgres_db:
+    file: ./secrets/postgres_db.txt # put postgresql db name in this file
+  postgres_password:
+    file: ./secrets/postgres_password.txt # put postgresql password in this file
+  postgres_user:
+    file: ./secrets/postgres_user.txt # put postgresql username in this file
