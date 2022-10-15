@@ -4,6 +4,12 @@ volumes:
   nextcloud:
   postgres:
 
+networks:
+  front-tier:
+    external: true
+  back-tier:
+    external: true
+
 services:
   postgres:
     image: arm64v8/postgres:14-alpine
@@ -12,33 +18,39 @@ services:
     restart: always
     volumes:
       - postgres:/var/lib/postgresql/data
+    networks:
+      - back-tier
     env_file:
-      - ./.env_postgres
+      - .env_postgres
     secrets:
       - postgres_db
       - postgres_password
       - postgres_user
 
   nextcloud:
-    image: arm64v8/nextcloud:24.0.6-fpm-alpine
-    hostname: nextcloud
+    image: arm64v8/nextcloud:24.0.6-apache
+    hostname: nextcloud.atom.local
     container_name: nextcloud
     restart: always
     ports:
-      - 9000:9000
+      - 9000:80
     links:
       - postgres
+    depends_on:
+      - postgres
+    networks:
+      - front-tier
+      - back-tier
     volumes:
       - nextcloud:/var/www/html
     env_file:
-      - ./.env_nextcloud
+      - .env_nextcloud
     secrets:
       - nextcloud_admin_password
       - nextcloud_admin_user
       - postgres_db
       - postgres_password
       - postgres_user
-
 
 secrets:
   nextcloud_admin_password:
