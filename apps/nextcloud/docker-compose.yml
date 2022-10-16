@@ -13,8 +13,8 @@ networks:
 services:
   postgres:
     image: arm64v8/postgres:14-alpine
-    hostname: postgres
     container_name: postgres
+    hostname: postgres
     restart: always
     volumes:
       - postgres:/var/lib/postgresql/data
@@ -29,8 +29,8 @@ services:
 
   nextcloud:
     image: arm64v8/nextcloud:24.0.6-apache
-    hostname: nextcloud.atom.local
     container_name: nextcloud
+    hostname: nextcloud.atom.lan
     restart: always
     expose:
       - 80

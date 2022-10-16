@@ -7,14 +7,14 @@ networks:
     external: true
 
 volumes:
-  prometheus_data: {}
-  grafana_data: {}
+  prometheus_data:
+  grafana_data:
 
 services:
   prometheus:
     image: prom/prometheus:v2.39.0
     container_name: prometheus
-    hostname: prometheus
+    hostname: prometheus.atom.lan
     volumes:
       - ./prometheus:/etc/prometheus
       - prometheus_data:/prometheus
@@ -40,7 +40,7 @@ services:
   grafana:
     image: grafana/grafana:9.2.0
     container_name: grafana
-    hostname: grafana
+    hostname: grafana.atom.lan
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana:/etc/grafana/

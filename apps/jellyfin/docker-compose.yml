@@ -3,7 +3,12 @@ services:
   jellyfin:
     image: jellyfin/jellyfin:10.8.5
     container_name: jellyfin
-    hostname: jellyfin
+    hostname: jellyfin.atom.lan
+    ports:
+      - 7359:7359/udp
+      - 1900:1900/udp
+    expose:
+      - 8096
     volumes:
       - jellyfin:/config
       - jellyfin:/cache
@@ -12,7 +17,12 @@ services:
     env_file:
       - .env
     restart: "unless-stopped"
-    network_mode: "host"
+    networks:
+      - front-tier
 
 volumes:
   jellyfin:
+
+networks:
+  front-tier:
+    external: true
