@@ -63,7 +63,7 @@ services:
         logo: "assets/tools/pi-hole.png"
         subtitle: "Network-wide ad blocking"
         url: "/admin/"
-  - name: Management
+  - name: Management Tools
     icon: "fas fa-cloud"
     items:
       - name: "Portainer"
@@ -77,3 +77,10 @@ services:
         logo: "assets/tools/jellyfin.png"
         subtitle: "Multimedia streaming"
         url: "/jellyfin/"
+  - name: Cloud
+    icon: "fas fa-cloud"
+    items:
+      - name: "Nextcloud"
+        logo: "assets/tools/nextcloud.png"
+        subtitle: "Self-hosted cloud"
+        url: "/nextcloud/"
