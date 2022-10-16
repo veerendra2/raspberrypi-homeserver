@@ -4,7 +4,7 @@ version: "3"
 services:
   portainer:
     container_name: portainer
-    hostname: portainer
+    hostname: portainer.atom.lan
     restart: always
     image: portainer/portainer-ce:linux-arm64-2.15.1-alpine
     command:
@@ -16,6 +16,7 @@ services:
     expose:
       - 9443
       - 8000
+      - 9000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
