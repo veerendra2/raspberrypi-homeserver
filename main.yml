@@ -11,27 +11,27 @@
     - vars.yml
     - secrets.yml
 
-  # pre_tasks:
-  #   - name: Run Update
-  #     apt:
-  #       upgrade: true
-  #       update_cache: yes
-  #     ignore_errors: yes
-  #     become: yes
+  pre_tasks:
+    - name: Run Update
+      apt:
+        upgrade: true
+        update_cache: yes
+      ignore_errors: yes
+      become: yes
 
-  # post_tasks:
-  #   - name: Run autoremove
-  #     apt:
-  #       autoremove: yes
-  #     become: yes
+  post_tasks:
+    - name: Run autoremove
+      apt:
+        autoremove: yes
+      become: yes
 
   handlers:
     - name: Include handlers
       import_tasks: tasks/handlers.yml
 
   tasks:
-    # - name: Install Packages
-    #   import_tasks: tasks/install-pkgs.yml
+    - name: Install Packages
+      import_tasks: tasks/install-pkgs.yml
 
     - name: Setup monitoring
       import_tasks: tasks/monitoring.yml
@@ -50,6 +50,9 @@
 
     - name: Setup nextcloud
       import_tasks: tasks/nextcloud.yml
+
+    - name: Setup filebrowser
+      import_tasks: tasks/filebrowser.yml
 
     - name: Setup nginx
       import_tasks: tasks/nginx.yml

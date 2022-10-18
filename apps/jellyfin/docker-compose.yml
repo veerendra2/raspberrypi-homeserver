@@ -1,9 +1,20 @@
+---
 version: "3"
+
+volumes:
+  jellyfin:
+
+networks:
+  front-tier:
+    external: true
+
 services:
   jellyfin:
     image: jellyfin/jellyfin:10.8.5
     container_name: jellyfin
     hostname: jellyfin.atom.lan
+    env_file:
+      - .env
     ports:
       - 7359:7359/udp
       - 1900:1900/udp
@@ -14,15 +25,6 @@ services:
       - jellyfin:/cache
       - ./config/network.xml:/config/config/network.xml
       - /media:/media:ro
-    env_file:
-      - .env
     restart: "unless-stopped"
     networks:
       - front-tier
-
-volumes:
-  jellyfin:
-
-networks:
-  front-tier:
-    external: true

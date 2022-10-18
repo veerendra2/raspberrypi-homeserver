@@ -1,5 +1,12 @@
-
+---
 version: "3"
+
+networks:
+  front-tier:
+    external: true
+
+volumes:
+  portainer_data:
 
 services:
   portainer:
@@ -20,10 +27,3 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
-
-networks:
-  front-tier:
-    external: true
-
-volumes:
-  portainer_data:
