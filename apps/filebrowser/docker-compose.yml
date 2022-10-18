@@ -1,0 +1,25 @@
+---
+version: '3'
+
+networks:
+  front-tier:
+    external: true
+
+volumes:
+  filebrowser:
+
+services:
+  filebrowser:
+    image: hurlenko/filebrowser:v2.22.3
+    container_name: filebrowser
+    hostname: filebrowser.atom.lan
+    env_file:
+      - .env
+    expose:
+      - 8080
+    volumes:
+      - /media/filebrowser:/data
+      - filebrowser:/config
+    restart: unless-stopped
+    networks:
+      - front-tier

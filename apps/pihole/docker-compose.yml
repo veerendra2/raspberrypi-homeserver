@@ -1,4 +1,12 @@
+---
 version: "3"
+
+networks:
+  front-tier:
+    external: true
+
+volumes:
+  pihole:
 
 services:
   pihole:
@@ -14,15 +22,10 @@ services:
     env_file:
       - .env
     volumes:
-      - './etc-pihole:/etc/pihole'
-      - './etc-dnsmasq.d:/etc/dnsmasq.d'
-      - '/etc/resolv.conf:/etc/resolv.conf:ro'
+      - pihole:/etc
+      - /etc/resolv.conf:/etc/resolv.conf:ro
     dns:
       - 127.0.0.1
       - 1.1.1.1
     networks:
       - front-tier
-
-networks:
-  front-tier:
-    external: true

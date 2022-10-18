@@ -44,6 +44,16 @@
       <img src="https://user-images.githubusercontent.com/8393701/195693675-b363b46a-146d-49f0-9182-6fc59b3e281d.png" alt="Nextcloud" width="60"/> <br /> Nextcloud
     </center>
   </td>
+  <td>
+    <center>
+      <img src="https://user-images.githubusercontent.com/8393701/194383872-f90aab62-ebac-4973-bbb0-766fafd2a8cd.png" alt="Filebrowser" width="60"/> <br /> Filebrowser
+    </center>
+  </td>
+  <td>
+    <center>
+      <img src="https://user-images.githubusercontent.com/8393701/196514761-f3585baf-5d0e-4647-b3a7-727d219bf1ae.png" alt="Nginx" width="60"/> <br /> Nginx
+    </center>
+  </td>
 </tr>
 </table>
 

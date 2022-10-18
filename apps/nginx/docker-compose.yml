@@ -1,4 +1,10 @@
+---
 version: '3'
+
+networks:
+  front-tier:
+    external: true
+
 services:
   web:
     image: nginx:alpine
@@ -16,7 +22,3 @@ services:
       - "host.docker.internal:host-gateway"
     networks:
       - front-tier
-
-networks:
-  front-tier:
-    external: true
