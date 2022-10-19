@@ -54,6 +54,11 @@
       <img src="https://user-images.githubusercontent.com/8393701/196514761-f3585baf-5d0e-4647-b3a7-727d219bf1ae.png" alt="Nginx" width="60"/> <br /> Nginx
     </center>
   </td>
+  <td>
+    <center>
+      <img src="https://user-images.githubusercontent.com/8393701/196800928-49cd5781-88b2-40ff-b398-7d335cca24c0.png" alt="ufw" width="60"/> <br /> ufw
+    </center>
+  </td>
 </tr>
 </table>
 

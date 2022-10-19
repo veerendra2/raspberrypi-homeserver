@@ -1,0 +1,43 @@
+---
+- set_fact:
+    external_iface_list:
+      - eth0
+      - wlan0
+    allow_tcp_ports:
+      - 80
+      - 443
+      - 22
+      - 53
+      - 7359
+      - 1900
+    allow_udp_ports:
+      - 53
+
+- block:
+  # https://github.com/moby/moby/issues/4737#issuecomment-419705925
+  - name: Append custom rules in /etc/ufw/after.rules
+    blockinfile:
+      dest: /etc/ufw/after.rules
+      block: "{{ lookup('template', 'templates/override_ufw_rules.j2' ) }}"
+      marker: "#{mark} ANSIBLE MANAGED BLOCK"
+
+  - name: Set DEFAULT_FORWARD_POLICY=DROP in /etc/default/ufw
+    lineinfile:
+      path: /etc/default/ufw
+      regexp: '^DEFAULT_FORWARD_POLICY(.*)$'
+      line: 'DEFAULT_FORWARD_POLICY="DROP"'
+      backup: yes
+      backrefs: yes
+  become: yes
+
+- name: Allow selected tcp ports
+  ufw:
+    rule: allow
+    interface: eth0
+    direction: in
+    proto: udp
+    src: 1.2.3.5
+    from_port: '5469'
+    dest: 1.2.3.4
+    to_port: '5469'
+
