@@ -56,3 +56,6 @@
 
     - name: Setup nginx
       import_tasks: tasks/nginx.yml
+
+    - name: Setup firewall rules
+      import_tasks: tasks/ufw.yml

@@ -28,16 +28,22 @@
       line: 'DEFAULT_FORWARD_POLICY="DROP"'
       backup: yes
       backrefs: yes
+
+  - name: Allow selected tcp ports
+    ufw:
+      rule: allow
+      port: "{{ item }}"
+      proto: tcp
+    with_items: "{{ allow_tcp_ports }}"
+
+  - name: Allow selected udp ports
+    ufw:
+      rule: allow
+      port: "{{ item }}"
+      proto: udp
+    with_items: "{{ allow_udp_ports }}"
+
+  - name: Enable ufw
+    ufw:
+      state: enabled
   become: yes
-
-- name: Allow selected tcp ports
-  ufw:
-    rule: allow
-    interface: eth0
-    direction: in
-    proto: udp
-    src: 1.2.3.5
-    from_port: '5469'
-    dest: 1.2.3.4
-    to_port: '5469'
-
