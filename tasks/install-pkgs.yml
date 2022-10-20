@@ -49,6 +49,13 @@
     append: true
   become: true
 
+- name: Create docker networks
+  docker_network:
+    name: "{{ item }}"
+  with_items:
+    - front-tier
+    - back-tier
+
 - name: Build bettercap
   shell: |
     go env -w GO111MODULE=off

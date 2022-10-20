@@ -1,0 +1,14 @@
+# Refer https://github.com/moby/moby/issues/4737#issuecomment-419705925
+
+# Put Docker behind UFW
+*filter
+:DOCKER-USER - [0:0]
+:ufw-user-input - [0:0]
+
+-A DOCKER-USER -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A DOCKER-USER -m conntrack --ctstate INVALID -j DROP
+{% for iface in external_iface_list %}
+-A DOCKER-USER -i {{ iface }} -j ufw-user-input
+-A DOCKER-USER -i {{ iface }} -j DROP
+{% endfor %}
+COMMIT
