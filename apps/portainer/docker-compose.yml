@@ -17,7 +17,7 @@ services:
     command:
       - -H
       - unix:///var/run/docker.sock
-      - --admin-password='$$2y$$05$$4cl0I8JTj38R7MqQ4P49..ynxcxik/LyVTrwoDcC8QZ7IaeKLTTuG'
+      - --admin-password='$$2y$$05$$4cl0I8JTj38R7MqQ4P49..ynxcxik/LyVTrwoDcC8QZ7IaeKLTTuG' # changeme
     networks:
       - front-tier
     expose:
