@@ -58,3 +58,5 @@ pypi:
 scripts:
   dotfiles: https://raw.githubusercontent.com/veerendra2/dotfiles/master/install.sh
   docker: https://get.docker.com/
+
+docker_compose_user: "_docker"

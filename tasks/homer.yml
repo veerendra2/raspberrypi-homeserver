@@ -7,7 +7,7 @@
   file:
     path: "{{ project_dir }}"
     state: directory
-    owner: "{{ ansible_env.USER }}"
+    owner: "{{ docker_compose_user }}"
   become: yes
 
 - name: Synchronize homer directory | {{ app }}
@@ -22,3 +22,4 @@
   docker_compose:
     project_src: "{{ project_dir }}"
     build: false
+  become_user: "{{ docker_compose_user }}"

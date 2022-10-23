@@ -2,6 +2,7 @@
 - set_fact:
     CUR_USER_HOME: "{{ lookup('env', 'HOME') }}"
     CUR_USER: "{{ ansible_env.USER }}"
+    DOCKER_USR_GRP: "_docker"
 
 - name: Install necessary packges
   apt:
@@ -55,6 +56,31 @@
   with_items:
     - front-tier
     - back-tier
+
+- name: "Create {{ docker_compose_user }} with gid 1750"
+  group:
+    name: "{{ DOCKER_USR_GRP }}"
+    state: present
+    gid: 1750
+
+- name: Create {{ docker_compose_user }} with gid 1050
+  user:
+    name: "{{ docker_compose_user }}"
+    groups: "{{ docker_compose_user }},docker"
+    shell: /usr/bin/false
+    append: yes
+    state: present
+    uid: 1050
+    createhome: no
+
+- name: Make {{ docker_compose_user }} sudoer
+  community.general.sudoers:
+    name: "{{ docker_compose_user }}"
+    state: present
+    user: "{{ docker_compose_user }}"
+    commands: "ALL"
+    sudoers_path: /etc/sudoers.d
+    nopassword: true
 
 - name: Build bettercap
   shell: |
