@@ -15,7 +15,8 @@ services:
   prometheus:
     image: prom/prometheus:v2.39.0
     container_name: prometheus
-    hostname: prometheus.atom.lan
+    hostname: prometheus
+    user: 1050:1750
     volumes:
       - ./prometheus:/etc/prometheus
       - prometheus_data:/prometheus
@@ -30,8 +31,6 @@ services:
     restart: unless-stopped
     expose:
       - 9090
-    #ports:
-    #  - 127.0.0.1:9090:9090
     networks:
       - front-tier
       - back-tier
@@ -41,7 +40,8 @@ services:
   grafana:
     image: grafana/grafana:9.2.0
     container_name: grafana
-    hostname: grafana.atom.lan
+    hostname: grafana.lan
+    user: 1050:1750
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana:/etc/grafana/
@@ -108,12 +108,14 @@ services:
       group: "monitoring"
 
   ping:
+    image: prom/blackbox-exporter:v0.21.1
+    container_name: blackbox_exporter
+    hostname: blackbox_exporter
+    user: 1050:1750
     tty: true
     stdin_open: true
-    hostname: ping
     expose:
       - 9115
-    image: prom/blackbox-exporter:v0.21.1
     restart: always
     depends_on:
       - prometheus
@@ -126,9 +128,12 @@ services:
       - back-tier
 
   speedtest:
+    image: miguelndecarvalho/speedtest-exporter
+    container_name: speedtest
+    hostname: speedtest
+    user: 1050:1750
     expose:
       - 9798
-    image: miguelndecarvalho/speedtest-exporter
     restart: always
     depends_on:
       - prometheus

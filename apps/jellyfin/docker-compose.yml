@@ -12,7 +12,8 @@ services:
   jellyfin:
     image: jellyfin/jellyfin:10.8.5
     container_name: jellyfin
-    hostname: jellyfin.atom.lan
+    hostname: jellyfin.local
+    user: 1050:1750
     env_file:
       - .env
     ports:

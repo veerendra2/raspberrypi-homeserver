@@ -12,7 +12,8 @@ services:
   filebrowser:
     image: hurlenko/filebrowser:v2.22.3
     container_name: filebrowser
-    hostname: filebrowser.atom.lan
+    hostname: filebrowser
+    user: 1050:1750
     env_file:
       - .env
     expose:

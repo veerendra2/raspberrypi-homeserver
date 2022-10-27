@@ -9,7 +9,7 @@ services:
   homer:
     image: b4bz/homer:v22.07.2
     container_name: homer
-    hostname: homer.atom.lan
+    hostname: homer
     user: 1050:1750
     env_file:
       - .env

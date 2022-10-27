@@ -11,7 +11,7 @@ volumes:
 services:
   portainer:
     container_name: portainer
-    hostname: portainer.atom.lan
+    hostname: portainer
     restart: always
     image: portainer/portainer-ce:linux-arm64-2.15.1-alpine
     command:

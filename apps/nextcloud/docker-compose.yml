@@ -31,7 +31,7 @@ services:
   nextcloud:
     image: arm64v8/nextcloud:24.0.6-apache
     container_name: nextcloud
-    hostname: nextcloud.atom.lan
+    hostname: nextcloud.local
     restart: always
     env_file:
       - .env_nextcloud
@@ -55,12 +55,12 @@ services:
 
 secrets:
   nextcloud_admin_password:
-    file: ./secrets/nextcloud_admin_password.txt # put admin password in this file
+    file: ./secrets/nextcloud_admin_password.txt
   nextcloud_admin_user:
-    file: ./secrets/nextcloud_admin_user.txt # put admin username in this file
+    file: ./secrets/nextcloud_admin_user.txt
   postgres_db:
-    file: ./secrets/postgres_db.txt # put postgresql db name in this file
+    file: ./secrets/postgres_db.txt
   postgres_password:
-    file: ./secrets/postgres_password.txt # put postgresql password in this file
+    file: ./secrets/postgres_password.txt
   postgres_user:
-    file: ./secrets/postgres_user.txt # put postgresql username in this file
+    file: ./secrets/postgres_user.txt

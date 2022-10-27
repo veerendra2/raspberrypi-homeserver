@@ -1,9 +1,4 @@
 ---
-- set_fact:
-    CUR_USER_HOME: "{{ lookup('env', 'HOME') }}"
-    CUR_USER: "{{ ansible_env.USER }}"
-    DOCKER_USR_GRP: "_docker"
-
 - name: Install necessary packges
   apt:
     name: "{{ pkgs }}"
@@ -45,7 +40,7 @@
 
 - name: Ensure docker users are added to the docker group
   user:
-    name: "{{ CUR_USER }}"
+    name: "{{ run_user }}"
     groups: docker
     append: true
   become: true
@@ -57,41 +52,41 @@
     - front-tier
     - back-tier
 
-- name: "Create {{ docker_compose_user }} with gid 1750"
+- name: Create {{ container_user }} with gid 1750
   group:
-    name: "{{ DOCKER_USR_GRP }}"
+    name: "{{ container_user }}"
     state: present
     gid: 1750
+  become: yes
 
-- name: Create {{ docker_compose_user }} with gid 1050
+- name: Create {{ container_user }} with gid 1750
   user:
-    name: "{{ docker_compose_user }}"
-    groups: "{{ docker_compose_user }},docker"
-    shell: /usr/bin/false
+    name: "{{ container_user }}"
+    groups: "{{ container_user }}"
     append: yes
     state: present
-    uid: 1050
+    uid: 1750
     createhome: no
+  become: yes
 
-- name: Make {{ docker_compose_user }} sudoer
-  community.general.sudoers:
-    name: "{{ docker_compose_user }}"
-    state: present
-    user: "{{ docker_compose_user }}"
-    commands: "ALL"
-    sudoers_path: /etc/sudoers.d
-    nopassword: true
+- name: Create temporary bettercap build directory
+  tempfile:
+    state: directory
+    suffix: build
+  register: tempdir
 
 - name: Build bettercap
   shell: |
     go env -w GO111MODULE=off
     go get -u github.com/bettercap/bettercap
     ls -lah
+  args:
+    chdir: "{{ tempdir.path }}"
 
 - name: Install bettercap
   shell: |
-    mv {{ CUR_USER_HOME }}/go/bin/bettercap /usr/local/bin/
-    rm -rf {{ CUR_USER_HOME }}/go
+    mv {{ tempdir.path }}/go/bin/bettercap /usr/local/bin/
+    rm -rf {{ tempdir.path }}
     bettercap -version
   become: yes
   register: output

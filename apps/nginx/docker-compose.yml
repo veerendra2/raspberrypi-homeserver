@@ -10,6 +10,7 @@ services:
     image: nginx:alpine
     container_name: nginx
     hostname: atom.lan
+    user: 1050:1750
     volumes:
       - ./server.conf:/etc/nginx/conf.d/default.conf
       - ./locations:/etc/nginx/conf.d/locations
