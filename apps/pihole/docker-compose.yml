@@ -12,7 +12,7 @@ services:
   pihole:
     image: pihole/pihole:2022.10
     container_name: pihole
-    hostname: pihole.atom.lan
+    hostname: pihole.local
     restart: unless-stopped
     ports:
       - "53:53/tcp"

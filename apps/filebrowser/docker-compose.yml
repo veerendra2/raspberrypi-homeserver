@@ -10,9 +10,9 @@ volumes:
 
 services:
   filebrowser:
-    image: hurlenko/filebrowser:v2.22.3
+    image: hurlenko/filebrowser:v2.22.4
     container_name: filebrowser
-    hostname: filebrowser.atom.lan
+    hostname: filebrowser
     env_file:
       - .env
     expose:

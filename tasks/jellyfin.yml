@@ -7,7 +7,7 @@
   file:
     path: "{{ project_dir }}"
     state: directory
-    owner: "{{ ansible_env.USER }}"
+    owner: "{{ run_user }}"
   become: yes
 
 - name: Synchronize directory | {{ app }}

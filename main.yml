@@ -12,7 +12,7 @@
     - secrets.yml
 
   pre_tasks:
-    - name: Run Update
+    - name: Run update
       apt:
         upgrade: true
         update_cache: yes
@@ -25,13 +25,9 @@
         autoremove: yes
       become: yes
 
-  handlers:
-    - name: Include handlers
-      import_tasks: tasks/handlers.yml
-
   tasks:
-    - name: Install Packages
-      import_tasks: tasks/install-pkgs.yml
+    - name: Prepare Pi
+      import_tasks: tasks/prepare-pi.yml
 
     - name: Setup monitoring
       import_tasks: tasks/monitoring.yml

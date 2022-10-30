@@ -13,9 +13,9 @@ volumes:
 
 services:
   prometheus:
-    image: prom/prometheus:v2.39.0
+    image: prom/prometheus:v2.39.1
     container_name: prometheus
-    hostname: prometheus.atom.lan
+    hostname: prometheus
     volumes:
       - ./prometheus:/etc/prometheus
       - prometheus_data:/prometheus
@@ -30,8 +30,6 @@ services:
     restart: unless-stopped
     expose:
       - 9090
-    #ports:
-    #  - 127.0.0.1:9090:9090
     networks:
       - front-tier
       - back-tier
@@ -41,7 +39,8 @@ services:
   grafana:
     image: grafana/grafana:9.2.0
     container_name: grafana
-    hostname: grafana.atom.lan
+    hostname: grafana
+    userns_mode: "host"
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana:/etc/grafana/
@@ -53,8 +52,6 @@ services:
     restart: unless-stopped
     expose:
       - 3000
-    #ports:
-    #  - 127.0.0.1:3000:3000
     networks:
       - front-tier
       - back-tier
@@ -85,10 +82,11 @@ services:
       group: "monitoring"
 
   cadvisor:
-    image: zcube/cadvisor:v0.45.0 # For ARM
+    image: gcr.io/cadvisor/cadvisor-arm64:v0.45.0
     container_name: cadvisor
     hostname: cadvisor
     privileged: true
+    userns_mode: "host"
     devices:
       - /dev/kmsg:/dev/kmsg
     volumes:
@@ -108,12 +106,13 @@ services:
       group: "monitoring"
 
   ping:
+    image: prom/blackbox-exporter:v0.22.0
+    container_name: blackbox_exporter
+    hostname: blackbox_exporter
     tty: true
     stdin_open: true
-    hostname: ping
     expose:
       - 9115
-    image: prom/blackbox-exporter:v0.21.1
     restart: always
     depends_on:
       - prometheus
@@ -126,9 +125,11 @@ services:
       - back-tier
 
   speedtest:
+    image: ghcr.io/miguelndecarvalho/speedtest-exporter
+    container_name: speedtest
+    hostname: speedtest
     expose:
       - 9798
-    image: miguelndecarvalho/speedtest-exporter
     restart: always
     depends_on:
       - prometheus

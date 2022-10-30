@@ -1,0 +1,115 @@
+---
+- name: Install necessary packages
+  apt:
+    name: "{{ pkgs }}"
+    state: latest
+    update_cache: yes
+  become: true
+
+- name: Install snap packages
+  snap:
+    name: "{{ snaps }}"
+    classic: yes
+  become: true
+
+- name: Install pypi packages
+  pip:
+    name: "{{ pypi }}"
+    state: present
+    executable: "pip3"
+
+- name: Download scripts
+  get_url:
+    url: "{{ item.value }}"
+    dest: "/tmp/{{ item.key }}.sh"
+    mode: "0776"
+  loop: "{{ lookup('dict', scripts) }}"
+
+- name: Run scripts
+  command: "/tmp/{{ item.key }}.sh"
+  environment:
+    CHANNEL: stable
+  become: yes
+  loop: "{{ lookup('dict', scripts) }}"
+
+# -------------------------- START CONFIGURE DOCKER --------------------------
+
+- name: Start docker daemon
+  service:
+    name: docker
+    state: started
+    enabled: true
+  become: true
+
+- name: Add user in docker group
+  user:
+    name: "{{ run_user }}"
+    groups: docker
+    append: true
+  become: true
+
+- name: Create docker networks
+  docker_network:
+    name: "{{ item }}"
+  with_items:
+    - front-tier
+    - back-tier
+
+- block:
+    - name: Update userns-remap config
+      shell: |
+        cp /etc/docker/daemon.json /etc/docker/daemon.json.backup
+        jq '. += { "userns-remap" : "default" }' < /etc/docker/daemon.json > /tmp/daemon.json
+        mv /tmp/daemon.json /etc/docker/daemon.json
+  rescue:
+    - name: Create /etc/docker/daemon.json and configure userns-remap
+      blockinfile:
+        path: /etc/docker/daemon.json
+        marker: ""
+        create: yes
+        block: |
+          {
+            "userns-remap": "default"
+          }
+  become: yes
+
+- name: Restart docker daemon
+  systemd:
+    name: docker
+    state: restarted
+  become: yes
+
+# -------------------------- END CONFIGURE DOCKER --------------------------
+
+- name: Create temporary bettercap build directory
+  tempfile:
+    state: directory
+    suffix: build
+  register: tempdir
+
+- name: Build bettercap
+  shell: |
+    go env -w GO111MODULE=off
+    go get -u github.com/bettercap/bettercap
+    ls -lah
+  args:
+    chdir: "{{ tempdir.path }}"
+
+- name: Install bettercap
+  shell: |
+    mv {{ tempdir.path }}/go/bin/bettercap /usr/local/bin/
+    rm -rf {{ tempdir.path }}
+    bettercap -version
+  become: yes
+  register: output
+
+- name: Display bettercap version
+  debug:
+    msg: "{{ output.stdout }}"
+  when: output.rc == 0
+
+- name: Install bettercap caplets
+  shell: bettercap -eval "caplets.update; ui.update; q"
+  when: output.rc == 0
+  ignore_errors: true
+  become: true

@@ -17,7 +17,6 @@ pkgs:
   - "traceroute"
   - "ssh"
   - "secure-delete"
-  - "makepasswd"
   - "pwgen"
   - "tree"
   - "macchanger"
@@ -45,6 +44,7 @@ pkgs:
   - "isc-dhcp-server"
   - "git"
   - "libusb-1.0-0-dev"
+  - "jq"
 
 snaps:
   - ngrok
@@ -58,3 +58,5 @@ pypi:
 scripts:
   dotfiles: https://raw.githubusercontent.com/veerendra2/dotfiles/master/install.sh
   docker: https://get.docker.com/
+
+run_user: "{{ ansible_env.USER }}"
