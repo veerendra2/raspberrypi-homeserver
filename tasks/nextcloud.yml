@@ -7,7 +7,7 @@
   file:
     path: "{{ project_dir }}"
     state: directory
-    owner: "{{ ansible_env.USER }}"
+    owner: "{{ run_user }}"
   become: yes
 
 - name: Synchronize directory | {{ app }}
@@ -22,3 +22,6 @@
   docker_compose:
     project_src: "{{ project_dir }}"
     build: false
+  environment:
+    DOCKER_CLIENT_TIMEOUT: 120
+    COMPOSE_HTTP_TIMEOUT: 120

@@ -7,7 +7,7 @@
   file:
     path: "{{ project_dir }}"
     state: directory
-    owner: "{{ ansible_env.USER }}"
+    owner: "{{ run_user }}"
   become: yes
 
 - name: Synchronize directory | {{ app }}
@@ -34,6 +34,12 @@
     -out "{{ project_dir }}/ssl/server.pem"
   when: not output.results[0].stat.exists or not output.results[1].stat.exists
   become: true
+
+# https://github.com/veerendra2/raspberrypi-homeserver/issues/15
+- name: Make server.key readable for other users
+  file:
+    path: "{{ project_dir }}/ssl/server.key"
+    mode: '0644'
 
 - name: Run docker-compose up | {{ app }}
   docker_compose:

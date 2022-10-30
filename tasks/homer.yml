@@ -7,7 +7,7 @@
   file:
     path: "{{ project_dir }}"
     state: directory
-    owner: "{{ container_user }}"
+    owner: "{{ run_user }}"
   become: yes
 
 - name: Synchronize homer directory | {{ app }}

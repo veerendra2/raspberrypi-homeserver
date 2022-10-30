@@ -1,9 +1,0 @@
-
-- hosts: localhost
-  connection: local
-  become: yes
-
-  tasks:
-    - set_fact:
-        DOCKER_USR_GRP: "_docker"
-

@@ -13,10 +13,9 @@ volumes:
 
 services:
   prometheus:
-    image: prom/prometheus:v2.39.0
+    image: prom/prometheus:v2.39.1
     container_name: prometheus
     hostname: prometheus
-    user: 1050:1750
     volumes:
       - ./prometheus:/etc/prometheus
       - prometheus_data:/prometheus
@@ -40,8 +39,8 @@ services:
   grafana:
     image: grafana/grafana:9.2.0
     container_name: grafana
-    hostname: grafana.lan
-    user: 1050:1750
+    hostname: grafana
+    userns_mode: "host"
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana:/etc/grafana/
@@ -53,8 +52,6 @@ services:
     restart: unless-stopped
     expose:
       - 3000
-    #ports:
-    #  - 127.0.0.1:3000:3000
     networks:
       - front-tier
       - back-tier
@@ -85,10 +82,11 @@ services:
       group: "monitoring"
 
   cadvisor:
-    image: zcube/cadvisor:v0.45.0 # For ARM
+    image: gcr.io/cadvisor/cadvisor-arm64:v0.45.0
     container_name: cadvisor
     hostname: cadvisor
     privileged: true
+    userns_mode: "host"
     devices:
       - /dev/kmsg:/dev/kmsg
     volumes:
@@ -108,10 +106,9 @@ services:
       group: "monitoring"
 
   ping:
-    image: prom/blackbox-exporter:v0.21.1
+    image: prom/blackbox-exporter:v0.22.0
     container_name: blackbox_exporter
     hostname: blackbox_exporter
-    user: 1050:1750
     tty: true
     stdin_open: true
     expose:
@@ -128,10 +125,9 @@ services:
       - back-tier
 
   speedtest:
-    image: miguelndecarvalho/speedtest-exporter
+    image: ghcr.io/miguelndecarvalho/speedtest-exporter
     container_name: speedtest
     hostname: speedtest
-    user: 1050:1750
     expose:
       - 9798
     restart: always

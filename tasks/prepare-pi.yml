@@ -1,18 +1,18 @@
 ---
-- name: Install necessary packges
+- name: Install necessary packages
   apt:
     name: "{{ pkgs }}"
     state: latest
     update_cache: yes
   become: true
 
-- name: Install Snap packages
+- name: Install snap packages
   snap:
     name: "{{ snaps }}"
     classic: yes
   become: true
 
-- name: Install PyPI packages
+- name: Install pypi packages
   pip:
     name: "{{ pypi }}"
     state: present
@@ -32,13 +32,16 @@
   become: yes
   loop: "{{ lookup('dict', scripts) }}"
 
-- name: Ensure Docker is started.
+# -------------------------- START CONFIGURE DOCKER --------------------------
+
+- name: Start docker daemon
   service:
     name: docker
     state: started
     enabled: true
+  become: true
 
-- name: Ensure docker users are added to the docker group
+- name: Add user in docker group
   user:
     name: "{{ run_user }}"
     groups: docker
@@ -52,22 +55,31 @@
     - front-tier
     - back-tier
 
-- name: Create {{ container_user }} with gid 1750
-  group:
-    name: "{{ container_user }}"
-    state: present
-    gid: 1750
+- block:
+    - name: Update userns-remap config
+      shell: |
+        cp /etc/docker/daemon.json /etc/docker/daemon.json.backup
+        jq '. += { "userns-remap" : "default" }' < /etc/docker/daemon.json > /tmp/daemon.json
+        mv /tmp/daemon.json /etc/docker/daemon.json
+  rescue:
+    - name: Create /etc/docker/daemon.json and configure userns-remap
+      blockinfile:
+        path: /etc/docker/daemon.json
+        marker: ""
+        create: yes
+        block: |
+          {
+            "userns-remap": "default"
+          }
   become: yes
 
-- name: Create {{ container_user }} with gid 1750
-  user:
-    name: "{{ container_user }}"
-    groups: "{{ container_user }}"
-    append: yes
-    state: present
-    uid: 1750
-    createhome: no
+- name: Restart docker daemon
+  systemd:
+    name: docker
+    state: restarted
   become: yes
+
+# -------------------------- END CONFIGURE DOCKER --------------------------
 
 - name: Create temporary bettercap build directory
   tempfile:
