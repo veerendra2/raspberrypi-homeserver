@@ -68,7 +68,7 @@
 ```
 $ git clone https://github.com/veerendra2/raspberrypi-homeserver.git
 $ cd raspberrypi-homeserver
-# Specify you raspberry pi IP
-$ ansible-playbook -i inventory.yml main.yml
+# Review inventory.yml and run
+$ ansible-playbook -i main.yml
 ```
 Check [wiki pages](https://github.com/veerendra2/raspberrypi-homeserver/wiki) for more info
