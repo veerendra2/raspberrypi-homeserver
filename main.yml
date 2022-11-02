@@ -2,14 +2,10 @@
 # Description: An Ansible playbook to make simple Raspberry Pi homeserver
 
 - name: Raspberry Pi Homeserver
-  hosts: localhost
-  connection: local
+  hosts: atom
   gather_facts: yes
-  vars:
-    ansible_python_interpreter: /usr/bin/python3
   vars_files:
     - vars.yml
-    - secrets.yml
 
   pre_tasks:
     - name: Run update
