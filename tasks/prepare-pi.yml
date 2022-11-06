@@ -4,6 +4,8 @@
     name: "{{ pkgs }}"
     state: latest
     update_cache: yes
+    install_recommends: no
+    force_apt_get: yes
   become: true
 
 - name: Install snap packages
@@ -91,13 +93,12 @@
   shell: |
     go env -w GO111MODULE=off
     go get -u github.com/bettercap/bettercap
-    ls -lah
-  args:
-    chdir: "{{ tempdir.path }}"
+  environment:
+    GOPATH: "{{ tempdir.path }}"
 
 - name: Install bettercap
   shell: |
-    mv {{ tempdir.path }}/go/bin/bettercap /usr/local/bin/
+    mv {{ tempdir.path }}/bin/bettercap /usr/local/bin/
     rm -rf {{ tempdir.path }}
     bettercap -version
   become: yes

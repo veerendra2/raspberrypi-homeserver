@@ -65,10 +65,11 @@
 > Actively working on this project to add more apps and simplify deployments on Raspberry Pi while keeping `docker-compose` project standalone in `apps/` directory. Check [projects](https://github.com/veerendra2/raspberrypi-homeserver/projects) tab for roadmap
 
 ## Deploy
+* Follow prerequisite [manual steps](https://github.com/veerendra2/raspberrypi-homeserver/wiki/Manual-Steps) to prepare Pi
 ```
 $ git clone https://github.com/veerendra2/raspberrypi-homeserver.git
 $ cd raspberrypi-homeserver
 # Review inventory.yml and run
-$ ansible-playbook -i main.yml
+$ ansible-playbook main.yml
 ```
 Check [wiki pages](https://github.com/veerendra2/raspberrypi-homeserver/wiki) for more info
