@@ -18,7 +18,8 @@ services:
     expose:
       - 8080
     volumes:
-      - /media/filebrowser:/data
+      - /media/disk1:/data/disk1
+      - /media/disk2:/data/disk2
       - filebrowser:/config
     restart: unless-stopped
     networks:

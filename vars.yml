@@ -60,3 +60,8 @@ scripts:
   docker: https://get.docker.com/
 
 run_user: "{{ ansible_env.USER }}"
+
+disk_mount_dirs:
+# [DISK_LABEL]: [MOUNT DIRECTORY]
+  usb-ext-hdd1: /media/disk1  # Configured in Jellyfine, Filebrowser (docker-compose.yml)
+  usb-ext-hdd2: /media/disk2  # Configured in Nextcloud, Filebrowser (docker-compose.yml)

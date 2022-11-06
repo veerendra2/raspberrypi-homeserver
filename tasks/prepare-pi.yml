@@ -83,6 +83,27 @@
 
 # -------------------------- END CONFIGURE DOCKER --------------------------
 
+- name: Create mount directories
+  file:
+    path: "{{ item.value }}"
+    state: directory
+    owner: "{{ run_user }}"
+    group: dockremap  # Docker userns-remap defaut user
+    mode: '0674'
+  loop: "{{ lookup('dict', disk_mount_dirs) }}"
+  become: yes
+
+- name: Configure disk mounts in /etc/fstab
+  mount:
+    path: "{{ item.value }}"
+    src: LABEL="{{ item.key }}"
+    fstype: ext4
+    opts: rw,async
+    state: present
+    boot: no
+  loop: "{{ lookup('dict', disk_mount_dirs) }}"
+  become: yes
+
 - name: Create temporary bettercap build directory
   tempfile:
     state: directory

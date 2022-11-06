@@ -21,10 +21,10 @@ services:
     expose:
       - 8096
     volumes:
+      - /media/disk1:/disk1:ro
       - jellyfin:/config
       - jellyfin:/cache
       - ./config/network.xml:/config/config/network.xml
-      - /media:/media:ro
     restart: "unless-stopped"
     networks:
       - front-tier
