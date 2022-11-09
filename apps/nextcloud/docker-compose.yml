@@ -16,10 +16,11 @@ services:
     container_name: postgres
     hostname: postgres
     restart: always
+    userns_mode: "host"
     env_file:
       - .env_postgres
     volumes:
-      - /media/disk1:/var/lib/postgresql/data:rw
+      - /media/disk2/postgres:/var/lib/postgresql/data:rw
     networks:
       - back-tier
     secrets:
