@@ -10,14 +10,15 @@ volumes:
 
 services:
   portainer:
+    image: portainer/portainer-ce:linux-arm64-2.15.1-alpine
     container_name: portainer
     hostname: portainer
     restart: always
-    image: portainer/portainer-ce:linux-arm64-2.15.1-alpine
+    userns_mode: "host"
     command:
       - -H
       - unix:///var/run/docker.sock
-      - --admin-password='$$2y$$05$$4cl0I8JTj38R7MqQ4P49..ynxcxik/LyVTrwoDcC8QZ7IaeKLTTuG' # changeme
+      - --admin-password-file=/run/secrets/portainer_admin_password
     networks:
       - front-tier
     expose:
@@ -27,3 +28,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+    secrets:
+      - portainer_admin_password
+
+secrets:
+  portainer_admin_password:
+    file: ./secrets/portainer_admin_password.txt
