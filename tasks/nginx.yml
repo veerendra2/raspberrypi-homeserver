@@ -2,6 +2,7 @@
 - set_fact:
     app: nginx
     project_dir: /opt/apps/nginx
+    host: atom.lan
 
 - name: Create project directory | {{ app }}
   file:
@@ -28,7 +29,7 @@
 
 - name: Generating self-signed certificates if required | {{ app }}
   shell: |
-    openssl req -x509 -nodes -subj '/CN={{ rpi_hostname }}' -days 365 \
+    openssl req -x509 -nodes -subj '/CN={{ host }}' -days 365 \
     -newkey rsa:2048 \
     -keyout "{{ project_dir }}/ssl/server.key" \
     -out "{{ project_dir }}/ssl/server.pem"

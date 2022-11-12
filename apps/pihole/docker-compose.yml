@@ -5,7 +5,7 @@ networks:
   dhcp-relay-net:
     ipam:
       config:
-        - subnet: 172.31.0.0/16
+        - subnet: 192.168.0.0/16
   front-tier:
     external: true
 
@@ -16,9 +16,8 @@ services:
   pihole:
     image: pihole/pihole:2022.10
     container_name: pihole
-    hostname: pihole.atom.local
+    hostname: pihole
     restart: unless-stopped
-    #userns_mode: "host"
     cap_add:
       - NET_ADMIN
     ports:
@@ -29,20 +28,26 @@ services:
     env_file:
       - .env
     volumes:
+      # - ./etc-pihole:/etc/pihole
+      # - ./etc-dnsmasq.d:/etc/dnsmasq.d
       - pihole:/etc
+      - ./dnsmasq.d/99-tmp.conf:/etc/dnsmasq.d/99-tmp.conf
       - /etc/resolv.conf:/etc/resolv.conf:ro
     dns:
       - 127.0.0.1
       - 1.1.1.1
+    depends_on:
+      - dhcphelper
     networks:
-      backend:
-          ipv4_address: '172.31.0.100'
+      dhcp-relay-net:
+          ipv4_address: '192.168.31.10'
       front-tier: {}
 
   dhcphelper:
     build: ./dhcp-helper
     restart: unless-stopped
     network_mode: "host"
-    command: -s 172.31.0.100
+    userns_mode: "host"
+    command: -s 192.168.31.10
     cap_add:
       - NET_ADMIN
