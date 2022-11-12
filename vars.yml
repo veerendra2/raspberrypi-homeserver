@@ -1,5 +1,4 @@
-rpi_hostname: "atom"
-
+---
 pkgs:
   - "neofetch"
   - "net-tools"
@@ -55,12 +54,18 @@ pypi:
   - ansible
   - docker-compose
 
+# Run any scripts(These script run as root user).
 scripts:
   dotfiles: https://raw.githubusercontent.com/veerendra2/dotfiles/master/install.sh
   docker: https://get.docker.com/
 
+# Do all operations(This user has to be sudoer)
 run_user: "{{ ansible_env.USER }}"
 
+# Reboot after running tasks in tasks/prepare-pi.yml
+reboot_after_pi_preparation: true
+
+# Mount partions in /etc/fstab
 disk_mount_dirs:
 # [DISK_LABEL]: [MOUNT DIRECTORY]
   usb-ext-hdd1: /media/disk1  # Configured in Jellyfine, Filebrowser (docker-compose.yml)

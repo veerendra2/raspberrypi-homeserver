@@ -26,6 +26,7 @@ services:
       - /media/disk1/tvshows:/tvshows:ro
       - jellyfin:/config
       - jellyfin:/cache
+      - ./config/network.xml:/config/config/network.xml
     restart: "unless-stopped"
     networks:
       - front-tier

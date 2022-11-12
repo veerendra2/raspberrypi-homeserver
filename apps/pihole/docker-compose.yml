@@ -2,6 +2,10 @@
 version: "3"
 
 networks:
+  dhcp-relay-net:
+    ipam:
+      config:
+        - subnet: 172.31.0.0/16
   front-tier:
     external: true
 
@@ -12,8 +16,11 @@ services:
   pihole:
     image: pihole/pihole:2022.10
     container_name: pihole
-    hostname: pihole.local
+    hostname: pihole.atom.local
     restart: unless-stopped
+    #userns_mode: "host"
+    cap_add:
+      - NET_ADMIN
     ports:
       - "53:53/tcp"
       - "53:53/udp"
@@ -28,4 +35,14 @@ services:
       - 127.0.0.1
       - 1.1.1.1
     networks:
-      - front-tier
+      backend:
+          ipv4_address: '172.31.0.100'
+      front-tier: {}
+
+  dhcphelper:
+    build: ./dhcp-helper
+    restart: unless-stopped
+    network_mode: "host"
+    command: -s 172.31.0.100
+    cap_add:
+      - NET_ADMIN

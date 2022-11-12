@@ -37,17 +37,17 @@
     # - name: Setup homer
     #   import_tasks: tasks/homer.yml
 
-    - name: Setup jellyfin
-      import_tasks: tasks/jellyfin.yml
+    # - name: Setup jellyfin
+    #   import_tasks: tasks/jellyfin.yml
 
-    - name: Setup nextcloud
-      import_tasks: tasks/nextcloud.yml
+    # - name: Setup nextcloud
+    #   import_tasks: tasks/nextcloud.yml
 
-    - name: Setup filebrowser
-      import_tasks: tasks/filebrowser.yml
+    # - name: Setup filebrowser
+    #   import_tasks: tasks/filebrowser.yml
 
-    - name: Setup nginx
-      import_tasks: tasks/nginx.yml
+    # - name: Setup nginx
+    #   import_tasks: tasks/nginx.yml
 
     # - name: Setup firewall rules
     #   import_tasks: tasks/ufw.yml
