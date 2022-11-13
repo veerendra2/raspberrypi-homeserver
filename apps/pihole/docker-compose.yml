@@ -28,10 +28,9 @@ services:
     env_file:
       - .env
     volumes:
-      # - ./etc-pihole:/etc/pihole
-      # - ./etc-dnsmasq.d:/etc/dnsmasq.d
       - pihole:/etc
       - ./dnsmasq.d/99-temp.conf:/etc/dnsmasq.d/99-temp.conf:ro
+      - ./dnsmasq.d/07-dhcp-options.conf:/etc/dnsmasq.d/07-dhcp-options.conf:ro
       - /etc/resolv.conf:/etc/resolv.conf:ro
     dns:
       - 127.0.0.1
