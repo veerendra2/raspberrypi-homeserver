@@ -1,8 +1,8 @@
 # Author: Veerendra Kakumanu
-# Description: An Ansible playbook to make simple Raspberry Pi homeserver
+# Description: An Ansible playbook to make awesome Raspberry Pi homeserver
 
 - name: Raspberry Pi Homeserver
-  hosts: atom
+  hosts: localhost
   gather_facts: yes
   vars_files:
     - vars.yml

@@ -12,6 +12,7 @@
       - 1900
     allow_udp_ports:
       - 53
+      - 67
 
 - block:
   # https://github.com/moby/moby/issues/4737#issuecomment-419705925

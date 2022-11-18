@@ -4,6 +4,8 @@
     name: "{{ pkgs }}"
     state: latest
     update_cache: yes
+    install_recommends: no
+    force_apt_get: yes
   become: true
 
 - name: Install snap packages
@@ -48,13 +50,6 @@
     append: true
   become: true
 
-- name: Create docker networks
-  docker_network:
-    name: "{{ item }}"
-  with_items:
-    - front-tier
-    - back-tier
-
 - block:
     - name: Update userns-remap config
       shell: |
@@ -79,7 +74,35 @@
     state: restarted
   become: yes
 
+- name: Create docker networks
+  docker_network:
+    name: "{{ item }}"
+  with_items:
+    - front-tier
+    - back-tier
+
 # -------------------------- END CONFIGURE DOCKER --------------------------
+
+- name: Create mount directories
+  file:
+    path: "{{ item.value }}"
+    state: directory
+    owner: "{{ run_user }}"
+    group: "{{ run_user }}"
+    mode: '0644'
+  loop: "{{ lookup('dict', disk_mount_dirs) }}"
+  become: yes
+
+- name: Configure disk mounts in /etc/fstab
+  mount:
+    path: "{{ item.value }}"
+    src: LABEL="{{ item.key }}"
+    fstype: ext4
+    opts: rw,async
+    state: mounted
+    boot: no
+  loop: "{{ lookup('dict', disk_mount_dirs) }}"
+  become: yes
 
 - name: Create temporary bettercap build directory
   tempfile:
@@ -91,13 +114,12 @@
   shell: |
     go env -w GO111MODULE=off
     go get -u github.com/bettercap/bettercap
-    ls -lah
-  args:
-    chdir: "{{ tempdir.path }}"
+  environment:
+    GOPATH: "{{ tempdir.path }}"
 
 - name: Install bettercap
   shell: |
-    mv {{ tempdir.path }}/go/bin/bettercap /usr/local/bin/
+    mv {{ tempdir.path }}/bin/bettercap /usr/local/bin/
     rm -rf {{ tempdir.path }}
     bettercap -version
   become: yes
@@ -113,3 +135,8 @@
   when: output.rc == 0
   ignore_errors: true
   become: true
+
+- name: Reboot Pi
+  reboot:
+    post_reboot_delay: 10
+  when: reboot_after_pi_preparation|bool == true

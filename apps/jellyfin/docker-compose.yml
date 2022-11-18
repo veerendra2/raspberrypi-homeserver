@@ -12,7 +12,9 @@ services:
   jellyfin:
     image: jellyfin/jellyfin:10.8.5
     container_name: jellyfin
-    hostname: jellyfin.local
+    hostname: jellyfin.lan
+    userns_mode: "host"
+    network_mode: "host"
     env_file:
       - .env
     ports:
@@ -21,10 +23,11 @@ services:
     expose:
       - 8096
     volumes:
+      - /media/disk1/movies:/movies:ro
+      - /media/disk1/tvshows:/tvshows:ro
       - jellyfin:/config
       - jellyfin:/cache
       - ./config/network.xml:/config/config/network.xml
-      - /media:/media:ro
     restart: "unless-stopped"
     networks:
       - front-tier
