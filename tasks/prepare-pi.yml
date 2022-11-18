@@ -110,33 +110,33 @@
     suffix: build
   register: tempdir
 
-# - name: Build bettercap
-#   shell: |
-#     go env -w GO111MODULE=off
-#     go get -u github.com/bettercap/bettercap
-#   environment:
-#     GOPATH: "{{ tempdir.path }}"
+- name: Build bettercap
+  shell: |
+    go env -w GO111MODULE=off
+    go get -u github.com/bettercap/bettercap
+  environment:
+    GOPATH: "{{ tempdir.path }}"
 
-# - name: Install bettercap
-#   shell: |
-#     mv {{ tempdir.path }}/bin/bettercap /usr/local/bin/
-#     rm -rf {{ tempdir.path }}
-#     bettercap -version
-#   become: yes
-#   register: output
+- name: Install bettercap
+  shell: |
+    mv {{ tempdir.path }}/bin/bettercap /usr/local/bin/
+    rm -rf {{ tempdir.path }}
+    bettercap -version
+  become: yes
+  register: output
 
-# - name: Display bettercap version
-#   debug:
-#     msg: "{{ output.stdout }}"
-#   when: output.rc == 0
+- name: Display bettercap version
+  debug:
+    msg: "{{ output.stdout }}"
+  when: output.rc == 0
 
-# - name: Install bettercap caplets
-#   shell: bettercap -eval "caplets.update; ui.update; q"
-#   when: output.rc == 0
-#   ignore_errors: true
-#   become: true
+- name: Install bettercap caplets
+  shell: bettercap -eval "caplets.update; ui.update; q"
+  when: output.rc == 0
+  ignore_errors: true
+  become: true
 
-# - name: Reboot Pi
-#   reboot:
-#     post_reboot_delay: 10
-#   when: reboot_after_pi_preparation|bool == true
+- name: Reboot Pi
+  reboot:
+    post_reboot_delay: 10
+  when: reboot_after_pi_preparation|bool == true
