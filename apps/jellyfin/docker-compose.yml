@@ -10,10 +10,11 @@ networks:
 
 services:
   jellyfin:
-    build: jellyfin/jellyfin:10.8.5
+    image: jellyfin/jellyfin:10.8.5
     container_name: jellyfin
-    hostname: jellyfin.local
+    hostname: jellyfin.lan
     userns_mode: "host"
+    network_mode: "host"
     env_file:
       - .env
     ports:

@@ -54,12 +54,12 @@ pypi:
   - ansible
   - docker-compose
 
-# Run any scripts(These script run as root user).
+# Run scripts(These script run as root user).
 scripts:
   dotfiles: https://raw.githubusercontent.com/veerendra2/dotfiles/master/install.sh
   docker: https://get.docker.com/
 
-# Do all operations(This user has to be sudoer)
+# Do all operations with this user(This user has to be sudoer)
 run_user: "{{ ansible_env.USER }}"
 
 # Reboot after running tasks in tasks/prepare-pi.yml
