@@ -2,7 +2,8 @@
 version: "3"
 
 volumes:
-  jellyfin:
+  config:
+  cache:
 
 networks:
   front-tier:
@@ -12,9 +13,8 @@ services:
   jellyfin:
     image: jellyfin/jellyfin:10.8.5
     container_name: jellyfin
-    hostname: jellyfin.lan
+    hostname: jellyfin #.lan
     userns_mode: "host"
-    network_mode: "host"
     env_file:
       - .env
     ports:
@@ -25,8 +25,8 @@ services:
     volumes:
       - /media/disk1/movies:/movies:ro
       - /media/disk1/tvshows:/tvshows:ro
-      - jellyfin:/config
-      - jellyfin:/cache
+      - config:/config
+      - cache:/cache
       - ./config/network.xml:/config/config/network.xml
     restart: "unless-stopped"
     networks:
