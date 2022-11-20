@@ -31,7 +31,7 @@ services:
   nextcloud:
     image: arm64v8/nextcloud:24.0.6-apache
     container_name: nextcloud
-    hostname: nextcloud.local
+    hostname: nextcloud
     restart: always
     env_file:
       - .env_nextcloud

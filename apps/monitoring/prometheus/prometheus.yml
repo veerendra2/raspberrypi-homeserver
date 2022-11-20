@@ -34,6 +34,11 @@ scrape_configs:
     static_configs:
       - targets: ["speedtest:9798"]
 
+  - job_name: "jellyfin"
+    metrics_path: /jellyfin/metrics
+    static_configs:
+      - targets: ["jellyfin:8096"]
+
   - job_name: "ping"
     metrics_path: /probe
     params:
