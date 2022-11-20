@@ -13,7 +13,7 @@ services:
   jellyfin:
     image: jellyfin/jellyfin:10.8.5
     container_name: jellyfin
-    hostname: jellyfin #.lan
+    hostname: jellyfin
     userns_mode: "host"
     env_file:
       - .env
@@ -28,6 +28,7 @@ services:
       - config:/config
       - cache:/cache
       - ./config/network.xml:/config/config/network.xml
+      - ./config/system.xml:/config/config/system.xml
     restart: "unless-stopped"
     networks:
       - front-tier

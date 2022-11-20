@@ -2,6 +2,7 @@
 # Homepage configuration
 # See https://fontawesome.com/icons for icons options
 # Config: https://github.com/bastienwirtz/homer/blob/main/docs/configuration.md
+# https://github.com/bastienwirtz/homer/blob/main/docs/customservices.md
 title: "Veerendra's Home"
 subtitle: "Raspberry Pi Home Server"
 logo: "assets/tools/raspberry-pi.png"
@@ -53,6 +54,7 @@ services:
         subtitle: "Visualization web application"
         url: "/grafana/"
       - name: "Prometheus"
+        type: Prometheus
         logo: "assets/tools/prometheus.png"
         subtitle: "Systems monitoring and alerting tool"
         url: "/prometheus/"
@@ -60,6 +62,7 @@ services:
     icon: ""
     items:
       - name: "Pi-hole"
+        type: "PiHole"
         logo: "assets/tools/pi-hole.png"
         subtitle: "Network-wide ad blocking"
         url: "/admin/"
@@ -67,6 +70,8 @@ services:
     icon: ""
     items:
       - name: "Portainer"
+        type: "Portainer"
+        apikey: "ptr_GuwQHmD1DtrBd3iWYUjv/Wqo3zsyRPQnnOoc/t+nN4Y="
         logo: "assets/tools/portainer.png"
         subtitle: "Container management UI"
         url: "/portainer/"
@@ -78,6 +83,7 @@ services:
     icon: "/assets/icons/play-button.png"
     items:
       - name: "Jellyfin"
+        type: "Emby"
         logo: "assets/tools/jellyfin.png"
         subtitle: "Multimedia streaming"
         url: "/jellyfin/"

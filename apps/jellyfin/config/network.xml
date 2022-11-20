@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <NetworkConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <RequireHttps>true</RequireHttps>
-  <CertificatePath>/config/ca-certificate.pem</CertificatePath>
-  <CertificatePassword />
+  <RequireHttps>false</RequireHttps>
+  <CertificatePath></CertificatePath>
   <BaseUrl>/jellyfin</BaseUrl>
   <PublicHttpsPort>8920</PublicHttpsPort>
   <HttpServerPortNumber>8096</HttpServerPortNumber>
   <HttpsPortNumber>8920</HttpsPortNumber>
-  <EnableHttps>true</EnableHttps>
+  <EnableHttps>false</EnableHttps>
   <PublicPort>8096</PublicPort>
   <UPnPCreateHttpPortMap>false</UPnPCreateHttpPortMap>
   <UDPPortRange />
@@ -23,7 +22,7 @@
   <TrustAllIP6Interfaces>false</TrustAllIP6Interfaces>
   <HDHomerunPortRange />
   <PublishedServerUriBySubnet>
-    <string>https://192.168.0.120/jellyfin</string>
+    <string>http://192.168.0.120/jellyfin</string>
   </PublishedServerUriBySubnet>
   <AutoDiscoveryTracing>false</AutoDiscoveryTracing>
   <AutoDiscovery>true</AutoDiscovery>
