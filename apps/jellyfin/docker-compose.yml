@@ -25,6 +25,8 @@ services:
     volumes:
       - /media/disk1/movies:/movies:ro
       - /media/disk1/tvshows:/tvshows:ro
+      - /media/disk1/books:/books:ro
+      - /media/disk1/music:/music:ro
       - config:/config
       - cache:/cache
       - ./config/network.xml:/config/config/network.xml
