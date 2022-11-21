@@ -11,7 +11,7 @@ networks:
 
 services:
   jellyfin:
-    image: jellyfin/jellyfin:10.8.5
+    image: jellyfin/jellyfin:10.8.7
     container_name: jellyfin
     hostname: jellyfin
     userns_mode: "host"

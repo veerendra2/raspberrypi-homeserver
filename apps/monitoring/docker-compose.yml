@@ -13,7 +13,7 @@ volumes:
 
 services:
   prometheus:
-    image: prom/prometheus:v2.39.1
+    image: prom/prometheus:v2.40.2
     container_name: prometheus
     hostname: prometheus
     volumes:
@@ -37,7 +37,7 @@ services:
       group: "monitoring"
 
   grafana:
-    image: grafana/grafana:9.2.0
+    image: grafana/grafana:9.2.5
     container_name: grafana
     hostname: grafana
     userns_mode: "host"
@@ -82,7 +82,7 @@ services:
       group: "monitoring"
 
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor-arm64:v0.45.0
+    image: gcr.io/cadvisor/cadvisor-arm64:v0.46.0
     container_name: cadvisor
     hostname: cadvisor
     privileged: true

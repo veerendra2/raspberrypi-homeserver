@@ -7,7 +7,7 @@ networks:
 
 services:
   homer:
-    image: b4bz/homer:v22.07.2
+    image: b4bz/homer:v22.11.1
     container_name: homer
     hostname: homer
     env_file:
