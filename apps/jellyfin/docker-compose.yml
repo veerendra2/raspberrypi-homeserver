@@ -30,7 +30,7 @@ services:
       - config:/config
       - cache:/cache
       - ./config/network.xml:/config/config/network.xml
-      - ./config/system.xml:/config/config/system.xml
+      #- ./config/system.xml:/config/config/system.xml
     restart: "unless-stopped"
     networks:
       - front-tier
