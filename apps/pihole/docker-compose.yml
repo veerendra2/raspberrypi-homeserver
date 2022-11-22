@@ -14,7 +14,7 @@ volumes:
 
 services:
   pihole:
-    image: pihole/pihole:2022.10
+    image: pihole/pihole:2022.11.1
     container_name: pihole
     hostname: pihole
     restart: unless-stopped

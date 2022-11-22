@@ -2,7 +2,7 @@
 # Description: An Ansible playbook to make awesome Raspberry Pi homeserver
 
 - name: Raspberry Pi Homeserver
-  hosts: localhost
+  hosts: atom
   gather_facts: yes
   vars_files:
     - vars.yml
@@ -24,6 +24,9 @@
   tasks:
     - name: Prepare Pi
       import_tasks: tasks/prepare-pi.yml
+
+    - name: Install bettercap
+      import_tasks: tasks/bettercap.yml
 
     - name: Setup monitoring
       import_tasks: tasks/monitoring.yml

@@ -3,8 +3,8 @@
 # See https://fontawesome.com/icons for icons options
 # Config: https://github.com/bastienwirtz/homer/blob/main/docs/configuration.md
 # https://github.com/bastienwirtz/homer/blob/main/docs/customservices.md
-title: "Veerendra's Home"
-subtitle: "Raspberry Pi Home Server"
+title: "Raspberry Pi Home Server"
+subtitle: "App dashboard"
 logo: "assets/tools/raspberry-pi.png"
 # icon: "fas fa-skull-crossbones" # Optional icon
 

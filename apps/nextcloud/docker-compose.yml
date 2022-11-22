@@ -29,7 +29,7 @@ services:
       - postgres_user
 
   nextcloud:
-    image: arm64v8/nextcloud:24.0.6-apache
+    image: arm64v8/nextcloud:25.0.1-apache
     container_name: nextcloud
     hostname: nextcloud
     restart: always

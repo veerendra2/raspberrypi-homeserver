@@ -62,6 +62,8 @@
 </tr>
 </table>
 
+![image](https://user-images.githubusercontent.com/8393701/203421293-02dcc50e-f029-492c-9884-ba18e555c606.png)
+
 > Actively working on this project to add more apps and simplify deployments on Raspberry Pi while keeping `docker-compose` project standalone in `apps/` directory. Check [projects](https://github.com/veerendra2/raspberrypi-homeserver/projects) tab for roadmap
 
 ## Deploy

@@ -10,7 +10,7 @@ volumes:
 
 services:
   portainer:
-    image: portainer/portainer-ce:linux-arm64-2.15.1-alpine
+    image: portainer/portainer-ce:linux-arm64-2.16.2-alpine
     container_name: portainer
     hostname: portainer
     restart: always

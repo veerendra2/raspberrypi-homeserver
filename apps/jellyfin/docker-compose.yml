@@ -11,7 +11,7 @@ networks:
 
 services:
   jellyfin:
-    image: jellyfin/jellyfin:10.8.5
+    image: jellyfin/jellyfin:10.8.7
     container_name: jellyfin
     hostname: jellyfin
     userns_mode: "host"
@@ -25,10 +25,14 @@ services:
     volumes:
       - /media/disk1/movies:/movies:ro
       - /media/disk1/tvshows:/tvshows:ro
+      - /media/disk1/books:/books:ro
+      - /media/disk1/music:/music:ro
+      - /media/disk1/photos:/photos:ro
+      - /media/disk1/tutorials:/tutorials:ro
       - config:/config
       - cache:/cache
       - ./config/network.xml:/config/config/network.xml
-      - ./config/system.xml:/config/config/system.xml
+      #- ./config/system.xml:/config/config/system.xml
     restart: "unless-stopped"
     networks:
       - front-tier
