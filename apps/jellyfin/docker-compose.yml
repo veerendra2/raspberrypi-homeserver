@@ -27,6 +27,8 @@ services:
       - /media/disk1/tvshows:/tvshows:ro
       - /media/disk1/books:/books:ro
       - /media/disk1/music:/music:ro
+      - /media/disk1/photos:/photos:ro
+      - /media/disk1/tutorials:/tutorials:ro
       - config:/config
       - cache:/cache
       - ./config/network.xml:/config/config/network.xml
