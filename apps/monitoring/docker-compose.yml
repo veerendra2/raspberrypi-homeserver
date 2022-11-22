@@ -81,6 +81,8 @@ services:
     labels:
       group: "monitoring"
 
+  # Caution: cadvisor is reletivly CPU hunger.
+  # https://github.com/google/cadvisor/issues/2523
   cadvisor:
     image: gcr.io/cadvisor/cadvisor-arm64:v0.46.0
     container_name: cadvisor
@@ -91,10 +93,17 @@ services:
       - /dev/kmsg:/dev/kmsg
     volumes:
       - /:/rootfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
       - /var/run:/var/run:ro
       - /sys:/sys:ro
       - /var/lib/docker:/var/lib/docker:ro
+      - /sys/fs/cgroup:/cgroup:ro
       - /dev/disk/:/dev/disk:ro
+    command:
+      - '-housekeeping_interval=15s'
+      - '-docker_only=true'
+    security_opt:
+      - no-new-privileges:true
     depends_on:
       - prometheus
     restart: unless-stopped
