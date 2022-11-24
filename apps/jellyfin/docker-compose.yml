@@ -9,6 +9,10 @@ networks:
   front-tier:
     external: true
 
+secrets:
+  jellyfin_admin_password:
+    file: ./secrets/jellyfin_admin_password.txt
+
 services:
   jellyfin:
     image: jellyfin/jellyfin:10.8.7
@@ -33,6 +37,8 @@ services:
       - cache:/cache
       - ./config/network.xml:/config/config/network.xml
       #- ./config/system.xml:/config/config/system.xml
+    secrets:
+      - jellyfin_admin_password
     restart: "unless-stopped"
     networks:
       - front-tier

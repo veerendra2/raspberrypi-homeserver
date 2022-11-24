@@ -11,9 +11,13 @@ volumes:
   prometheus_data:
   grafana_data:
 
+secrets:
+  grafana_admin_password:
+    file: ./secrets/grafana_admin_password.txt
+
 services:
   prometheus:
-    image: prom/prometheus:v2.40.2
+    image: prom/prometheus:v2.40.3
     container_name: prometheus
     hostname: prometheus
     volumes:
@@ -27,26 +31,27 @@ services:
       - '--storage.tsdb.retention.time=800h' # 30 Days
       - '--web.enable-lifecycle'
       - '--web.external-url=/prometheus/'
-    restart: unless-stopped
+    env_file:
+      - ./prometheus/prometheus.env
     expose:
       - 9090
     networks:
       - front-tier
       - back-tier
+    restart: unless-stopped
     labels:
       group: "monitoring"
 
   grafana:
-    image: grafana/grafana:9.2.5
+    image: grafana/grafana:9.2.6
     container_name: grafana
     hostname: grafana
-    userns_mode: "host"
     volumes:
       - grafana_data:/var/lib/grafana
-      - ./grafana:/etc/grafana/
-      - ./grafana/images/:/usr/share/grafana/public/img/
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
     env_file:
-      - ./grafana/config.grafana
+      - ./grafana/grafana.env
     depends_on:
       - prometheus
     restart: unless-stopped
@@ -55,6 +60,8 @@ services:
     networks:
       - front-tier
       - back-tier
+    secrets:
+      - grafana_admin_password
     labels:
       group: "monitoring"
 
@@ -73,11 +80,11 @@ services:
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
     depends_on:
       - prometheus
-    restart: unless-stopped
     expose:
       - 9100
     networks:
       - back-tier
+    restart: unless-stopped
     labels:
       group: "monitoring"
 
@@ -134,7 +141,7 @@ services:
       - back-tier
 
   speedtest:
-    image: ghcr.io/miguelndecarvalho/speedtest-exporter
+    image: ghcr.io/miguelndecarvalho/speedtest-exporter:v3.5.3
     container_name: speedtest
     hostname: speedtest
     expose:
