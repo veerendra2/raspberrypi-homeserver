@@ -9,10 +9,6 @@ networks:
   front-tier:
     external: true
 
-secrets:
-  jellyfin_admin_password:
-    file: ./secrets/jellyfin_admin_password.txt
-
 services:
   jellyfin:
     image: jellyfin/jellyfin:10.8.7
@@ -41,8 +37,6 @@ services:
       - /dev/video10:/dev/video10
       - /dev/video11:/dev/video11
       - /dev/video12:/dev/video12
-    secrets:
-      - jellyfin_admin_password
     restart: "unless-stopped"
     networks:
       - front-tier

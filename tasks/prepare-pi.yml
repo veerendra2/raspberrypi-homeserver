@@ -83,6 +83,12 @@
 
 # -------------------------- END CONFIGURE DOCKER --------------------------
 
+- name: Set authorized keys taken from url
+  authorized_key:
+    user: "{{ run_user }}"
+    state: present
+    key: "{{ github_username_keys }}"
+
 - name: Reboot Pi after upgrade
   reboot:
     post_reboot_delay: 10

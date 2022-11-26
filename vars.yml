@@ -62,6 +62,9 @@ scripts:
 # Do all operations with this user(This user has to be sudoer)
 run_user: "{{ ansible_env.USER }}"
 
+# Github user's ssh public keys
+github_username_keys: https://github.com/veerendra2.keys
+
 # Reboot after running tasks in tasks/prepare-pi.yml
 reboot_after_pi_preparation: true
 
