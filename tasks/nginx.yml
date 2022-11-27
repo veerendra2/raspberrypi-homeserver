@@ -34,7 +34,6 @@
     -keyout "{{ project_dir }}/ssl/server.key" \
     -out "{{ project_dir }}/ssl/server.pem"
   when: not output.results[0].stat.exists or not output.results[1].stat.exists
-  become: true
 
 # https://github.com/veerendra2/raspberrypi-homeserver/issues/15
 - name: Make server.key readable for other users
