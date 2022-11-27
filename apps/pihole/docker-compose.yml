@@ -33,7 +33,7 @@ services:
       - .env
     volumes:
       - pihole:/etc
-      - ./dnsmasq.d/99-temp.conf:/etc/dnsmasq.d/99-temp.conf:ro
+      - ./dnsmasq.d/99-dnsmasq-options.conf:/etc/dnsmasq.d/99-dnsmasq-options.conf:ro
       - ./dnsmasq.d/07-dhcp-options.conf:/etc/dnsmasq.d/07-dhcp-options.conf:ro
       - ./pihole/custom.list:/etc/pihole/custom.list:ro
       - /etc/resolv.conf:/etc/resolv.conf:ro

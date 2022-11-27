@@ -31,8 +31,8 @@
     # - name: Setup monitoring
     #   import_tasks: tasks/monitoring.yml
 
-    # - name: Setup pihole
-    #   import_tasks: tasks/pihole.yml
+    - name: Setup pihole
+      import_tasks: tasks/pihole.yml
 
     # - name: Setup portainer
     #   import_tasks: tasks/portainer.yml
@@ -43,8 +43,8 @@
     # - name: Setup jellyfin
     #   import_tasks: tasks/jellyfin.yml
 
-    - name: Setup nextcloud
-      import_tasks: tasks/nextcloud.yml
+    # - name: Setup nextcloud
+    #   import_tasks: tasks/nextcloud.yml
 
     # - name: Setup filebrowser
     #   import_tasks: tasks/filebrowser.yml
