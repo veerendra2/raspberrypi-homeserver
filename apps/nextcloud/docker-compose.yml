@@ -48,12 +48,9 @@ services:
     container_name: redis
     hostname: redis
     restart: always
-    command: [      # https://stackoverflow.com/questions/44642059
-      "bash", "-c",
-      '
-       docker-entrypoint.sh
-       --requirepass "$$(cat $$REDIS_PASSWORD_FILE)"
-      '
+    command: [
+      "redis-server",
+      "--requirepass '$$(cat $$REDIS_PASSWORD_FILE)'"
     ]
     env_file:
       - .env_redis
