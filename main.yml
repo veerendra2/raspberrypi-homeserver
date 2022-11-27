@@ -7,50 +7,50 @@
   vars_files:
     - vars.yml
 
-  # pre_tasks:
-  #   - name: Run update
-  #     apt:
-  #       upgrade: true
-  #       update_cache: yes
-  #     ignore_errors: yes
-  #     become: yes
+  pre_tasks:
+    - name: Run update
+      apt:
+        upgrade: true
+        update_cache: yes
+      ignore_errors: yes
+      become: yes
 
-  # post_tasks:
-  #   - name: Run autoremove
-  #     apt:
-  #       autoremove: yes
-  #     become: yes
+  post_tasks:
+    - name: Run autoremove
+      apt:
+        autoremove: yes
+      become: yes
 
   tasks:
-    # - name: Prepare Pi
-    #   import_tasks: tasks/prepare-pi.yml
+    - name: Prepare Pi
+      import_tasks: tasks/prepare-pi.yml
 
-    # - name: Install bettercap
-    #   import_tasks: tasks/bettercap.yml
+    - name: Install bettercap
+      import_tasks: tasks/bettercap.yml
 
-    # - name: Setup monitoring
-    #   import_tasks: tasks/monitoring.yml
+    - name: Setup monitoring
+      import_tasks: tasks/monitoring.yml
 
     - name: Setup pihole
       import_tasks: tasks/pihole.yml
 
-    # - name: Setup portainer
-    #   import_tasks: tasks/portainer.yml
+    - name: Setup portainer
+      import_tasks: tasks/portainer.yml
 
-    # - name: Setup homer
-    #   import_tasks: tasks/homer.yml
+    - name: Setup homer
+      import_tasks: tasks/homer.yml
 
-    # - name: Setup jellyfin
-    #   import_tasks: tasks/jellyfin.yml
+    - name: Setup jellyfin
+      import_tasks: tasks/jellyfin.yml
 
-    # - name: Setup nextcloud
-    #   import_tasks: tasks/nextcloud.yml
+    - name: Setup nextcloud
+      import_tasks: tasks/nextcloud.yml
 
-    # - name: Setup filebrowser
-    #   import_tasks: tasks/filebrowser.yml
+    - name: Setup filebrowser
+      import_tasks: tasks/filebrowser.yml
 
     - name: Setup nginx
       import_tasks: tasks/nginx.yml
 
-    # - name: Setup firewall rules
-    #   import_tasks: tasks/ufw.yml
+    - name: Setup firewall rules
+      import_tasks: tasks/ufw.yml
