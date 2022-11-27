@@ -130,6 +130,8 @@ services:
     expose:
       - 9115
     restart: always
+    dns:
+      - 1.1.1.1
     depends_on:
       - prometheus
     volumes:
@@ -147,6 +149,8 @@ services:
     expose:
       - 9798
     restart: always
+    dns:
+      - 1.1.1.1
     depends_on:
       - prometheus
     networks:
