@@ -62,10 +62,13 @@ scripts:
 # Do all operations with this user(This user has to be sudoer)
 run_user: "{{ ansible_env.USER }}"
 
+# Github user's ssh public keys
+github_username_keys: https://github.com/veerendra2.keys
+
 # Reboot after running tasks in tasks/prepare-pi.yml
 reboot_after_pi_preparation: true
 
-# Mount partions in /etc/fstab
+# Mount partions configuration in /etc/fstab
 disk_mount_dirs:
 # [DISK_LABEL]: [MOUNT DIRECTORY]
   usb-ext-hdd1: /media/disk1  # Configured in Jellyfine, Filebrowser (docker-compose.yml)

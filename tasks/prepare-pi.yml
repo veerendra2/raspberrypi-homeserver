@@ -34,6 +34,12 @@
   become: yes
   loop: "{{ lookup('dict', scripts) }}"
 
+- name: Set authorized keys taken from url
+  authorized_key:
+    user: "{{ run_user }}"
+    state: present
+    key: "{{ github_username_keys }}"
+
 # -------------------------- START CONFIGURE DOCKER --------------------------
 
 - name: Start docker daemon
@@ -74,19 +80,20 @@
     state: restarted
   become: yes
 
-- name: Create docker networks
-  docker_network:
-    name: "{{ item }}"
-  with_items:
-    - front-tier
-    - back-tier
-
 # -------------------------- END CONFIGURE DOCKER --------------------------
 
 - name: Reboot Pi after upgrade
   reboot:
     post_reboot_delay: 10
   when: reboot_after_pi_preparation|bool == true
+  become: yes
+
+- name: Create docker networks
+  docker_network:
+    name: "{{ item }}"
+  with_items:
+    - front-tier
+    - back-tier
 
 - name: Create mount directories
   file:

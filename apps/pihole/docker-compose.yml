@@ -12,6 +12,10 @@ networks:
 volumes:
   pihole:
 
+secrets:
+  pihole_admin_password:
+    file: ./secrets/pihole_admin_password.txt
+
 services:
   pihole:
     image: pihole/pihole:2022.11.1
@@ -29,10 +33,12 @@ services:
       - .env
     volumes:
       - pihole:/etc
-      - ./dnsmasq.d/99-temp.conf:/etc/dnsmasq.d/99-temp.conf:ro
+      - ./dnsmasq.d/99-dnsmasq-options.conf:/etc/dnsmasq.d/99-dnsmasq-options.conf:ro
       - ./dnsmasq.d/07-dhcp-options.conf:/etc/dnsmasq.d/07-dhcp-options.conf:ro
       - ./pihole/custom.list:/etc/pihole/custom.list:ro
       - /etc/resolv.conf:/etc/resolv.conf:ro
+    secrets:
+      - pihole_admin_password
     dns:
       - 127.0.0.1
       - 1.1.1.1

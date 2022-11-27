@@ -30,6 +30,14 @@
       backup: yes
       backrefs: yes
 
+  - name: Set IPV6=no in /etc/default/ufw
+    lineinfile:
+      path: /etc/default/ufw
+      regexp: '^IPV6=(.*)$'
+      line: 'IPV6=no'
+      backup: yes
+      backrefs: yes
+
   - name: Allow selected tcp ports
     ufw:
       rule: allow

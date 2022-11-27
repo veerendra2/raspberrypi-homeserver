@@ -2,3 +2,4 @@ apps/pihole/etc-dnsmasq.d
 apps/pihole/etc-pihole
 apps/pihole/docker_run.sh
 apps/nginx/ssl/*
+!apps/nginx/ssl/.gitkeep
