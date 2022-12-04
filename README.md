@@ -62,9 +62,14 @@
 </tr>
 </table>
 
-![image](https://user-images.githubusercontent.com/8393701/203421293-02dcc50e-f029-492c-9884-ba18e555c606.png)
+> This project meant to be simple and deploy apps on single box. Created this project out of my own curiousity to make my very first homeserver with Raspberry Pi 4. For more advance configuration to make your own homeserver, you may checkout [geek-cookbook](https://github.com/geek-cookbook/geek-cookbook)
 
-> Actively working on this project to add more apps and simplify deployments on Raspberry Pi while keeping `docker-compose` project standalone in `apps/` directory. Check [projects](https://github.com/veerendra2/raspberrypi-homeserver/projects) tab for roadmap
+:point_right: Check [projects](https://github.com/veerendra2/raspberrypi-homeserver/projects) tab for roadmap
+
+:point_right: Check [wiki pages](https://github.com/veerendra2/raspberrypi-homeserver/wiki) for documentation
+
+## Homer Screenshot
+![image](https://user-images.githubusercontent.com/8393701/203421293-02dcc50e-f029-492c-9884-ba18e555c606.png)
 
 ## Deploy
 * Follow prerequisite [manual steps](https://github.com/veerendra2/raspberrypi-homeserver/wiki/Manual-Steps) to prepare Pi
@@ -74,6 +79,3 @@ $ cd raspberrypi-homeserver
 # Review inventory.yml and run
 $ ansible-playbook main.yml
 ```
-Check [wiki pages](https://github.com/veerendra2/raspberrypi-homeserver/wiki) for more info
-
-<a href="https://www.buymeacoffee.com/Troubling4727" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
