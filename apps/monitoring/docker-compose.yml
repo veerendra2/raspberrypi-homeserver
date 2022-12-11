@@ -73,10 +73,12 @@ services:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /:/rootfs:ro
+      - ./textfile_collector:/var/lib/node_exporter/textfile_collector
     command:
       - '--path.procfs=/host/proc'
       - '--path.rootfs=/rootfs'
       - '--path.sysfs=/host/sys'
+      - '--collector.textfile.directory=/var/lib/node_exporter/textfile_collector'
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
     depends_on:
       - prometheus
