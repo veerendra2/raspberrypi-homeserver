@@ -2,7 +2,6 @@
 version: '3'
 
 volumes:
-  nextcloud:
   redis:
 
 networks:
@@ -82,7 +81,7 @@ services:
       - front-tier
       - back-tier
     volumes:
-      - nextcloud:/var/www/html
+      - /media/disk2/nextcloud:/var/www/html
     secrets:
       - nextcloud_admin_password
       - nextcloud_admin_user

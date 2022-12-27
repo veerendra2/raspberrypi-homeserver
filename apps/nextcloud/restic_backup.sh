@@ -9,16 +9,20 @@
 # Set --collector.textfile.directory in node_exporter
 
 
-NEXTCLOUD_DATA_RESTIC_REPO="/media/disk1/nextcloud_data_restic_test"
-NEXTCLOUD_PG_RESTIC_REPO="/media/disk1/nextcloud_pg_restic_test"
+NEXTCLOUD_DATA_RESTIC_REPO="/media/disk1/nextcloud_data_restic_repo"
+NEXTCLOUD_PG_RESTIC_REPO="/media/disk1/nextcloud_pg_restic_repo"
 BACKUP_DIR="/media/disk2/nextcloud"
 RESTIC_PASSWORD_FILE="/home/veerendra/pass.txt"
 TEXTFILE_COLLECTOR_DIR="/opt/apps/monitoring/textfile_collector"
 
+# Init repo manually
+#restic -r $NEXTCLOUD_DATA_RESTIC_REPO init
+#restic -r $NEXTCLOUD_PG_RESTIC_REPO init
+
 START="$(date +%s)"
 trap "docker exec -it -u www-data nextcloud php occ maintenance:mode --off" EXIT
 
-echo "[*] Settings maintenance mode on"
+echo "[*] Setting maintenance mode on"
 docker exec -it -u www-data nextcloud php occ maintenance:mode --on
 echo "[*] Backup nextcloud data to the restic repo -> $NEXTCLOUD_DATA_RESTIC_REPO"
 restic -r $NEXTCLOUD_DATA_RESTIC_REPO \
@@ -34,7 +38,7 @@ docker exec postgres \
       -p /home/veerendra/pass.txt \
       --stdin-filename db_postgres_nextcloud.sql | tail -1 > /tmp/nextcloud_pg_restic_stats.json
 
-echo "[*] Settings maintenance mode off"
+echo "[*] Setting maintenance mode off"
 docker exec -it -u www-data nextcloud php occ maintenance:mode --off
 trap "" EXIT
 END="$(date +%s)"
