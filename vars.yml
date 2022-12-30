@@ -53,6 +53,9 @@ pypi:
   - beautifulsoup4
   - ansible
   - docker-compose
+  - python3-pigpio
+  - python-setuptools
+  - python3-distutils
 
 # Run scripts(These script run as root user).
 scripts:
@@ -70,6 +73,6 @@ reboot_after_pi_preparation: true
 
 # Mount partions configuration in /etc/fstab
 disk_mount_dirs:
-# [DISK_LABEL]: [MOUNT DIRECTORY]
-  usb-ext-hdd1: /media/disk1  # Configured in Jellyfine, Filebrowser (docker-compose.yml)
-  usb-ext-hdd2: /media/disk2  # Configured in Nextcloud, Filebrowser (docker-compose.yml)
+  # [DISK_LABEL]: [MOUNT DIRECTORY]
+  usb-ext-hdd1: /media/disk1 # Configured in Jellyfine, Filebrowser (docker-compose.yml)
+  usb-ext-hdd2: /media/disk2 # Configured in Nextcloud, Filebrowser (docker-compose.yml)

@@ -1,0 +1,26 @@
+---
+- name: Create temporary to pigpio build
+  tempfile:
+    state: directory
+    suffix: build
+  register: tempdir
+
+- name: Download pigpio
+  get_url:
+    url: https://github.com/joan2937/pigpio/archive/master.zip
+    dest: "{{ tempdir.path }}"
+
+- name: Run make and make install pigpio
+  shell: |
+    unzip pigpio-master.zip
+    cd pigpio-master
+    sudo make
+    sudo make install
+  args:
+    chdir: "{{ tempdir.path }}"
+  become: yes
+
+- name: Create pigpiod systemd unit
+  template:
+    src: templates/systemd_unit.service.js
+    dest:
