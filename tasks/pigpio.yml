@@ -20,7 +20,14 @@
     chdir: "{{ tempdir.path }}"
   become: yes
 
+- name: Set systemd unit parameters for pigpiod
+  set_facts:
+    description: Daemon required to control GPIO pins via pigpio
+    exec_start_cmd: /usr/local/bin/pigpiod
+    exec_kill_cmd: /bin/systemctl kill pigpiod
+    service_type: forking
+
 - name: Create pigpiod systemd unit
   template:
-    src: templates/systemd_unit.service.js
-    dest:
+    src: templates/systemd_unit.service.j2
+    dest: /lib/systemd/system/pigpiod.service

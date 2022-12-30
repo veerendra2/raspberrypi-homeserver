@@ -1,4 +1,8 @@
 #!/usr/bin/python
+'''
+Description: A simple script to control 3pin PWM fan in raspberry pi 4
+Reference: https://github.com/geekworm-com/x-c1/blob/main/fan.py
+'''
 import pigpio
 import time
 
@@ -27,4 +31,4 @@ while (True):
   elif (temp < 30):
     pwm.set_PWM_dutycycle(servo, 0)
 
-  time.sleep(60)
+  time.sleep(120)
