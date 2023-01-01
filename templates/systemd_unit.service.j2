@@ -1,8 +1,9 @@
 [Unit]
 Description={{ description }}
-Wants={{ wants_daemon }}
+Requires={{ require_daemon }}
 After={{ after_daemon }}
 [Service]
+ExecStartPre={{ pre_start_cmd }}
 ExecStart={{ exec_start_cmd }}
 ExecStop={{ exec_kill_cmd }}
 Type={{ service_type }}

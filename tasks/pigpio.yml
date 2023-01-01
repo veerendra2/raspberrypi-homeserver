@@ -1,24 +1,24 @@
 ---
-# - name: Create temporary to pigpio build
-#   tempfile:
-#     state: directory
-#     suffix: build
-#   register: tempdir
+- name: Create temporary to pigpio build
+  tempfile:
+    state: directory
+    suffix: build
+  register: tempdir
 
-# - name: Download pigpio
-#   get_url:
-#     url: https://github.com/joan2937/pigpio/archive/master.zip
-#     dest: "{{ tempdir.path }}"
+- name: Download pigpio
+  get_url:
+    url: https://github.com/joan2937/pigpio/archive/master.zip
+    dest: "{{ tempdir.path }}"
 
-# - name: Run make and make install pigpio
-#   shell: |
-#     unzip pigpio-master.zip
-#     cd pigpio-master
-#     sudo make
-#     sudo make install
-#   args:
-#     chdir: "{{ tempdir.path }}"
-#   become: yes
+- name: Run make and make install pigpio
+  shell: |
+    unzip pigpio-master.zip
+    cd pigpio-master
+    sudo make
+    sudo make install
+  args:
+    chdir: "{{ tempdir.path }}"
+  become: yes
 
 - name: Set systemd unit parameters for pigpiod
   set_fact:
@@ -26,7 +26,8 @@
     description: Daemon required to control GPIO pins via pigpio
     exec_start_cmd: /usr/local/bin/pigpiod
     exec_kill_cmd: /bin/systemctl kill pigpiod
-    wants_daemon: network.target
+    pre_start_cmd: /bin/sleep 0
+    require_daemon: network.target
     after_daemon: network.target
     service_type: forking
 
@@ -57,8 +58,9 @@
     description: Daemon required to control fan speed via pigpio
     exec_start_cmd: /usr/bin/python3 /usr/local/bin/fan.py
     exec_kill_cmd: /bin/kill -TERM $MAINPID
-    wants_daemon: pigpiod.target
-    after_daemon: pigpiod.target
+    require_daemon: pigpiod.service
+    after_daemon: pigpiod.service
+    pre_start_cmd: /bin/sleep 5
     service_type: simple
 
 - name: Create fan-py systemd unit

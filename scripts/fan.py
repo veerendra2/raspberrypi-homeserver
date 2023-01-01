@@ -31,7 +31,7 @@ while (True):
     logging.debug(f"Current CPU temperature is {temp}°C. Setting fan speed to 70%")
     pwm.set_PWM_dutycycle(servo, 70)
   elif (temp > 50):
-    logging.debug(f"Current CPU temperature is {temp}°C. Setting fan speed to 50%"))
+    logging.debug(f"Current CPU temperature is {temp}°C. Setting fan speed to 50%")
     pwm.set_PWM_dutycycle(servo, 50)
   elif (temp > 30):
     logging.debug(f"Current CPU temperature is {temp}°C. Setting fan speed to 40%")
