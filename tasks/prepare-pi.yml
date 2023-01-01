@@ -81,6 +81,20 @@
   become: yes
 
 # -------------------------- END CONFIGURE DOCKER --------------------------
+# ----------------------- START PI POWER OPTIMIZATION ----------------------
+- block:
+  - name: Stop and disable hciuart and bluetooth deamon
+    systemd:
+      name: "{{ item }}"
+      state: stoppped
+      enabled: no
+    with_items:
+      - bluetooth
+      - hciuart
+  become: yes
+  when: disable_bluetooth|bool == true
+
+# ------------------------ END PI POWER OPTIMIZATION -----------------------
 
 - name: Reboot Pi after upgrade
   reboot:
