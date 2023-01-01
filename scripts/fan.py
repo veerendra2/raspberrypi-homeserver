@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 '''
 Description: A simple script to control 3pin PWM fan in raspberry pi 4
 Reference: https://github.com/geekworm-com/x-c1/blob/main/fan.py

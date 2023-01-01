@@ -21,13 +21,56 @@
   become: yes
 
 - name: Set systemd unit parameters for pigpiod
-  set_facts:
+  set_fact:
+    name: pigpiod
     description: Daemon required to control GPIO pins via pigpio
     exec_start_cmd: /usr/local/bin/pigpiod
     exec_kill_cmd: /bin/systemctl kill pigpiod
+    wants_daemon: network.target
+    after_daemon: network.target
     service_type: forking
 
 - name: Create pigpiod systemd unit
   template:
     src: templates/systemd_unit.service.j2
     dest: /lib/systemd/system/pigpiod.service
+  become: yes
+
+- name: Enable and start pigpiod systemd daemon
+  systemd:
+    name: pigpiod
+    enabled: yes
+    daemon_reload: yes
+    state: started
+  become: yes
+
+- name: Copy fan.py script
+  copy:
+    src: scripts/fan.py
+    dest: /usr/local/bin/fan.py
+    mode: '0744'
+  become: yes
+
+- name: Set systemd unit parameters for fan-py
+  set_fact:
+    name: fan-py
+    description: Daemon required to control fan speed via pigpio
+    exec_start_cmd: /usr/bin/python3 /usr/local/bin/fan.py
+    exec_kill_cmd: /bin/kill -TERM $MAINPID
+    wants_daemon: pigpiod.target
+    after_daemon: pigpiod.target
+    service_type: simple
+
+- name: Create fan-py systemd unit
+  template:
+    src: templates/systemd_unit.service.j2
+    dest: /lib/systemd/system/fan-py.service
+  become: yes
+
+- name: Enable and start fan-py systemd daemon
+  systemd:
+    name: fan-py
+    enabled: yes
+    daemon_reload: yes
+    state: started
+  become: yes

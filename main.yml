@@ -25,6 +25,9 @@
     - name: Prepare Pi
       import_tasks: tasks/prepare-pi.yml
 
+    - name: Install pigpio and Pi fan controller
+      import_tasks: tasks/pigpio.yml
+
     - name: Install bettercap
       import_tasks: tasks/bettercap.yml
 
