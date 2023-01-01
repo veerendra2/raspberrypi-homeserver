@@ -101,7 +101,7 @@
     state: directory
     owner: "{{ run_user }}"
     group: "{{ run_user }}"
-    mode: '0644'
+    mode: "0644"
   loop: "{{ lookup('dict', disk_mount_dirs) }}"
   become: yes
 
