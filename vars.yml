@@ -77,9 +77,6 @@ disk_mount_dirs:
   usb-ext-hdd1: /media/disk1 # Configured in Jellyfine, Filebrowser (docker-compose.yml)
   usb-ext-hdd2: /media/disk2 # Configured in Nextcloud, Filebrowser (docker-compose.yml)
 
-# Pi poweer optimization setttings
+# Pi power optimization setttings
 disable_hdmi: true
 disable_bluetooth: true
-disable_wlan: false
-disable_eth0: false
-disable_usb_controller: false
