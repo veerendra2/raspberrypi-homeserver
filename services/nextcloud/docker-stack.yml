@@ -1,0 +1,93 @@
+version: "3.7"
+services:
+  postgres:
+    image: arm64v8/postgres:14-alpine
+    hostname: postgres
+    restart_policy:
+      condition: on-failure
+    env_file:
+      - .env_postgres
+    volumes:
+      - /media/disk2/postgres:/var/lib/postgresql/data:rw
+    networks:
+      back-tier:
+        external: true
+    secrets:
+      - postgres_db
+      - postgres_password
+      - postgres_user
+
+  redis:
+    image: redis:7.0.5-alpine
+    hostname: redis
+    restart_policy:
+      condition: on-failure
+    command:  [
+    "sh", "-c",
+    '
+    docker-entrypoint.sh
+    --requirepass "$$(cat $$REDIS_PASSWORD_FILE)"
+    '
+    ]
+    env_file:
+      - .env_redis
+    volumes:
+      - redis:/data
+    networks:
+      back-tier:
+        external: true
+    secrets:
+      - redis_host_password
+
+  nextcloud:
+    image: arm64v8/nextcloud:25.0.1-apache
+    hostname: nextcloud
+    restart_policy:
+      condition: on-failure
+    env_file:
+      - .env_nextcloud
+    ports:
+      - 80:80
+    links:
+      - postgres
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      front-tier:
+        external: true
+      back-tier:
+        external: true
+    volumes:
+      - nextcloud:/var/www/html
+    secrets:
+      - nextcloud_admin_password
+      - nextcloud_admin_user
+      - postgres_db
+      - postgres_password
+      - postgres_user
+      - redis_host_password
+
+networks:
+  front-tier:
+    external: true
+  back-tier:
+    external: true
+
+secrets:
+  nextcloud_admin_password:
+    file: ./secrets/nextcloud_admin_password.txt
+  nextcloud_admin_user:
+    file: ./secrets/nextcloud_admin_user.txt
+  postgres_db:
+    file: ./secrets/postgres_db.txt
+  postgres_password:
+    file: ./secrets/postgres_password.txt
+  postgres_user:
+    file: ./secrets/postgres_user.txt
+  redis_host_password:
+    file: ./secrets/redis_host_password.txt
+
+volumes:
+  nextcloud:
+  redis:

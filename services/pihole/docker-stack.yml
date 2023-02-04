@@ -1,0 +1,70 @@
+version: "3.8"
+services:
+  pihole:
+    image: pihole/pihole:2022.11.1
+    hostname: pihole
+    restart_policy:
+      condition: unless-stopped
+    security_opt:
+      - cap_add: NET_ADMIN
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    expose:
+      - 80
+    environment:
+      PIHOLE_DNS_1: 127.0.0.1
+      PIHOLE_DNS_2: 1.1.1.1
+    volumes:
+      - type: volume
+        source: pihole
+        target: /etc
+      - type: bind
+        source: ./dnsmasq.d/99-dnsmasq-options.conf
+        target: /etc/dnsmasq.d/99-dnsmasq-options.conf
+        read_only: true
+      - type: bind
+        source: ./dnsmasq.d/07-dhcp-options.conf
+        target: /etc/dnsmasq.d/07-dhcp-options.conf
+        read_only: true
+      - type: bind
+        source: ./pihole/custom.list
+        target: /etc/pihole/custom.list
+        read_only: true
+      - type: bind
+        source: /etc/resolv.conf
+        target: /etc/resolv.conf
+        read_only: true
+    secrets:
+      - pihole_admin_password
+    networks:
+      dhcp-relay-net:
+        ipv4_address: '172.31.0.10'
+      front-tier:
+        external: true
+  dhcphelper:
+    build: ./dhcp-helper
+    restart_policy:
+      condition: unless-stopped
+    security_opt:
+      - cap_add: NET_ADMIN
+    networks:
+      host:
+        mode: host
+    command: -s 172.31.0.10
+secrets:
+  pihole_admin_password:
+    external: true
+
+networks:
+  dhcp-relay-net:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.31.0.0/16
+  front-tier:
+    external: true
+
+volumes:
+  pihole:
+    external: true

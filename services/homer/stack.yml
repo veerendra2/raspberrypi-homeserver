@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+  homer:
+    image: b4bz/homer:v22.11.1
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+    hostname: homer
+    env_file:
+      - .env
+    volumes:
+      - ./assets/:/www/assets
+    networks:
+      trafik_public:
+
+networks:
+  trafik_public:
+    external: true

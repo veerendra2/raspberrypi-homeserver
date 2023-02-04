@@ -1,0 +1,95 @@
+---
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.40.3
+    hostname: prometheus
+    volumes:
+      - type: bind
+        source: ./prometheus
+        target: /etc/prometheus
+      - type: volume
+        source: prometheus_data
+        target: /prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=800h' # 30 Days
+      - '--web.enable-lifecycle'
+      - '--web.external-url=/prometheus/'
+    env_file:
+      - ./prometheus/prometheus.env
+    ports:
+      - target: 9090
+        published: 9090
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      front-tier:
+        external: true
+      back-tier:
+        external: true
+    labels:
+      group: "monitoring"
+    secrets: []
+
+  grafana:
+    image: grafana/grafana:9.2.6
+    hostname: grafana
+    volumes:
+      - type: volume
+        source: grafana_data
+        target: /var/lib/grafana
+      - type: bind
+        source: ./grafana/provisioning/dashboards
+        target: /etc/grafana/provisioning/dashboards
+      - type: bind
+        source: ./grafana/provisioning/datasources
+        target: /etc/grafana/provisioning/datasources
+    env_file:
+      - ./grafana/grafana.env
+    depends_on:
+      - prometheus
+    ports:
+      - target: 3000
+        published: 3000
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      front-tier:
+        external: true
+      back-tier:
+        external: true
+    secrets:
+      - grafana_admin_password
+    labels:
+      group: "monitoring"
+
+  nodeexporter:
+    image: prom/node-exporter:v1.5.0
+    hostname: nodeexporter
+    volumes:
+      - type: bind
+        source: /proc
+        target: /host/proc
+        read_only: true
+      - type: bind
+        source: /sys
+        target: /host/sys
+        read_only: true
+      - type: bind
+        source: /
+        target: /rootfs
+        read_only: true
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host
