@@ -11,15 +11,23 @@ services:
         condition: on-failure
         delay: 5s
         max_attempts: 3
+    container_name: jellyfin
     hostname: jellyfin
     env_file:
-      - /var/data/config/jellyfin/jellyfin.env
+      - .env
     volumes:
+      # Media directory mounts
+      - /media/disk1/movies:/movies:ro
+      - /media/disk1/tvshows:/tvshows:ro
+      - /media/disk1/books:/books:ro
+      - /media/disk1/music:/music:ro
+      - /media/disk1/photos:/photos:ro
+      - /media/disk1/tutorials:/tutorials:ro
+      # Jellyfin related
+      - config:/config
+      - cache:/cache
+      - ./config/network.xml:/config/config/network.xml
       - /etc/localtime:/etc/localtime:ro
-      - /var/data/jellyfin:/config
-      - /var/data/runtime/jellyfin:/cache
-      - /var/data/jellyfin/jellyfin:/config
-      - /srv/data/:/data
     deploy:
       labels:
         # traefik common

@@ -4,6 +4,14 @@ version: '3.8'
 services:
   prometheus:
     image: prom/prometheus:v2.40.3
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
     hostname: prometheus
     volumes:
       - type: bind
@@ -22,24 +30,21 @@ services:
       - '--web.external-url=/prometheus/'
     env_file:
       - ./prometheus/prometheus.env
-    ports:
-      - target: 9090
-        published: 9090
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
     networks:
-      front-tier:
-        external: true
+      - traefik_public
       back-tier:
         external: true
-    labels:
-      group: "monitoring"
-    secrets: []
 
   grafana:
     image: grafana/grafana:9.2.6
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
     hostname: grafana
     volumes:
       - type: volume
@@ -55,26 +60,28 @@ services:
       - ./grafana/grafana.env
     depends_on:
       - prometheus
-    ports:
-      - target: 3000
-        published: 3000
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
     networks:
-      front-tier:
-        external: true
+      - traefik_public
       back-tier:
         external: true
     secrets:
       - grafana_admin_password
-    labels:
-      group: "monitoring"
 
   nodeexporter:
     image: prom/node-exporter:v1.5.0
+    deploy:
+      replicas: 1
+      mode: global
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
     hostname: nodeexporter
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
     volumes:
       - type: bind
         source: /proc
@@ -88,8 +95,12 @@ services:
         source: /
         target: /rootfs
         read_only: true
-    command:
-      - '--path.procfs=/host/proc'
-      - '--path.rootfs=/rootfs'
-      - '--path.sysfs=/host/sys'
-      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host
+    depends_on:
+      - prometheus
+    expose:
+      - 9100
+    networks:
+      - back-tier
+    restart: unless-stopped
+    labels:
+      group: "monitoring"

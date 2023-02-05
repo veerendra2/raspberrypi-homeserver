@@ -2,16 +2,21 @@ version: "3.7"
 services:
   postgres:
     image: arm64v8/postgres:14-alpine
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
     hostname: postgres
-    restart_policy:
-      condition: on-failure
     env_file:
       - .env_postgres
     volumes:
       - /media/disk2/postgres:/var/lib/postgresql/data:rw
     networks:
-      back-tier:
-        external: true
+      - internal
     secrets:
       - postgres_db
       - postgres_password
@@ -19,9 +24,15 @@ services:
 
   redis:
     image: redis:7.0.5-alpine
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
     hostname: redis
-    restart_policy:
-      condition: on-failure
     command:  [
     "sh", "-c",
     '
@@ -34,16 +45,21 @@ services:
     volumes:
       - redis:/data
     networks:
-      back-tier:
-        external: true
+      - internal
     secrets:
       - redis_host_password
 
   nextcloud:
     image: arm64v8/nextcloud:25.0.1-apache
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
     hostname: nextcloud
-    restart_policy:
-      condition: on-failure
     env_file:
       - .env_nextcloud
     ports:
@@ -54,12 +70,10 @@ services:
       - postgres
       - redis
     networks:
-      front-tier:
-        external: true
-      back-tier:
-        external: true
+      - internal
+      - traefik_public
     volumes:
-      - nextcloud:/var/www/html
+      - /media/disk2/nextcloud:/var/www/html
     secrets:
       - nextcloud_admin_password
       - nextcloud_admin_user
@@ -68,11 +82,15 @@ services:
       - postgres_user
       - redis_host_password
 
+
 networks:
-  front-tier:
+  traefik_public:
     external: true
-  back-tier:
-    external: true
+  internal:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.16.12.0/24
 
 secrets:
   nextcloud_admin_password:
@@ -89,5 +107,4 @@ secrets:
     file: ./secrets/redis_host_password.txt
 
 volumes:
-  nextcloud:
   redis:

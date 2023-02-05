@@ -2,9 +2,15 @@ version: "3.8"
 services:
   pihole:
     image: pihole/pihole:2022.11.1
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
     hostname: pihole
-    restart_policy:
-      condition: unless-stopped
     security_opt:
       - cap_add: NET_ADMIN
     ports:
@@ -12,9 +18,9 @@ services:
       - "53:53/udp"
     expose:
       - 80
-    environment:
-      PIHOLE_DNS_1: 127.0.0.1
-      PIHOLE_DNS_2: 1.1.1.1
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
     volumes:
       - type: volume
         source: pihole

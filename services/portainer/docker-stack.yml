@@ -1,0 +1,56 @@
+version: '3.2'
+
+services:
+  portainer:
+    image: portainer/portainer-ce
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+    container_name: portainer
+    hostname: portainer
+    userns_mode: "host"
+    command:
+      - -H
+      - unix:///var/run/docker.sock
+      - --admin-password-file=/run/secrets/portainer_admin_password
+    ports:
+      - "9000:9000"
+      - "8000:8000"
+    volumes:
+      - /var/data/portainer:/data
+    networks:
+      - traefik_public
+      labels:
+        # traefik
+        - traefik.enable=true
+        - traefik.docker.network=traefik_public
+
+        # traefikv1
+        - traefik.frontend.rule=Host:portainer.example.com
+        - traefik.port=9000
+        # uncomment if you want to protect portainer with traefik-forward-auth using traefikv1
+        # - traefik.frontend.auth.forward.address=http://traefik-forward-auth:4181
+        # - traefik.frontend.auth.forward.authResponseHeaders=X-Forwarded-User
+        # - traefik.frontend.auth.forward.trustForwardHeader=true
+
+        # traefikv2
+        - "traefik.http.routers.portainer.rule=Host(`portainer.example.com`)"
+        - "traefik.http.routers.portainer.entrypoints=https"
+        - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+        # uncomment if you want to protect portainer with traefik-forward-auth using traefikv2
+        # - "traefik.http.routers.portainer.middlewares=forward-auth"
+    secrets:
+      - portainer_admin_password
+
+secrets:
+  portainer_admin_password:
+    file: ./secrets/portainer_admin_password.txt
+
+networks:
+  traefik_public:
+    external: true
