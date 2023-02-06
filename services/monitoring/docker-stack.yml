@@ -1,6 +1,19 @@
 ---
 version: '3.8'
 
+networks:
+  traefik_public:
+    external: true
+  internal:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.16.33.0/24
+
+volumes:
+  prometheus_data:
+  grafana_data:
+
 services:
   prometheus:
     image: prom/prometheus:v2.40.3
@@ -14,12 +27,8 @@ services:
         max_attempts: 3
     hostname: prometheus
     volumes:
-      - type: bind
-        source: ./prometheus
-        target: /etc/prometheus
-      - type: volume
-        source: prometheus_data
-        target: /prometheus
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -32,8 +41,7 @@ services:
       - ./prometheus/prometheus.env
     networks:
       - traefik_public
-      back-tier:
-        external: true
+      - internal
 
   grafana:
     image: grafana/grafana:9.2.6
@@ -47,23 +55,16 @@ services:
         max_attempts: 3
     hostname: grafana
     volumes:
-      - type: volume
-        source: grafana_data
-        target: /var/lib/grafana
-      - type: bind
-        source: ./grafana/provisioning/dashboards
-        target: /etc/grafana/provisioning/dashboards
-      - type: bind
-        source: ./grafana/provisioning/datasources
-        target: /etc/grafana/provisioning/datasources
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
     env_file:
       - ./grafana/grafana.env
     depends_on:
       - prometheus
     networks:
       - traefik_public
-      back-tier:
-        external: true
+      - internal
     secrets:
       - grafana_admin_password
 
@@ -83,24 +84,88 @@ services:
       - '--path.sysfs=/host/sys'
       - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
     volumes:
-      - type: bind
-        source: /proc
-        target: /host/proc
-        read_only: true
-      - type: bind
-        source: /sys
-        target: /host/sys
-        read_only: true
-      - type: bind
-        source: /
-        target: /rootfs
-        read_only: true
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
     depends_on:
       - prometheus
-    expose:
-      - 9100
     networks:
-      - back-tier
-    restart: unless-stopped
-    labels:
-      group: "monitoring"
+      - internal
+
+  # Caution: cadvisor is reletivly CPU hunger.
+  # https://github.com/google/cadvisor/issues/2523
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor-arm64:v0.46.0
+    deploy:
+      replicas: 1
+      mode: global
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+    container_name: cadvisor
+    hostname: cadvisor
+    privileged: true
+    userns_mode: "host"
+    devices:
+      - /dev/kmsg:/dev/kmsg
+    volumes:
+      - /:/rootfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+      - /sys/fs/cgroup:/cgroup:ro
+      - /dev/disk/:/dev/disk:ro
+    command:
+      - '-housekeeping_interval=15s'
+      - '-docker_only=true'
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - prometheus
+    networks:
+      - internal
+
+  ping:
+    image: prom/blackbox-exporter:v0.22.0
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+    container_name: blackbox_exporter
+    hostname: blackbox_exporter
+    tty: true
+    stdin_open: true
+    dns:
+      - 1.1.1.1
+    depends_on:
+      - prometheus
+    volumes:
+      - ./blackbox:/config/
+    command:
+      - '--config.file=/config/blackbox.yml'
+    networks:
+      - internal
+
+  speedtest:
+    image: ghcr.io/miguelndecarvalho/speedtest-exporter:v3.5.3
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+    container_name: speedtest
+    hostname: speedtest
+    dns:
+      - 1.1.1.1
+    depends_on:
+      - prometheus
+    networks:
+      - internal
