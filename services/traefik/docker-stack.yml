@@ -1,9 +1,30 @@
 version: "3.2"
 
+networks:
+  traefik_public:
+    external: true
+
 services:
-  app:
-    image: traefik:v2.4
-    env_file: /var/data/config/traefikv2/traefikv2.env
+  traefik:
+    image: traefik:v2.9.6
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - "traefik.docker.network=traefik_public"
+        - "traefik.http.routers.api.rule=Host(`traefik.example.com`)"
+        - "traefik.http.routers.api.entrypoints=https"
+        - "traefik.http.routers.api.tls=true"
+        - "traefik.http.routers.api.tls.certresolver=main"
+        - "traefik.http.routers.api.service=api@internal"
+        - "traefik.http.services.dummy.loadbalancer.server.port=9999"
+    env_file:
+      .env
     ports:
       - target: 80
         published: 80
@@ -18,29 +39,7 @@ services:
         protocol: tcp
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /var/data/config/traefikv2:/etc/traefik
-      - /var/data/traefikv2/traefik.log:/traefik.log
-      - /var/data/traefikv2/acme.json:/acme.json
+      - ./config:/etc/traefik
+      - ./ssl:
     networks:
       - traefik_public
-    deploy:
-      mode: global
-      labels:
-        - "traefik.docker.network=traefik_public"
-        - "traefik.http.routers.api.rule=Host(`traefik.example.com`)"
-        - "traefik.http.routers.api.entrypoints=https"
-        - "traefik.http.routers.api.tls.domains[0].main=example.com"
-        - "traefik.http.routers.api.tls.domains[0].sans=*.example.com"
-        - "traefik.http.routers.api.tls=true"
-        - "traefik.http.routers.api.tls.certresolver=main"
-        - "traefik.http.routers.api.service=api@internal"
-        - "traefik.http.services.dummy.loadbalancer.server.port=9999"
-
-        # uncomment this to enable forward authentication on the traefik api/dashboard
-        #- "traefik.http.routers.api.middlewares=forward-auth"
-      placement:
-        constraints: [node.role == manager]
-
-networks:
-  traefik_public:
-    external: true

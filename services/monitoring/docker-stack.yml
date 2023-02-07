@@ -14,6 +14,10 @@ volumes:
   prometheus_data:
   grafana_data:
 
+secrets:
+  grafana_admin_password:
+    file: ./secrets/grafana_admin_password.txt
+
 services:
   prometheus:
     image: prom/prometheus:v2.40.3
@@ -23,7 +27,7 @@ services:
         constraints: [node.role == manager]
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 30s
         max_attempts: 3
     hostname: prometheus
     volumes:
@@ -51,7 +55,7 @@ services:
         constraints: [node.role == manager]
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 30s
         max_attempts: 3
     hostname: grafana
     volumes:
@@ -75,7 +79,7 @@ services:
       mode: global
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 30s
         max_attempts: 3
     hostname: nodeexporter
     command:
@@ -101,9 +105,8 @@ services:
       mode: global
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 30s
         max_attempts: 3
-    container_name: cadvisor
     hostname: cadvisor
     privileged: true
     userns_mode: "host"
@@ -135,8 +138,7 @@ services:
         constraints: [node.role == manager]
       restart_policy:
         condition: on-failure
-        delay: 5s
-    container_name: blackbox_exporter
+        delay: 30s
     hostname: blackbox_exporter
     tty: true
     stdin_open: true
@@ -159,9 +161,8 @@ services:
         constraints: [node.role == manager]
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 30s
         max_attempts: 3
-    container_name: speedtest
     hostname: speedtest
     dns:
       - 1.1.1.1

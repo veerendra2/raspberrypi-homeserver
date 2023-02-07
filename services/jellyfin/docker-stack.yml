@@ -2,16 +2,15 @@ version: "3.0"
 
 services:
   jellyfin:
-    image: jellyfin/jellyfin
+    image: jellyfin/jellyfin:10.8.9
     deploy:
       replicas: 1
       placement:
         constraints: [node.role == manager]
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 30s
         max_attempts: 3
-    container_name: jellyfin
     hostname: jellyfin
     env_file:
       - .env

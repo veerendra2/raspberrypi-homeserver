@@ -1,4 +1,11 @@
-version: "3.7"
+version: '3.8'
+
+networks:
+  trafik_public:
+    external: true
+
+volumes:
+  filebrowser:
 
 services:
   filebrowser:
@@ -9,7 +16,7 @@ services:
         constraints: [node.role == manager]
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 30s
         max_attempts: 3
     hostname: filebrowser
     env_file:
@@ -21,9 +28,3 @@ services:
     networks:
       trafik_public:
 
-networks:
-  trafik_public:
-    external: true
-
-volumes:
-  filebrowser:

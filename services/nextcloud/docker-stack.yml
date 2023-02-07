@@ -1,4 +1,31 @@
 version: "3.7"
+
+networks:
+  traefik_public:
+    external: true
+  internal:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.16.207.0/24
+
+secrets:
+  nextcloud_admin_password:
+    file: ./secrets/nextcloud_admin_password.txt
+  nextcloud_admin_user:
+    file: ./secrets/nextcloud_admin_user.txt
+  postgres_db:
+    file: ./secrets/postgres_db.txt
+  postgres_password:
+    file: ./secrets/postgres_password.txt
+  postgres_user:
+    file: ./secrets/postgres_user.txt
+  redis_host_password:
+    file: ./secrets/redis_host_password.txt
+
+volumes:
+  redis:
+
 services:
   postgres:
     image: arm64v8/postgres:14-alpine
@@ -50,20 +77,18 @@ services:
       - redis_host_password
 
   nextcloud:
-    image: arm64v8/nextcloud:25.0.1-apache
+    image: arm64v8/nextcloud:25.0.3-apache
     deploy:
       replicas: 1
       placement:
         constraints: [node.role == manager]
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 30s
         max_attempts: 3
     hostname: nextcloud
     env_file:
       - .env_nextcloud
-    ports:
-      - 80:80
     links:
       - postgres
     depends_on:
@@ -82,29 +107,3 @@ services:
       - postgres_user
       - redis_host_password
 
-
-networks:
-  traefik_public:
-    external: true
-  internal:
-    driver: overlay
-    ipam:
-      config:
-        - subnet: 172.16.12.0/24
-
-secrets:
-  nextcloud_admin_password:
-    file: ./secrets/nextcloud_admin_password.txt
-  nextcloud_admin_user:
-    file: ./secrets/nextcloud_admin_user.txt
-  postgres_db:
-    file: ./secrets/postgres_db.txt
-  postgres_password:
-    file: ./secrets/postgres_password.txt
-  postgres_user:
-    file: ./secrets/postgres_user.txt
-  redis_host_password:
-    file: ./secrets/redis_host_password.txt
-
-volumes:
-  redis:

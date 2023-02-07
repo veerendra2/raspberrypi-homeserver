@@ -1,0 +1,29 @@
+[global]
+  checkNewVersion = true
+
+[api]
+  dashboard = true
+
+[log]
+  level = "INFO"
+  filePath = "/traefik.log"
+
+[entryPoints.http]
+  address = ":80"
+  [entryPoints.http.http.redirections.entryPoint]
+    to = "https"
+    scheme = "https"
+
+[entryPoints.https]
+  address = ":443"
+  [entryPoints.https.http.tls]
+    certResolver = "main"
+
+[tls.certificates]
+  certFile = "/path/to/domain.cert"
+  keyFile = "/path/to/domain.key"
+
+[providers.docker]
+  endpoint = "unix:///var/run/docker.sock"
+  swarmMode = true
+  watch = true

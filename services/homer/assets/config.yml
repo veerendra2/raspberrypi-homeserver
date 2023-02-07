@@ -50,11 +50,12 @@ services:
     icon: ""
     items:
       - name: "Grafana"
+        type: Ping
         logo: "assets/tools/grafana.png"
         subtitle: "Visualization web application"
         url: "/grafana/"
       - name: "Prometheus"
-        type: Prometheus
+        type: Ping
         logo: "assets/tools/prometheus.png"
         subtitle: "Systems monitoring and alerting tool"
         url: "/prometheus/"
@@ -70,12 +71,12 @@ services:
     icon: ""
     items:
       - name: "Portainer"
-        type: "Portainer"
-        apikey: "ptr_GuwQHmD1DtrBd3iWYUjv/Wqo3zsyRPQnnOoc/t+nN4Y="
+        type: Ping
         logo: "assets/tools/portainer.png"
         subtitle: "Container management UI"
         url: "/portainer/"
       - name: "Filebrowser"
+        type: Ping
         logo: "assets/tools/filebrowser.png"
         subtitle: "File management UI"
         url: "/filebrowser/"
