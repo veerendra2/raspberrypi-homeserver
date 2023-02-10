@@ -5,7 +5,7 @@ networks:
     external: true
 
 services:
-  traefik:
+  proxy:
     image: traefik:v2.9.6
     deploy:
       replicas: 1
@@ -17,8 +17,8 @@ services:
         max_attempts: 3
       labels:
         - "traefik.docker.network=traefik_public"
-        - "traefik.http.routers.api.rule=Host(`traefik.example.com`)"
-        - "traefik.http.routers.api.entrypoints=https"
+        - "traefik.http.routers.api.rule=Host(`192.168.0.120`)"
+        - "traefik.http.routers.api.entrypoints=http"
         - "traefik.http.routers.api.tls=true"
         - "traefik.http.routers.api.tls.certresolver=main"
         - "traefik.http.routers.api.service=api@internal"
@@ -37,9 +37,10 @@ services:
       - target: 8080
         published: 8080
         protocol: tcp
+        mode: host
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/run/docker.sock:/var/run/docker.sock
       - ./config:/etc/traefik
-      - ./ssl:
+      - ./ssl:/etc/ssl
     networks:
       - traefik_public

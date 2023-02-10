@@ -5,7 +5,7 @@
   dashboard = true
 
 [log]
-  level = "INFO"
+  level = "DEBUG"
   filePath = "/traefik.log"
 
 [entryPoints.http]
@@ -16,12 +16,16 @@
 
 [entryPoints.https]
   address = ":443"
-  [entryPoints.https.http.tls]
-    certResolver = "main"
+#  [entryPoints.https.http.tls]
+#    certResolver = "main"
 
-[tls.certificates]
-  certFile = "/path/to/domain.cert"
-  keyFile = "/path/to/domain.key"
+[tls.stores.default.defaultCertificate]
+  certFile = "/etc/ssl/server.pem"
+  keyFile = "/etc/ssl/server.key"
+
+#[tls.certificates]
+#  certFile = "/etc/ssl/server.pem"
+#  keyFile = "/etc/ssl/server.key"
 
 [providers.docker]
   endpoint = "unix:///var/run/docker.sock"
