@@ -16,18 +16,16 @@
 
 [entryPoints.https]
   address = ":443"
-#  [entryPoints.https.http.tls]
-#    certResolver = "main"
 
-[tls.stores.default.defaultCertificate]
-  certFile = "/etc/ssl/server.pem"
-  keyFile = "/etc/ssl/server.key"
-
-#[tls.certificates]
-#  certFile = "/etc/ssl/server.pem"
-#  keyFile = "/etc/ssl/server.key"
+[metrics.prometheus]
+  buckets = [0.1,0.3,1.2,5.0]
+  entryPoint = "metrics"
 
 [providers.docker]
   endpoint = "unix:///var/run/docker.sock"
   swarmMode = true
+  watch = true
+
+[providers.file]
+  filename = "/etc/traefik/static.toml"
   watch = true

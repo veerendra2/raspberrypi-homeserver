@@ -1,7 +1,7 @@
 version: '3.8'
 
 networks:
-  trafik_public:
+  traefik_public:
     external: true
 
 volumes:
@@ -18,6 +18,12 @@ services:
         condition: on-failure
         delay: 30s
         max_attempts: 3
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik_public"
+      - "traefik.web.port=8080"
+      - "traefik.http.routers.filebrowser.service=filebrowser"
+      - "traefik.http.routers.filebrowser.rule=Path(`/filebrowser`)"
     hostname: filebrowser
     env_file:
       - .env
@@ -26,5 +32,5 @@ services:
       - /media/disk2:/data/disk2
       - filebrowser:/config
     networks:
-      trafik_public:
+      traefik_public:
 

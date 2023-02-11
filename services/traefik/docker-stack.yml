@@ -17,7 +17,7 @@ services:
         max_attempts: 3
       labels:
         - "traefik.docker.network=traefik_public"
-        - "traefik.http.routers.api.rule=Host(`192.168.0.120`)"
+        #- "traefik.http.routers.api.rule=Host(`192.168.0.120`)"
         - "traefik.http.routers.api.entrypoints=http"
         - "traefik.http.routers.api.tls=true"
         - "traefik.http.routers.api.tls.certresolver=main"

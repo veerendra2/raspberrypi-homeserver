@@ -1,7 +1,7 @@
 version: "3.8"
 
 networks:
-  trafik_public:
+  traefik_public:
     external: true
 
 services:
@@ -15,10 +15,16 @@ services:
         condition: on-failure
         delay: 30s
         max_attempts: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik_public"
+        - "traefik.web.port=8080"
+        - "traefik.http.routers.homer.service=homer"
+        - "traefik.http.routers.homer.rule=Path(`/`)"
     hostname: homer
     env_file:
       - .env
     volumes:
       - ./assets/:/www/assets
     networks:
-      trafik_public:
+      traefik_public:

@@ -59,6 +59,11 @@ services:
         logo: "assets/tools/prometheus.png"
         subtitle: "Systems monitoring and alerting tool"
         url: "/prometheus/"
+      - name: "Traefik"
+        type: Ping
+        logo: "assets/tools/traefik.png"
+        subtitle: "Traefik Dahsboard"
+        url: "/dahsboard/"
   - name: DNS
     icon: ""
     items:
