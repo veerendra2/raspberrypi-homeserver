@@ -21,9 +21,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik_public"
-      - "traefik.web.port=8080"
-      - "traefik.http.routers.filebrowser.service=filebrowser"
+      - "traefik.http.routers.api.rule=Host(`192.168.0.120`)"
       - "traefik.http.routers.filebrowser.rule=Path(`/filebrowser`)"
+      - "traefik.http.services.filebrowser.loadbalancer.server.port=8080"
     hostname: filebrowser
     env_file:
       - .env

@@ -17,15 +17,7 @@
 [entryPoints.https]
   address = ":443"
 
-[metrics.prometheus]
-  buckets = [0.1,0.3,1.2,5.0]
-  entryPoint = "metrics"
-
 [providers.docker]
   endpoint = "unix:///var/run/docker.sock"
   swarmMode = true
-  watch = true
-
-[providers.file]
-  filename = "/etc/traefik/static.toml"
   watch = true
