@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.2"
 
 networks:
   traefik_public:
@@ -18,8 +18,9 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=traefik_public"
-        - "traefik.http.routers.homer.rule=Path(`/`)"
+        - "traefik.http.routers.homer.rule=Host(`192.168.0.120`) && Path(`/`)"
         - "traefik.http.services.homer.loadbalancer.server.port=8080"
+        - "traefik.http.services.homer.loadbalancer.server.scheme=http"
     hostname: homer
     env_file:
       - .env
