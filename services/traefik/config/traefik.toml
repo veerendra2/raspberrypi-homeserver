@@ -4,9 +4,11 @@
 [api]
   dashboard = true
 
+[accessLog]
+
+
 [log]
   level = "DEBUG"
-  filePath = "/traefik.log"
 
 [entryPoints.http]
   address = ":80"

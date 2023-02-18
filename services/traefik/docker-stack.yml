@@ -16,8 +16,9 @@ services:
         delay: 30s
         max_attempts: 3
       labels:
+        - "traefik.enable=true"
         - "traefik.docker.network=traefik_public"
-        - "traefik.http.routers.api.rule=Host(`192.168.0.120`)"
+        - "traefik.http.routers.api.rule=PathPrefix(`/dashboard`) || PathPrefix(`/api`)"
         - "traefik.http.routers.api.entrypoints=https"
         - "traefik.http.routers.api.tls=true"
         - "traefik.http.routers.api.service=api@internal"
@@ -33,12 +34,8 @@ services:
         published: 443
         protocol: tcp
         mode: host
-      - target: 8080
-        published: 8080
-        protocol: tcp
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config:/etc/traefik
-      - ./ssl:/etc/ssl
     networks:
       - traefik_public
