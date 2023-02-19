@@ -25,8 +25,11 @@ services:
       labels:
         - traefik.enable=true
         - traefik.docker.network=traefik_public
-        - "traefik.http.routers.portainer.rule=Path(`/portainer`)"
         - "traefik.http.routers.portainer.tls=true"
+        - "traefik.http.routers.portainer.rule=PathPrefix(`/portainer`)"
+        #- "traefik.http.middlewares.portainer.replacepath.path=/"
+        - "traefik.http.middlewares.portainer.stripprefix.prefixes=/portainer"
+        #- "traefik.http.middlewares.portainer.stripprefix.forceSlash=false"
         - "traefik.http.services.portainer.loadbalancer.server.port=9000"
     hostname: portainer
     command:

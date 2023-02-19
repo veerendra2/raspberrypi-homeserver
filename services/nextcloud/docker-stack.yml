@@ -3,11 +3,8 @@ version: "3.7"
 networks:
   traefik_public:
     external: true
-  internal:
-    driver: overlay
-    ipam:
-      config:
-        - subnet: 172.16.202.0/24
+  databases_net:
+    external: true
 
 secrets:
   nextcloud_admin_password:
@@ -23,59 +20,8 @@ secrets:
   redis_host_password:
     file: ./secrets/redis_host_password.txt
 
-volumes:
-  redis:
 
 services:
-  postgres:
-    image: arm64v8/postgres:14-alpine
-    deploy:
-      replicas: 1
-      placement:
-        constraints: [node.role == manager]
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-    hostname: postgres
-    env_file:
-      - .env_postgres
-    volumes:
-      - /media/disk2/postgres:/var/lib/postgresql/data:rw
-    networks:
-      - internal
-    secrets:
-      - postgres_db
-      - postgres_password
-      - postgres_user
-
-  redis:
-    image: redis:7.0.5-alpine
-    deploy:
-      replicas: 1
-      placement:
-        constraints: [node.role == manager]
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-    hostname: redis
-    command:  [
-    "sh", "-c",
-    '
-    docker-entrypoint.sh
-    --requirepass "$$(cat $$REDIS_PASSWORD_FILE)"
-    '
-    ]
-    env_file:
-      - .env_redis
-    volumes:
-      - redis:/data
-    networks:
-      - internal
-    secrets:
-      - redis_host_password
-
   nextcloud:
     image: arm64v8/nextcloud:25.0.3-apache
     deploy:
@@ -101,7 +47,7 @@ services:
       - postgres
       - redis
     networks:
-      - internal
+      - databases_net
       - traefik_public
     volumes:
       - /media/disk2/nextcloud:/var/www/html

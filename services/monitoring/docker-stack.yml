@@ -48,7 +48,7 @@ services:
       - '--web.enable-lifecycle'
       - '--web.external-url=/prometheus/'
     env_file:
-      - ./prometheus/prometheus.env
+      - ./prometheus/.env_prometheus
     networks:
       - traefik_public
       - internal
@@ -75,7 +75,7 @@ services:
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
     env_file:
-      - ./grafana/grafana.env
+      - ./grafana/.env_grafana
     depends_on:
       - prometheus
     networks:

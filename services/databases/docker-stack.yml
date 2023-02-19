@@ -1,0 +1,64 @@
+version: "3.7"
+
+networks:
+  traefik_public:
+    external: true
+  net:
+    driver: overlay
+    attachable: true
+    ipam:
+      config:
+        - subnet: 172.16.202.0/24
+
+volumes:
+  redis:
+
+services:
+  postgres:
+    image: arm64v8/postgres:14-alpine
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+    hostname: postgres
+    env_file:
+      - .env_postgres
+    volumes:
+      - /media/disk2/postgres:/var/lib/postgresql/data:rw
+    networks:
+      - net
+    secrets:
+      - postgres_db
+      - postgres_password
+      - postgres_user
+
+  redis:
+    image: redis:7.0.5-alpine
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+    hostname: redis
+    command:  [
+    "sh", "-c",
+    '
+    docker-entrypoint.sh
+    --requirepass "$$(cat $$REDIS_PASSWORD_FILE)"
+    '
+    ]
+    env_file:
+      - .env_redis
+    volumes:
+      - redis:/data
+    networks:
+      - net
+    secrets:
+      - redis_host_password

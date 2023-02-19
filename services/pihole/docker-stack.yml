@@ -64,8 +64,6 @@ services:
         condition: on-failure
         delay: 30s
         max_attempts: 3
-    security_opt:
-      - cap_add: NET_ADMIN
     networks:
       host:
         mode: host
