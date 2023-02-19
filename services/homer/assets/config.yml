@@ -63,7 +63,7 @@ services:
         type: Ping
         logo: "assets/tools/traefik.png"
         subtitle: "Traefik Dahsboard"
-        url: "/dashboard/#/"
+        url: "/dashboard/"
   - name: DNS
     icon: ""
     items:

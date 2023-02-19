@@ -18,7 +18,7 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=traefik_public"
-        - "traefik.http.routers.api.rule=PathPrefix(`/dashboard`) || PathPrefix(`/api`)"
+        - "traefik.http.routers.api.rule=Host(`192.168.0.120`) && PathPrefix(`/dashboard`) || Host(`192.168.0.120`) && PathPrefix(`/api`)"
         - "traefik.http.routers.api.entrypoints=https"
         - "traefik.http.routers.api.tls=true"
         - "traefik.http.routers.api.service=api@internal"

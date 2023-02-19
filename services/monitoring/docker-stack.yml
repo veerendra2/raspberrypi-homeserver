@@ -4,7 +4,7 @@ version: '3.8'
 networks:
   traefik_public:
     external: true
-  internal:
+  monitoring:
     driver: overlay
     ipam:
       config:
@@ -20,7 +20,7 @@ secrets:
 
 services:
   prometheus:
-    image: prom/prometheus:v2.40.3
+    image: prom/prometheus:v2.42.0
     deploy:
       replicas: 1
       placement:
@@ -29,6 +29,12 @@ services:
         condition: on-failure
         delay: 30s
         max_attempts: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik_public"
+        - "traefik.http.routers.prometheus.rule=PathPrefix(`/prometheus`)"
+        - "traefik.http.routers.prometheus.tls=true"
+        - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
     hostname: prometheus
     volumes:
       - ./prometheus:/etc/prometheus
@@ -45,10 +51,10 @@ services:
       - ./prometheus/prometheus.env
     networks:
       - traefik_public
-      - internal
+      - monitoring
 
   grafana:
-    image: grafana/grafana:9.2.6
+    image: grafana/grafana:9.3.6
     deploy:
       replicas: 1
       placement:
@@ -57,6 +63,12 @@ services:
         condition: on-failure
         delay: 30s
         max_attempts: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik_public"
+        - "traefik.http.routers.grafana.rule=PathPrefix(`/grafana/`)"
+        - "traefik.http.routers.grafana.tls=true"
+        - "traefik.http.services.grafana.loadbalancer.server.port=3000"
     hostname: grafana
     volumes:
       - grafana_data:/var/lib/grafana
@@ -68,19 +80,20 @@ services:
       - prometheus
     networks:
       - traefik_public
-      - internal
+      - monitoring
     secrets:
       - grafana_admin_password
 
   nodeexporter:
     image: prom/node-exporter:v1.5.0
     deploy:
-      replicas: 1
       mode: global
       restart_policy:
         condition: on-failure
         delay: 30s
         max_attempts: 3
+      labels:
+        - "traefik.http.services.node-exporter.loadbalancer.server.port=9100"
     hostname: nodeexporter
     command:
       - '--path.procfs=/host/proc'
@@ -94,24 +107,21 @@ services:
     depends_on:
       - prometheus
     networks:
-      - internal
+      - monitoring
 
   # Caution: cadvisor is reletivly CPU hunger.
   # https://github.com/google/cadvisor/issues/2523
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor-arm64:v0.46.0
+    image: gcr.io/cadvisor/cadvisor-arm64:v0.47.1
     deploy:
-      replicas: 1
       mode: global
       restart_policy:
         condition: on-failure
         delay: 30s
         max_attempts: 3
+      labels:
+        - "traefik.http.services.cadvisor.loadbalancer.server.port=8080"
     hostname: cadvisor
-    privileged: true
-    userns_mode: "host"
-    devices:
-      - /dev/kmsg:/dev/kmsg
     volumes:
       - /:/rootfs:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -123,15 +133,13 @@ services:
     command:
       - '-housekeeping_interval=15s'
       - '-docker_only=true'
-    security_opt:
-      - no-new-privileges:true
     depends_on:
       - prometheus
     networks:
-      - internal
+      - monitoring
 
   ping:
-    image: prom/blackbox-exporter:v0.22.0
+    image: prom/blackbox-exporter:v0.23.0
     deploy:
       replicas: 1
       placement:
@@ -139,6 +147,8 @@ services:
       restart_policy:
         condition: on-failure
         delay: 30s
+      labels:
+        - "traefik.http.services.node-exporter.loadbalancer.server.port=9115"
     hostname: blackbox_exporter
     tty: true
     stdin_open: true
@@ -151,7 +161,7 @@ services:
     command:
       - '--config.file=/config/blackbox.yml'
     networks:
-      - internal
+      - monitoring
 
   speedtest:
     image: ghcr.io/miguelndecarvalho/speedtest-exporter:v3.5.3
@@ -163,10 +173,12 @@ services:
         condition: on-failure
         delay: 30s
         max_attempts: 3
+      labels:
+        - "traefik.http.services.speedtest-exporter.loadbalancer.server.port=9798"
     hostname: speedtest
     dns:
       - 1.1.1.1
     depends_on:
       - prometheus
     networks:
-      - internal
+      - monitoring
