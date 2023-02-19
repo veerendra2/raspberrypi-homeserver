@@ -4,11 +4,11 @@ version: '3.8'
 networks:
   traefik_public:
     external: true
-  monitoring:
+  internal:
     driver: overlay
     ipam:
       config:
-        - subnet: 172.16.33.0/24
+        - subnet: 172.16.201.0/24
 
 volumes:
   prometheus_data:
@@ -51,7 +51,7 @@ services:
       - ./prometheus/prometheus.env
     networks:
       - traefik_public
-      - monitoring
+      - internal
 
   grafana:
     image: grafana/grafana:9.3.6
@@ -80,7 +80,7 @@ services:
       - prometheus
     networks:
       - traefik_public
-      - monitoring
+      - internal
     secrets:
       - grafana_admin_password
 
@@ -107,7 +107,7 @@ services:
     depends_on:
       - prometheus
     networks:
-      - monitoring
+      - internal
 
   # Caution: cadvisor is reletivly CPU hunger.
   # https://github.com/google/cadvisor/issues/2523
@@ -136,7 +136,7 @@ services:
     depends_on:
       - prometheus
     networks:
-      - monitoring
+      - internal
 
   ping:
     image: prom/blackbox-exporter:v0.23.0
@@ -161,7 +161,7 @@ services:
     command:
       - '--config.file=/config/blackbox.yml'
     networks:
-      - monitoring
+      - internal
 
   speedtest:
     image: ghcr.io/miguelndecarvalho/speedtest-exporter:v3.5.3
@@ -181,4 +181,4 @@ services:
     depends_on:
       - prometheus
     networks:
-      - monitoring
+      - internal

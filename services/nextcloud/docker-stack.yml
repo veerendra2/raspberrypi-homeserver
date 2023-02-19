@@ -7,7 +7,7 @@ networks:
     driver: overlay
     ipam:
       config:
-        - subnet: 172.16.207.0/24
+        - subnet: 172.16.202.0/24
 
 secrets:
   nextcloud_admin_password:
@@ -86,6 +86,12 @@ services:
         condition: on-failure
         delay: 30s
         max_attempts: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik_public"
+        - "traefik.http.routers.nextcloud.rule=PathPrefix(`/nextcloud`)"
+        - "traefik.http.routers.nextcloud.tls=true"
+        - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
     hostname: nextcloud
     env_file:
       - .env_nextcloud
