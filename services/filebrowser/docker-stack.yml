@@ -21,12 +21,12 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=traefik_public"
-        - "traefik.http.routers.filebrowser.rule=PathPrefix(`/filebrowser`)"
+        - "traefik.http.routers.filebrowser.rule=PathPrefix(`/filebrowser{regex:$$|/.*}`)"
         - "traefik.http.routers.filebrowser.tls=true"
         - "traefik.http.services.filebrowser.loadbalancer.server.port=8080"
     hostname: filebrowser
     env_file:
-      - .env
+      - .env_filebrowser
     volumes:
       - /media/disk1:/data/disk1
       - /media/disk2:/data/disk2

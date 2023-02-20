@@ -1,12 +1,8 @@
 version: "3.2"
 
 networks:
-  public:
-    driver: overlay
-    attachable: true
-    ipam:
-      config:
-        - subnet: 172.16.200.0/24
+  traefik_public:
+    external: true
 
 services:
   proxy:
