@@ -1,0 +1,36 @@
+version: "3.2"
+
+networks:
+  traefik_public:
+    external: true
+
+volumes:
+  filebrowser:
+
+services:
+  filebrowser:
+    image: hurlenko/filebrowser:v2.23.0
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik_public"
+        - "traefik.http.routers.filebrowser.rule=PathPrefix(`/filebrowser`)"
+        - "traefik.http.routers.filebrowser.tls=true"
+        - "traefik.http.services.filebrowser.loadbalancer.server.port=8080"
+    hostname: filebrowser
+    env_file:
+      - .env_filebrowser
+    volumes:
+      - /media/disk1:/data/disk1
+      - /media/disk2:/data/disk2
+      - filebrowser:/config
+    networks:
+      traefik_public:
+

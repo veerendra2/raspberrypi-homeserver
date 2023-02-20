@@ -1,0 +1,60 @@
+version: "3.7"
+
+networks:
+  traefik_public:
+    external: true
+  databases_net:
+    external: true
+
+secrets:
+  nextcloud_admin_password:
+    file: ../databases/secrets/nextcloud_admin_password.txt
+  nextcloud_admin_user:
+    file: ../databases/secrets/nextcloud_admin_user.txt
+  postgres_db:
+    file: ../databases/secrets/postgres_db.txt
+  postgres_password:
+    file: ../databases/secrets/postgres_password.txt
+  postgres_user:
+    file: ../databases/secrets/postgres_user.txt
+  redis_host_password:
+    file: ../databases/secrets/redis_host_password.txt
+
+services:
+  nextcloud:
+    image: arm64v8/nextcloud:25.0.3-apache
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik_public"
+        - "traefik.http.routers.nextcloud.rule=PathPrefix(`/nextcloud`)"
+        - "traefik.http.routers.nextcloud.tls=true"
+        - "traefik.http.routers.nextcloud.middlewares=nextcloud-stripprefix"
+        - "traefik.http.middlewares.nextcloud-stripprefix.stripprefix.prefixes=/nextcloud"
+        - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
+    hostname: nextcloud
+    env_file:
+      - .env_nextcloud
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - databases_net
+      - traefik_public
+    volumes:
+      - /media/disk2/nextcloud:/var/www/html
+    secrets:
+      - nextcloud_admin_password
+      - nextcloud_admin_user
+      - postgres_db
+      - postgres_password
+      - postgres_user
+      - redis_host_password
+

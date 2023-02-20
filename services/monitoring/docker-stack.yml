@@ -1,0 +1,186 @@
+---
+version: '3.8'
+
+networks:
+  traefik_public:
+    external: true
+  internal:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.16.201.0/24
+
+volumes:
+  prometheus_data:
+  grafana_data:
+
+secrets:
+  grafana_admin_password:
+    file: ./secrets/grafana_admin_password.txt
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.42.0
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik_public"
+        - "traefik.http.routers.prometheus.rule=PathPrefix(`/prometheus`)"
+        - "traefik.http.routers.prometheus.tls=true"
+        - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+    hostname: prometheus
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=800h' # 30 Days
+      - '--web.enable-lifecycle'
+      - '--web.external-url=/prometheus/'
+    env_file:
+      - ./prometheus/.env_prometheus
+    networks:
+      - traefik_public
+      - internal
+
+  grafana:
+    image: grafana/grafana:9.3.6
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=traefik_public"
+        - "traefik.http.routers.grafana.rule=PathPrefix(`/grafana`)"
+        - "traefik.http.routers.grafana.tls=true"
+        - "traefik.http.routers.grafana.middlewares=grafana-stripprefix"
+        - "traefik.http.middlewares.grafana-stripprefix.stripprefix.prefixes=/grafana"
+        - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+    hostname: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+    env_file:
+      - ./grafana/.env_grafana
+    depends_on:
+      - prometheus
+    networks:
+      - traefik_public
+      - internal
+    secrets:
+      - grafana_admin_password
+
+  nodeexporter:
+    image: prom/node-exporter:v1.5.0
+    deploy:
+      mode: global
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - "traefik.enable=false"
+    hostname: nodeexporter
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    depends_on:
+      - prometheus
+    networks:
+      - internal
+
+  # Caution: cadvisor is reletivly CPU hunger.
+  # https://github.com/google/cadvisor/issues/2523
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor-arm64:v0.47.1
+    deploy:
+      mode: global
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - "traefik.enable=false"
+    hostname: cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
+      - /sys/fs/cgroup:/cgroup:ro
+      - /dev/disk/:/dev/disk:ro
+    command:
+      - '-housekeeping_interval=15s'
+      - '-docker_only=true'
+    depends_on:
+      - prometheus
+    networks:
+      - internal
+
+  ping:
+    image: prom/blackbox-exporter:v0.23.0
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+      labels:
+        - "traefik.enable=false"
+    hostname: blackbox_exporter
+    tty: true
+    stdin_open: true
+    dns:
+      - 1.1.1.1
+    depends_on:
+      - prometheus
+    volumes:
+      - ./blackbox:/config/
+    command:
+      - '--config.file=/config/blackbox.yml'
+    networks:
+      - internal
+
+  speedtest:
+    image: ghcr.io/miguelndecarvalho/speedtest-exporter:v3.5.3
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - "traefik.enable=false"
+    hostname: speedtest
+    dns:
+      - 1.1.1.1
+    depends_on:
+      - prometheus
+    networks:
+      - internal

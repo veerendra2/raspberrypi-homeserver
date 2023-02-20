@@ -1,0 +1,25 @@
+[global]
+  checkNewVersion = true
+
+[api]
+  dashboard = true
+
+[accessLog]
+
+
+[log]
+  level = "DEBUG"
+
+[entryPoints.http]
+  address = ":80"
+  [entryPoints.http.http.redirections.entryPoint]
+    to = "https"
+    scheme = "https"
+
+[entryPoints.https]
+  address = ":443"
+
+[providers.docker]
+  endpoint = "unix:///var/run/docker.sock"
+  swarmMode = true
+  watch = true

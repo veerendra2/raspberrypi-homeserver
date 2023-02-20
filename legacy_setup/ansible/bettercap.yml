@@ -1,0 +1,34 @@
+---
+
+- name: Create temporary bettercap build directory
+  tempfile:
+    state: directory
+    suffix: build
+  register: tempdir
+
+- name: Build bettercap
+  shell: |
+    go env -w GO111MODULE=off
+    go get -u github.com/bettercap/bettercap
+  environment:
+    GOPATH: "{{ tempdir.path }}"
+
+- name: Install bettercap
+  shell: |
+    mv {{ tempdir.path }}/bin/bettercap /usr/local/bin/
+    rm -rf {{ tempdir.path }}
+    bettercap -version
+  become: yes
+  register: output
+
+- name: Display bettercap version
+  debug:
+    msg: "{{ output.stdout }}"
+  when: output.rc == 0
+
+# https://www.bettercap.org/usage/webui/
+- name: Install bettercap caplets
+  shell: bettercap -eval "caplets.update; ui.update; q"
+  when: output.rc == 0
+  ignore_errors: true
+  become: true
