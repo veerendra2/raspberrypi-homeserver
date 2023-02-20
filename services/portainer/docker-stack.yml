@@ -26,11 +26,13 @@ services:
         - traefik.enable=true
         - traefik.docker.network=traefik_public
         - "traefik.http.routers.portainer.tls=true"
-        - "traefik.http.routers.portainer.rule=Host(`192.168.0.120`) && PathPrefix(`/portainer{regex:$$|/.*}`)"
+        - "traefik.http.routers.portainer.rule=PathPrefix(`/portainer`)"
         - "traefik.http.routers.portainer.middlewares=portainer-stripprefix"
         - "traefik.http.middlewares.portainer-stripprefix.stripprefix.prefixes=/portainer"
         - "traefik.http.services.portainer.loadbalancer.server.port=9000"
     hostname: portainer
+    env_file:
+      - .env_portainer
     command:
       - -H
       - unix:///var/run/docker.sock

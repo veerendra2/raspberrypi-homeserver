@@ -54,24 +54,28 @@ services:
         logo: "assets/tools/grafana.png"
         subtitle: "Visualization web application"
         url: "/grafana/"
+        method: "get"
       - name: "Prometheus"
         type: Ping
         logo: "assets/tools/prometheus.png"
         subtitle: "Systems monitoring and alerting tool"
         url: "/prometheus/"
+        method: "get"
       - name: "Traefik"
         type: Ping
         logo: "assets/tools/traefik.png"
         subtitle: "Traefik Dahsboard"
-        url: "dashboard/#/"
+        url: "/dashboard/#/"
+        method: "get"
   - name: DNS
     icon: ""
     items:
       - name: "Pi-hole"
-        type: "PiHole"
+        type: "Ping"
         logo: "assets/tools/pi-hole.png"
         subtitle: "Network-wide ad blocking"
         url: "/admin/"
+        method: "get"
   - name: Management Tools
     icon: ""
     items:
@@ -80,11 +84,13 @@ services:
         logo: "assets/tools/portainer.png"
         subtitle: "Container management UI"
         url: "/portainer/"
+        method: "get"
       - name: "Filebrowser"
-        type: Ping
+        type: "Ping"
         logo: "assets/tools/filebrowser.png"
         subtitle: "File management UI"
         url: "/filebrowser/"
+        method: "get"
   - name: Media Streaming
     icon: "/assets/icons/play-button.png"
     items:
@@ -93,10 +99,13 @@ services:
         logo: "assets/tools/jellyfin.png"
         subtitle: "Multimedia streaming"
         url: "/jellyfin/"
+        method: "get"
   - name: Cloud
     icon: ""
     items:
       - name: "Nextcloud"
+        type: "Ping"
         logo: "assets/tools/nextcloud.png"
         subtitle: "Self-hosted cloud"
         url: "/nextcloud/"
+        method: "get"

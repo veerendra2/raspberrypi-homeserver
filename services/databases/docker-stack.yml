@@ -13,6 +13,20 @@ networks:
 volumes:
   redis:
 
+secrets:
+  nextcloud_admin_password:
+    file: ./secrets/nextcloud_admin_password.txt
+  nextcloud_admin_user:
+    file: ./secrets/nextcloud_admin_user.txt
+  postgres_db:
+    file: ./secrets/postgres_db.txt
+  postgres_password:
+    file: ./secrets/postgres_password.txt
+  postgres_user:
+    file: ./secrets/postgres_user.txt
+  redis_host_password:
+    file: ./secrets/redis_host_password.txt
+
 services:
   postgres:
     image: arm64v8/postgres:14-alpine
@@ -24,6 +38,8 @@ services:
         condition: on-failure
         delay: 5s
         max_attempts: 3
+      labels:
+        - "traefik.enable=false"
     hostname: postgres
     env_file:
       - .env_postgres
@@ -46,6 +62,8 @@ services:
         condition: on-failure
         delay: 5s
         max_attempts: 3
+      labels:
+        - "traefik.enable=false"
     hostname: redis
     command:  [
     "sh", "-c",

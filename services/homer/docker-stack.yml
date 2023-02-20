@@ -23,7 +23,7 @@ services:
         - "traefik.http.services.homer.loadbalancer.server.port=8080"
     hostname: homer
     env_file:
-      - .env
+      - .env_homer
     volumes:
       - ./assets/:/www/assets
     networks:

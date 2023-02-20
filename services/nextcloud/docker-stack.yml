@@ -8,18 +8,17 @@ networks:
 
 secrets:
   nextcloud_admin_password:
-    file: ./secrets/nextcloud_admin_password.txt
+    file: ../databases/secrets/nextcloud_admin_password.txt
   nextcloud_admin_user:
-    file: ./secrets/nextcloud_admin_user.txt
+    file: ../databases/secrets/nextcloud_admin_user.txt
   postgres_db:
-    file: ./secrets/postgres_db.txt
+    file: ../databases/secrets/postgres_db.txt
   postgres_password:
-    file: ./secrets/postgres_password.txt
+    file: ../databases/secrets/postgres_password.txt
   postgres_user:
-    file: ./secrets/postgres_user.txt
+    file: ../databases/secrets/postgres_user.txt
   redis_host_password:
-    file: ./secrets/redis_host_password.txt
-
+    file: ../databases/secrets/redis_host_password.txt
 
 services:
   nextcloud:
@@ -37,12 +36,12 @@ services:
         - "traefik.docker.network=traefik_public"
         - "traefik.http.routers.nextcloud.rule=PathPrefix(`/nextcloud`)"
         - "traefik.http.routers.nextcloud.tls=true"
+        - "traefik.http.routers.nextcloud.middlewares=nextcloud-stripprefix"
+        - "traefik.http.middlewares.nextcloud-stripprefix.stripprefix.prefixes=/nextcloud"
         - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
     hostname: nextcloud
     env_file:
       - .env_nextcloud
-    links:
-      - postgres
     depends_on:
       - postgres
       - redis

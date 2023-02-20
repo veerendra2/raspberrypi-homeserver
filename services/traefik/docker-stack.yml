@@ -24,7 +24,7 @@ services:
         - "traefik.http.routers.api.service=api@internal"
         - "traefik.http.services.dummy.loadbalancer.server.port=9999"
     env_file:
-      .env
+      - .env_traefik
     ports:
       - target: 80
         published: 80

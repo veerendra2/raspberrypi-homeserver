@@ -4,11 +4,6 @@ version: "3.8"
 networks:
   traefik_public:
     external: true
-  dhcp-relay-net:
-    driver: overlay
-    ipam:
-      config:
-        - subnet: 172.16.203.0/24
 
 volumes:
   pihole:
@@ -35,6 +30,8 @@ services:
         - "traefik.http.routers.pihole.tls=true"
         - "traefik.http.services.pihole.loadbalancer.server.port=80"
     hostname: pihole
+    env_file:
+      - .env_pihole
     ports:
       - "53:53/tcp"
       - "53:53/udp"
@@ -43,29 +40,10 @@ services:
       - 1.1.1.1
     volumes:
       - pihole:/etc
-      - ./dnsmasq.d/99-dnsmasq-options.conf:/etc/dnsmasq.d/99-dnsmasq-options.conf:ro
-      - ./dnsmasq.d/07-dhcp-options.conf:/etc/dnsmasq.d/07-dhcp-options.conf:ro
       - ./pihole/custom.list:/etc/pihole/custom.list:ro
       - /etc/resolv.conf:/etc/resolv.conf:ro
     secrets:
       - pihole_admin_password
     networks:
-      - traefik_public: {}
-      - dhcp-relay-net:
-          ipv4_address: '172.16.205.10'
-
-  dhcphelper:
-    image: ghcr.io/veerendra2/raspberrypi-homeserver/alpine-dhcp-helper:latest
-    deploy:
-      replicas: 1
-      placement:
-        constraints: [node.role == manager]
-      restart_policy:
-        condition: on-failure
-        delay: 30s
-        max_attempts: 3
-    networks:
-      host:
-        mode: host
-    command: -s 172.16.205.10
+      - traefik_public
 

@@ -27,7 +27,7 @@ services:
         - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
     hostname: jellyfin
     env_file:
-      - .env
+      - .env_jellyfin
     volumes:
       # Media directory mounts
       # - /media/disk1/movies:/movies:ro

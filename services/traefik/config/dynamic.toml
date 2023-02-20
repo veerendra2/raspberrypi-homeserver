@@ -1,4 +1,1 @@
-[tls.certificates]
-  certFile = "/etc/ssl/server.pem"
-  keyFile = "/etc/ssl/server.key"
-  stores = ["default"]
+

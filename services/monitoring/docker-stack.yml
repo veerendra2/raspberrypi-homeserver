@@ -66,8 +66,10 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=traefik_public"
-        - "traefik.http.routers.grafana.rule=PathPrefix(`/grafana/`)"
+        - "traefik.http.routers.grafana.rule=PathPrefix(`/grafana`)"
         - "traefik.http.routers.grafana.tls=true"
+        - "traefik.http.routers.grafana.middlewares=grafana-stripprefix"
+        - "traefik.http.middlewares.grafana-stripprefix.stripprefix.prefixes=/grafana"
         - "traefik.http.services.grafana.loadbalancer.server.port=3000"
     hostname: grafana
     volumes:
@@ -93,7 +95,7 @@ services:
         delay: 30s
         max_attempts: 3
       labels:
-        - "traefik.http.services.node-exporter.loadbalancer.server.port=9100"
+        - "traefik.enable=false"
     hostname: nodeexporter
     command:
       - '--path.procfs=/host/proc'
@@ -120,7 +122,7 @@ services:
         delay: 30s
         max_attempts: 3
       labels:
-        - "traefik.http.services.cadvisor.loadbalancer.server.port=8080"
+        - "traefik.enable=false"
     hostname: cadvisor
     volumes:
       - /:/rootfs:ro
@@ -148,7 +150,7 @@ services:
         condition: on-failure
         delay: 30s
       labels:
-        - "traefik.http.services.node-exporter.loadbalancer.server.port=9115"
+        - "traefik.enable=false"
     hostname: blackbox_exporter
     tty: true
     stdin_open: true
@@ -174,7 +176,7 @@ services:
         delay: 30s
         max_attempts: 3
       labels:
-        - "traefik.http.services.speedtest-exporter.loadbalancer.server.port=9798"
+        - "traefik.enable=false"
     hostname: speedtest
     dns:
       - 1.1.1.1
