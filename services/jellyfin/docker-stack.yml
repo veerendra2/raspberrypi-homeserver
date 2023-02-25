@@ -29,14 +29,7 @@ services:
     env_file:
       - .env_jellyfin
     volumes:
-      # Media directory mounts
-      # - /media/disk1/movies:/movies:ro
-      # - /media/disk1/tvshows:/tvshows:ro
-      # - /media/disk1/books:/books:ro
-      # - /media/disk1/music:/music:ro
-      # - /media/disk1/photos:/photos:ro
-      # - /media/disk1/tutorials:/tutorials:ro
-      # Jellyfin related
+      - /media/disk2:/disk2:ro
       - config:/config
       - cache:/cache
       - ./config/network.xml:/config/config/network.xml
