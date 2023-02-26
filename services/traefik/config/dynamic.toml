@@ -1,1 +1,5 @@
-
+[tls.stores]
+  [tls.stores.default]
+    [tls.stores.default.defaultCertificate]
+      certFile = "/etc/traefik/ssl/traefik.crt"
+      keyFile  = "/etc/traefik/ssl/traefik.key"

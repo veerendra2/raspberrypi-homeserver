@@ -6,7 +6,6 @@
 
 [accessLog]
 
-
 [log]
   level = "DEBUG"
 
@@ -23,3 +22,6 @@
   endpoint = "unix:///var/run/docker.sock"
   swarmMode = true
   watch = true
+
+#[providers.file]
+#  filename = "/etc/traefik/dynamic.toml"

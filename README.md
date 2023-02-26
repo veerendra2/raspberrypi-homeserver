@@ -51,7 +51,7 @@
   </td>
   <td>
     <center>
-      <img src="https://user-images.githubusercontent.com/8393701/196514761-f3585baf-5d0e-4647-b3a7-727d219bf1ae.png" alt="Nginx" width="60"/> <br /> Nginx
+      <img src="https://user-images.githubusercontent.com/8393701/221434420-2277ee82-115d-4ec6-bbe7-d0a010687dda.png" alt="Traefik" width="60"/> <br /> Traefik
     </center>
   </td>
   <td>
@@ -69,7 +69,7 @@
 :point_right: Check [wiki pages](https://github.com/veerendra2/raspberrypi-homeserver/wiki) for documentation
 
 ## Homer Screenshot
-![image](https://user-images.githubusercontent.com/8393701/203421293-02dcc50e-f029-492c-9884-ba18e555c606.png)
+![image](https://user-images.githubusercontent.com/8393701/221434707-6c8e83a5-8116-4f78-9b2f-941bf1c053e2.png)
 
 ## Deploy
 * Follow prerequisite [manual steps](https://github.com/veerendra2/raspberrypi-homeserver/wiki/Manual-Steps) to prepare Pi
