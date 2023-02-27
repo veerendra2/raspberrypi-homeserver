@@ -3,3 +3,5 @@ apps/pihole/etc-pihole
 apps/pihole/docker_run.sh
 apps/nginx/ssl/*
 !apps/nginx/ssl/.gitkeep
+services/traefik/config/ssl/*.crt
+services/traefik/config/ssl/*.key
