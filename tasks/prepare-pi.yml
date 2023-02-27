@@ -29,9 +29,6 @@
 
 - name: Run scripts
   command: "/tmp/{{ item.key }}.sh"
-  environment:
-    CHANNEL: stable
-  become: yes
   loop: "{{ lookup('dict', scripts) }}"
 
 - name: Set authorized keys taken from url
@@ -40,48 +37,7 @@
     state: present
     key: "{{ github_username_keys }}"
 
-# -------------------------- START CONFIGURE DOCKER --------------------------
-
-- name: Start docker daemon
-  service:
-    name: docker
-    state: started
-    enabled: true
-  become: true
-
-- name: Add user in docker group
-  user:
-    name: "{{ run_user }}"
-    groups: docker
-    append: true
-  become: true
-
-- block:
-    - name: Update userns-remap config
-      shell: |
-        cp /etc/docker/daemon.json /etc/docker/daemon.json.backup
-        jq '. += { "userns-remap" : "default" }' < /etc/docker/daemon.json > /tmp/daemon.json
-        mv /tmp/daemon.json /etc/docker/daemon.json
-  rescue:
-    - name: Create /etc/docker/daemon.json and configure userns-remap
-      blockinfile:
-        path: /etc/docker/daemon.json
-        marker: ""
-        create: yes
-        block: |
-          {
-            "userns-remap": "default"
-          }
-  become: yes
-
-- name: Restart docker daemon
-  systemd:
-    name: docker
-    state: restarted
-  become: yes
-
-# -------------------------- END CONFIGURE DOCKER --------------------------
-# ----------------------- START PI POWER OPTIMIZATION ----------------------
+# POWER OPTIMIZATION
 - block:
   - name: Stop and disable hciuart and bluetooth deamon
     systemd:
@@ -107,8 +63,6 @@
   shell: /usr/bin/tvservice -o
   become: yes
   when: disable_bluetooth|bool == true
-
-# ------------------------ END PI POWER OPTIMIZATION -----------------------
 
 - name: Reboot Pi after upgrade
   reboot:

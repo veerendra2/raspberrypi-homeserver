@@ -1,0 +1,17 @@
+---
+- name: Get info from a service
+  docker_swarm_service_info:
+    name: "{{ item }}"
+  register: result
+  with_items:
+    - filebrowser
+    - homer
+    - jellyfin
+    - grafana
+    - prometheus
+    - nextcloud
+    - databases
+    - pihole
+    - portainer
+
+- name: Display service info

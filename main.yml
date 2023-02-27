@@ -25,6 +25,10 @@
     - name: Prepare Pi
       import_tasks: tasks/prepare-pi.yml
 
+    - name: Install and configure docker
+      import_tasks: tasks/docker.yml
+      become: yes
+
     - name: Install pigpio and Pi fan controller
       import_tasks: tasks/pigpio.yml
 

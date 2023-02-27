@@ -4,7 +4,7 @@
 ![GitHub issues](https://img.shields.io/github/issues/veerendra2/raspberrypi-homeserver?style=plastic)
 ![GitHub release (release name instead of tag name)](https://img.shields.io/github/v/release/veerendra2/raspberrypi-homeserver?include_prereleases&style=plastic)
 # Raspberry Pi Home Server
-**A collection of applications and tools to make awesome Raspberry Pi homerserver.**
+**A collection of applications and tools to make awesome Raspberry Pi homerserver with docker swarm**
 <table>
 <tr>
   <td>
@@ -62,7 +62,12 @@
 </tr>
 </table>
 
-> This project meant to be simple and deploy apps on single box. Created this project out of my own curiousity to make my very first homeserver with Raspberry Pi 4. For more advance configuration to make your own homeserver, you may checkout [geek-cookbook](https://github.com/geek-cookbook/geek-cookbook)
+<table>
+<center>
+<img src="https://user-images.githubusercontent.com/8393701/221664828-4531e8b6-491c-44b3-b270-cda18040abba.png" alt="Docker Swarm" width="60"/> <br/>Docker Swarm
+</center>
+</tr>
+</table>
 
 :point_right: Check [projects](https://github.com/veerendra2/raspberrypi-homeserver/projects) tab for roadmap
 
@@ -76,6 +81,6 @@
 ```
 $ git clone https://github.com/veerendra2/raspberrypi-homeserver.git
 $ cd raspberrypi-homeserver
-# Review inventory.yml and run
+# Review vars.yml and inventory.yml and run
 $ ansible-playbook main.yml
 ```

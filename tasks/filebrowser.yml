@@ -1,7 +1,7 @@
 ---
 - set_fact:
-    app: filebrowser
-    project_dir: /opt/apps/filebrowser/
+    service: filebrowser
+    project_dir: /opt/service/filebrowser/
 
 - name: Create project directory | {{ app }}
   file:
@@ -18,7 +18,9 @@
     recursive: true
     perms: false
 
-- name: Run docker-compose up | {{ app }}
-  docker_compose:
-    project_src: "{{ project_dir }}"
-    build: false
+- name: Deploy stack from a compose file
+  docker_stack:
+    state: present
+    name: "{{ service }}"
+    compose:
+      - "{{ project_dir }}"
