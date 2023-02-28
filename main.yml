@@ -1,63 +1,75 @@
-# Author: Veerendra Kakumanu
+# Author: Veerendra K
 # Description: An Ansible playbook to make awesome Raspberry Pi homeserver
 
 - name: Raspberry Pi Homeserver
-  hosts: atom
+  hosts: localhost
   gather_facts: yes
   vars_files:
     - vars.yml
 
-  pre_tasks:
-    - name: Run update
-      apt:
-        upgrade: true
-        update_cache: yes
-      ignore_errors: yes
-      become: yes
+  # pre_tasks:
+  #   - name: Run update
+  #     apt:
+  #       upgrade: true
+  #       update_cache: yes
+  #     ignore_errors: yes
+  #     become: yes
 
-  post_tasks:
-    - name: Run autoremove
-      apt:
-        autoremove: yes
-      become: yes
+  # post_tasks:
+  #   - name: Run autoremove
+  #     apt:
+  #       autoremove: yes
+  #     become: yes
 
   tasks:
     - name: Prepare Pi
-      import_tasks: tasks/prepare-pi.yml
+      include_tasks: tasks/prepare-pi.yml
+      tags: prepare-pi
 
     - name: Install and configure docker
-      import_tasks: tasks/docker.yml
-      become: yes
+      import_tasks:
+      tags: prepare-pi
 
     - name: Install pigpio and Pi fan controller
-      import_tasks: tasks/pigpio.yml
+      import_tasks:
+      tags: prepare-pi
 
     - name: Install bettercap
       import_tasks: tasks/bettercap.yml
+      tags: prepare-pi
 
     - name: Setup monitoring
       import_tasks: tasks/monitoring.yml
+      tags: monitoring
 
     - name: Setup pihole
       import_tasks: tasks/pihole.yml
+      tags: pihole
 
     - name: Setup portainer
       import_tasks: tasks/portainer.yml
+      tags: portainer
 
     - name: Setup homer
       import_tasks: tasks/homer.yml
+      tags: homer
 
     - name: Setup jellyfin
       import_tasks: tasks/jellyfin.yml
+      tags: jellyfin
 
     - name: Setup nextcloud
       import_tasks: tasks/nextcloud.yml
+      tags: nextcloud
 
     - name: Setup filebrowser
       import_tasks: tasks/filebrowser.yml
+      tags: filebrowser
 
     - name: Setup nginx
       import_tasks: tasks/nginx.yml
+      tags: traefik
 
     - name: Setup firewall rules
       import_tasks: tasks/ufw.yml
+      tags: ufw

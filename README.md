@@ -4,7 +4,7 @@
 ![GitHub issues](https://img.shields.io/github/issues/veerendra2/raspberrypi-homeserver?style=plastic)
 ![GitHub release (release name instead of tag name)](https://img.shields.io/github/v/release/veerendra2/raspberrypi-homeserver?include_prereleases&style=plastic)
 # Raspberry Pi Home Server
-**A collection of applications and tools to make awesome Raspberry Pi homerserver with docker swarm**
+**A collection of applications and tools to make awesome Raspberry Pi homerserver**
 <table>
 <tr>
   <td>
@@ -64,7 +64,7 @@
 
 <table>
 <center>
-<img src="https://user-images.githubusercontent.com/8393701/221664828-4531e8b6-491c-44b3-b270-cda18040abba.png" alt="Docker Swarm" width="60"/> <br/>Docker Swarm
+<img src="https://user-images.githubusercontent.com/8393701/221664828-4531e8b6-491c-44b3-b270-cda18040abba.png" alt="Docker Swarm"/> <br/>Docker Swarm
 </center>
 </tr>
 </table>

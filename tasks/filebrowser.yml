@@ -12,13 +12,13 @@
 
 - name: Synchronize directory | {{ app }}
   synchronize:
-    src: apps/filebrowser/
+    src: service/filebrowser/
     dest: "{{ project_dir }}"
     delete: false
     recursive: true
     perms: false
 
-- name: Deploy stack from a compose file
+- name: Deploy stack from | {{ app }}
   docker_stack:
     state: present
     name: "{{ service }}"

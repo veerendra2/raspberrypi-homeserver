@@ -1,7 +1,7 @@
 ---
 - set_fact:
     app: nextcloud
-    project_dir: /opt/apps/nextcloud/
+    project_dir: /opt/services/nextcloud/
 
 - name: Create project directory | {{ app }}
   file:
@@ -12,13 +12,13 @@
 
 - name: Synchronize directory | {{ app }}
   synchronize:
-    src: apps/nextcloud/
+    src: services/nextcloud/
     dest: "{{ project_dir }}"
     delete: false
     recursive: true
     perms: false
 
-- name: Run docker-compose up | {{ app }}
+- name: Deploy stack | {{ app }}
   docker_compose:
     project_src: "{{ project_dir }}"
     build: false
