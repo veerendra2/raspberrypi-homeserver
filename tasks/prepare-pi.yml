@@ -64,6 +64,15 @@
   become: yes
   when: disable_bluetooth|bool == true
 
+- name: Install pigpio and Pi fan controller
+  import_tasks: pigpio.yaml
+
+- name: Install and configure docker
+  import_tasks: docker.yaml
+
+- name: Install bettercap
+  import_tasks: bettercap.yml
+
 - name: Reboot Pi after upgrade
   reboot:
     post_reboot_delay: 10

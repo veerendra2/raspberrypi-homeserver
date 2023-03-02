@@ -1,0 +1,9 @@
+- name: Raspberry Pi Homeserver
+  hosts: localhost
+  vars_files:
+    - vars.yml
+
+  tasks:
+  - include_tasks: tasks/pihole.yml
+    when: "'pihole' in services"
+

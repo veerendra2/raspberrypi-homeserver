@@ -22,54 +22,17 @@
   #     become: yes
 
   tasks:
-    - name: Prepare Pi
-      include_tasks: tasks/prepare-pi.yml
-      tags: prepare-pi
+    # - name: Prepare Pi
+    #   import_tasks: tasks/prepare-pi.yml
+    #   tags: prepare-pi
 
-    - name: Install and configure docker
-      import_tasks:
-      tags: prepare-pi
+    - name: Deploy services
+      import_tasks: tasks/deploy-services.yml
 
-    - name: Install pigpio and Pi fan controller
-      import_tasks:
-      tags: prepare-pi
+    # - name: Setup firewall rules
+    #   import_tasks: tasks/ufw.yml
+    #   tags: ufw
 
-    - name: Install bettercap
-      import_tasks: tasks/bettercap.yml
-      tags: prepare-pi
-
-    - name: Setup monitoring
-      import_tasks: tasks/monitoring.yml
-      tags: monitoring
-
-    - name: Setup pihole
-      import_tasks: tasks/pihole.yml
-      tags: pihole
-
-    - name: Setup portainer
-      import_tasks: tasks/portainer.yml
-      tags: portainer
-
-    - name: Setup homer
-      import_tasks: tasks/homer.yml
-      tags: homer
-
-    - name: Setup jellyfin
-      import_tasks: tasks/jellyfin.yml
-      tags: jellyfin
-
-    - name: Setup nextcloud
-      import_tasks: tasks/nextcloud.yml
-      tags: nextcloud
-
-    - name: Setup filebrowser
-      import_tasks: tasks/filebrowser.yml
-      tags: filebrowser
-
-    - name: Setup nginx
-      import_tasks: tasks/nginx.yml
-      tags: traefik
-
-    - name: Setup firewall rules
-      import_tasks: tasks/ufw.yml
-      tags: ufw
+    # - name: Performing smoke tests
+    #   import_tasks: tasks/smoke-tests.yml
+    #   tags: tests

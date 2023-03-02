@@ -1,4 +1,19 @@
 ---
+# Services to be deployed. Names has to match in services/ directory.
+services:
+  - databases
+  - filebrowser
+  - homer
+  - jellyfin
+  - monitoring
+  - nextcloud
+  - pihole
+  - portainer
+  - traefik
+
+# Service's docker stack files copies in this location. It should not end with slash
+services_base_dir_location: /opt/services
+
 pkgs:
   - "neofetch"
   - "net-tools"

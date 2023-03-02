@@ -1,0 +1,29 @@
+---
+- name: Create base directory
+  file:
+    path: "{{ services_base_dir_location }}"
+    state: directory
+    owner: "{{ run_user }}"
+  become: yes
+
+# Run pre deploy tasks for services
+- include_tasks: pihole.yml
+  when: "'pihole1' in services"
+
+- name: Synchronize services directories
+  synchronize:
+    src: service/"{{ item }}"
+    dest: "{{ services_base_dir_location }}"
+    delete: false
+    recursive: true
+    perms: false
+  with_items: "{{ services }}"
+
+- name: Depl services stack
+  docker_stack:
+    state: present
+    name: "{{ item }}"
+    compose:
+      - "{{ [services_base_dir_location, item] | path_join }}"
+  with_items: "{{ services }}"
+

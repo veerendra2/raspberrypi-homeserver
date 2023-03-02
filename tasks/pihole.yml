@@ -1,8 +1,4 @@
 ---
-- set_fact:
-    app: pihole
-    project_dir: /opt/services/pihole/
-
 # https://github.com/pi-hole/docker-pi-hole#installing-on-ubuntu-or-fedora
 - name: Configure systemd-resolved for PiHole
   block:
@@ -36,23 +32,3 @@
         name: systemd-resolved
         state: restarted
   become: yes
-
-- name: Create project directory | {{ app }}
-  file:
-    path: "{{ project_dir }}"
-    state: directory
-    owner: "{{ run_user }}"
-  become: yes
-
-- name: Synchronize project directory | {{ app }}
-  synchronize:
-    src: services/pihole/
-    dest: "{{ project_dir }}"
-    delete: false
-    recursive: true
-    perms: false
-
-- name: Deploy stack | {{ app }}
-  docker_compose:
-    project_src: "{{ project_dir }}"
-    build: false
