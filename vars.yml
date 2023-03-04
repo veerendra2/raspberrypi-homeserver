@@ -72,6 +72,8 @@ pypi:
   - ansible
   - docker-compose
   - setuptools
+  - jsondiff
+  - pyyaml
 
 # Docker
 enable_userns_remap: false

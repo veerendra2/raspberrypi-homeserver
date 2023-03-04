@@ -1,4 +1,7 @@
 ---
+# This deploy-services.yml tasks will be replaced with proper GitOps in future
+# https://github.com/veerendra2/raspberrypi-homeserver/issues/54
+
 - name: Create base directory
   file:
     path: "{{ services_base_dir_location }}"
@@ -8,22 +11,28 @@
 
 # Run pre deploy tasks for services
 - include_tasks: pihole.yml
-  when: "'pihole1' in services"
+  when: "'pihole' in services"
 
 - name: Synchronize services directories
   synchronize:
-    src: service/"{{ item }}"
+    src: "services/{{ item }}"
     dest: "{{ services_base_dir_location }}"
     delete: false
     recursive: true
     perms: false
   with_items: "{{ services }}"
 
-- name: Depl services stack
+- name: Create traefik_public network
+  docker_stack:
+    state: present
+    name: traefik
+    compose:
+      - "{{ [services_base_dir_location, 'traefikv2', 'traefik.yml'] | path_join }}"
+
+- name: Deploy service stacks
   docker_stack:
     state: present
     name: "{{ item }}"
     compose:
-      - "{{ [services_base_dir_location, item] | path_join }}"
+      - "{{ [services_base_dir_location, item, 'docker-stack.yml'] | path_join }}"
   with_items: "{{ services }}"
-

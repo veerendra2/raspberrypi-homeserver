@@ -4,6 +4,29 @@
     - vars.yml
 
   tasks:
-  - include_tasks: tasks/pihole.yml
-    when: "'pihole' in services"
+  - name: Fetch docker swarm info
+    docker_swarm_info:
+      nodes: yes
+      services: yes
+    ignore_errors: yes
+    register: swarm_info
+
+  - name: Display docker swarm info
+    debug:
+      msg: |
+        can_talk_to_docker: {{ swarm_info.can_talk_to_docker }}
+        docker_swarm_active: {{ swarm_info.docker_swarm_active }}
+        docker_swarm_manager: {{ swarm_info.docker_swarm_manager }}
+        failed: {{ swarm_info.failed }}
+
+  - name: Display docker swarm info
+    debug:
+      msg: |
+        Node Hostname: {{ item.Hostname }}
+        Node ManagerStatus: {{ item.ManagerStatus }}
+        Node Status: {{ item.Status }}
+    with_items: "{{ swarm_info.nodes }}"
+    loop_control:
+      label: '{{item.Hostname}}'
+
 

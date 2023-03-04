@@ -30,8 +30,8 @@ services:
       - .env_jellyfin
     volumes:
       - /media/disk2:/disk2:ro
-      - config:/config
-      - cache:/cache
+      - /media/disk2/jellyfin/config:/config
+      - /media/disk2/jellyfin/cache:/cache
       - ./config/network.xml:/config/config/network.xml
       #- ./config/system.xml:/config/config/system.xml
       - /etc/localtime:/etc/localtime:ro

@@ -79,13 +79,6 @@
   when: reboot_after_pi_preparation|bool == true
   become: yes
 
-- name: Create docker networks
-  docker_network:
-    name: "{{ item }}"
-  with_items:
-    - front-tier
-    - back-tier
-
 - name: Create mount directories
   file:
     path: "{{ item.value }}"
