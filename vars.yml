@@ -74,6 +74,7 @@ pypi:
   - setuptools
   - jsondiff
   - pyyaml
+  - docker
 
 # Docker
 enable_userns_remap: false

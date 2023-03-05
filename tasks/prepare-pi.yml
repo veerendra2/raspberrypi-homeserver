@@ -25,11 +25,11 @@
     url: "{{ item.value }}"
     dest: "/tmp/{{ item.key }}.sh"
     mode: "0776"
-  loop: "{{ lookup('dict', scripts) }}"
+  loop: "{{ lookup('dict', scripts, wantlist=True) }}"
 
 - name: Run scripts
   command: "/tmp/{{ item.key }}.sh"
-  loop: "{{ lookup('dict', scripts) }}"
+  loop: "{{ lookup('dict', scripts, wantlist=True) }}"
 
 - name: Set authorized keys taken from url
   authorized_key:
@@ -48,16 +48,16 @@
       - bluetooth
       - hciuart
 
-  - name: Disable bluetooth in /boot/firmware/config.txt
-    ini_file:
-      path: /boot/firmware/config.txt
-      section: all
-      option: dtoverlay
-      value: disable-bt
-      mode: '0744'
-      backup: yes
-  become: yes
-  when: disable_bluetooth|bool == true
+  # - name: Disable bluetooth in /boot/firmware/config.txt
+  #   ini_file:
+  #     path: /boot/firmware/config.txt
+  #     section: all
+  #     option: dtoverlay
+  #     value: disable-bt
+  #     mode: '0744'
+  #     backup: yes
+  # become: yes
+  # when: disable_bluetooth|bool == true
 
 - name: Disable HDMI Output
   shell: /usr/bin/tvservice -o
@@ -65,10 +65,10 @@
   when: disable_bluetooth|bool == true
 
 - name: Install pigpio and Pi fan controller
-  import_tasks: pigpio.yaml
+  import_tasks: pigpio.yml
 
 - name: Install and configure docker
-  import_tasks: docker.yaml
+  import_tasks: docker.yml
 
 - name: Install bettercap
   import_tasks: bettercap.yml
