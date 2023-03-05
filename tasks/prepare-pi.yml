@@ -25,14 +25,11 @@
     url: "{{ item.value }}"
     dest: "/tmp/{{ item.key }}.sh"
     mode: "0776"
-  loop: "{{ lookup('dict', scripts) }}"
+  loop: "{{ lookup('dict', scripts, wantlist=True) }}"
 
 - name: Run scripts
   command: "/tmp/{{ item.key }}.sh"
-  environment:
-    CHANNEL: stable
-  become: yes
-  loop: "{{ lookup('dict', scripts) }}"
+  loop: "{{ lookup('dict', scripts, wantlist=True) }}"
 
 - name: Set authorized keys taken from url
   authorized_key:
@@ -40,48 +37,7 @@
     state: present
     key: "{{ github_username_keys }}"
 
-# -------------------------- START CONFIGURE DOCKER --------------------------
-
-- name: Start docker daemon
-  service:
-    name: docker
-    state: started
-    enabled: true
-  become: true
-
-- name: Add user in docker group
-  user:
-    name: "{{ run_user }}"
-    groups: docker
-    append: true
-  become: true
-
-- block:
-    - name: Update userns-remap config
-      shell: |
-        cp /etc/docker/daemon.json /etc/docker/daemon.json.backup
-        jq '. += { "userns-remap" : "default" }' < /etc/docker/daemon.json > /tmp/daemon.json
-        mv /tmp/daemon.json /etc/docker/daemon.json
-  rescue:
-    - name: Create /etc/docker/daemon.json and configure userns-remap
-      blockinfile:
-        path: /etc/docker/daemon.json
-        marker: ""
-        create: yes
-        block: |
-          {
-            "userns-remap": "default"
-          }
-  become: yes
-
-- name: Restart docker daemon
-  systemd:
-    name: docker
-    state: restarted
-  become: yes
-
-# -------------------------- END CONFIGURE DOCKER --------------------------
-# ----------------------- START PI POWER OPTIMIZATION ----------------------
+# POWER OPTIMIZATION
 - block:
   - name: Stop and disable hciuart and bluetooth deamon
     systemd:
@@ -92,36 +48,36 @@
       - bluetooth
       - hciuart
 
-  - name: Disable bluetooth in /boot/firmware/config.txt
-    ini_file:
-      path: /boot/firmware/config.txt
-      section: all
-      option: dtoverlay
-      value: disable-bt
-      mode: '0744'
-      backup: yes
-  become: yes
-  when: disable_bluetooth|bool == true
+  # - name: Disable bluetooth in /boot/firmware/config.txt
+  #   ini_file:
+  #     path: /boot/firmware/config.txt
+  #     section: all
+  #     option: dtoverlay
+  #     value: disable-bt
+  #     mode: '0744'
+  #     backup: yes
+  # become: yes
+  # when: disable_bluetooth|bool == true
 
 - name: Disable HDMI Output
   shell: /usr/bin/tvservice -o
   become: yes
   when: disable_bluetooth|bool == true
 
-# ------------------------ END PI POWER OPTIMIZATION -----------------------
+- name: Install pigpio and Pi fan controller
+  import_tasks: pigpio.yml
+
+- name: Install and configure docker
+  import_tasks: docker.yml
+
+- name: Install bettercap
+  import_tasks: bettercap.yml
 
 - name: Reboot Pi after upgrade
   reboot:
     post_reboot_delay: 10
   when: reboot_after_pi_preparation|bool == true
   become: yes
-
-- name: Create docker networks
-  docker_network:
-    name: "{{ item }}"
-  with_items:
-    - front-tier
-    - back-tier
 
 - name: Create mount directories
   file:

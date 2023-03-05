@@ -1,0 +1,39 @@
+version: "3.0"
+
+volumes:
+  config:
+  cache:
+
+networks:
+  traefik_public:
+    external: true
+
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:10.8.9
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik_public
+        - "traefik.http.routers.jellyfin.rule=PathPrefix(`/jellyfin`)"
+        - "traefik.http.routers.jellyfin.tls=true"
+        - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+    hostname: jellyfin
+    env_file:
+      - .env_jellyfin
+    volumes:
+      - /media/disk2:/disk2:ro
+      - /media/disk2/jellyfin/config:/config
+      - /media/disk2/jellyfin/cache:/cache
+      - ./config/network.xml:/config/config/network.xml
+      #- ./config/system.xml:/config/config/system.xml
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - traefik_public

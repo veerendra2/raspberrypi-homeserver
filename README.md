@@ -4,8 +4,11 @@
 ![GitHub issues](https://img.shields.io/github/issues/veerendra2/raspberrypi-homeserver?style=plastic)
 ![GitHub release (release name instead of tag name)](https://img.shields.io/github/v/release/veerendra2/raspberrypi-homeserver?include_prereleases&style=plastic)
 # Raspberry Pi Home Server
-**A collection of applications and tools to make awesome Raspberry Pi homerserver.**
-<table>
+<p align="center">
+<b>A collection of applications and tools to make awesome Raspberry Pi homerserver</b>
+</p>
+
+<table align="center">
 <tr>
   <td>
     <center>
@@ -51,7 +54,7 @@
   </td>
   <td>
     <center>
-      <img src="https://user-images.githubusercontent.com/8393701/196514761-f3585baf-5d0e-4647-b3a7-727d219bf1ae.png" alt="Nginx" width="60"/> <br /> Nginx
+      <img src="https://user-images.githubusercontent.com/8393701/221434420-2277ee82-115d-4ec6-bbe7-d0a010687dda.png" alt="Traefik" width="60"/> <br /> Traefik
     </center>
   </td>
   <td>
@@ -62,20 +65,60 @@
 </tr>
 </table>
 
-> This project meant to be simple and deploy apps on single box. Created this project out of my own curiousity to make my very first homeserver with Raspberry Pi 4. For more advance configuration to make your own homeserver, you may checkout [geek-cookbook](https://github.com/geek-cookbook/geek-cookbook)
 
-:point_right: Check [projects](https://github.com/veerendra2/raspberrypi-homeserver/projects) tab for roadmap
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/8393701/221664828-4531e8b6-491c-44b3-b270-cda18040abba.png" /><br/>Docker Swarm
+</p>
 
-:point_right: Check [wiki pages](https://github.com/veerendra2/raspberrypi-homeserver/wiki) for documentation
 
-## Homer Screenshot
-![image](https://user-images.githubusercontent.com/8393701/203421293-02dcc50e-f029-492c-9884-ba18e555c606.png)
+<!-- <table>
+<center>
+<img src="https://user-images.githubusercontent.com/8393701/221664828-4531e8b6-491c-44b3-b270-cda18040abba.png" alt="Docker Swarm"/> <br/>Docker Swarm
+</center>
+</tr>
+</table> -->
 
-## Deploy
+## Table of Contents
+* [Features](https://github.com/veerendra2/raspberrypi-homeserver#features)
+* [Homer screenshot](https://github.com/veerendra2/raspberrypi-homeserver#homer-screenshot)
+* [Getting started](https://github.com/veerendra2/raspberrypi-homeserver#getting-started)
+* [Docker swarm services architecture](https://github.com/veerendra2/raspberrypi-homeserver/wiki)
+* [Project roadmap](https://github.com/veerendra2/raspberrypi-homeserver/projects)
+* [Docs](https://github.com/veerendra2/raspberrypi-homeserver/wiki)
+
+## Features
+* Fully automated with Ansible
+* All services are deployable on docker swarm
+* Traefik reverse proxy
+* Grafana dashboards to view
+  * System metrics
+  * Internet speed everyone hour
+  * Uptime with blackbox exporter
+  * Docker container metrics
+* Beautiful Homer dashboard to view all services
+* Uncomplicated firewall
+
+## Homer screenshot
+![image](https://user-images.githubusercontent.com/8393701/221434707-6c8e83a5-8116-4f78-9b2f-941bf1c053e2.png)
+
+## Getting started
 * Follow prerequisite [manual steps](https://github.com/veerendra2/raspberrypi-homeserver/wiki/Manual-Steps) to prepare Pi
+* Browse [vars.yml](./vars.yml) to configuration
 ```
 $ git clone https://github.com/veerendra2/raspberrypi-homeserver.git
 $ cd raspberrypi-homeserver
-# Review inventory.yml and run
+# Review vars.yml and inventory.yml and run
 $ ansible-playbook main.yml
 ```
+### NOTE
+* The setup created to deploy all services on single node docker swarm cluster. If you want to use this setup on multi node swarm cluster, there are some additional tweaks required like
+  * Change plancement
+    ```
+    ...
+      deploy:
+        replicas: 1
+        placement:
+          constraints: [node.role == manager]
+    ...
+    ```
+* Currently I'm using IP address `192.168.0.120` to access services, change services configs if you have a domain

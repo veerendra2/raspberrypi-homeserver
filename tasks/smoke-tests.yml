@@ -1,0 +1,49 @@
+---
+  - name: Fetch docker swarm info
+    docker_swarm_info:
+      nodes: yes
+      services: yes
+    ignore_errors: yes
+    register: swarm_info
+
+  - debug:
+      msg: |
+        ***************** DOCKER SWARM INFO *****************
+        can_talk_to_docker: {{ swarm_info.can_talk_to_docker }}
+        docker_swarm_active: {{ swarm_info.docker_swarm_active }}
+        docker_swarm_manager: {{ swarm_info.docker_swarm_manager }}
+        failed: {{ swarm_info.failed }}
+        ***************** DOCKER SWARM NODES *****************
+        {% for node in swarm_info.nodes %}
+        Node name: {{ node.Hostname }}
+        Availability: {{ node.Availability }}
+        ManagerStatus: {{ node.ManagerStatus }}
+        Status: {{ node.Status }}
+        {% endfor %}
+
+  - name: Running HTTP GET
+    get_url:
+      url: "https://192.168.0.120/{{ item }}/"
+      dest: /tmp/value
+      validate_certs: no
+    register: output
+    ignore_errors: yes
+    with_items:
+      - "dashboard"
+      - "filebrowser"
+      - "portainer"
+      - "admin"
+      - "grafana"
+      - "prometheus"
+      - "jellyfin"
+      - "nextcloud"
+    loop_control:
+      label: "{{ item }}"
+
+  - debug:
+      msg: |
+        {{ "{:<35} {}".format('URL', 'HTTP RESPONCE CODE') }}
+
+        {% for item in output.results %}
+        {{ "{:<40} {}".format(item.url, item.status_code) }}
+        {% endfor %}

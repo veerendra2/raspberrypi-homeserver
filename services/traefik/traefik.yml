@@ -1,0 +1,17 @@
+version: "3.2"
+
+services:
+  scratch:
+    image: scratch
+    deploy:
+      replicas: 0
+    networks:
+      - public
+
+networks:
+  public:
+    driver: overlay
+    attachable: true
+    ipam:
+      config:
+        - subnet: 172.16.200.0/24

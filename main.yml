@@ -1,8 +1,8 @@
-# Author: Veerendra Kakumanu
+# Author: Veerendra K
 # Description: An Ansible playbook to make awesome Raspberry Pi homeserver
 
 - name: Raspberry Pi Homeserver
-  hosts: atom
+  hosts: localhost
   gather_facts: yes
   vars_files:
     - vars.yml
@@ -25,35 +25,12 @@
     - name: Prepare Pi
       import_tasks: tasks/prepare-pi.yml
 
-    - name: Install pigpio and Pi fan controller
-      import_tasks: tasks/pigpio.yml
-
-    - name: Install bettercap
-      import_tasks: tasks/bettercap.yml
-
-    - name: Setup monitoring
-      import_tasks: tasks/monitoring.yml
-
-    - name: Setup pihole
-      import_tasks: tasks/pihole.yml
-
-    - name: Setup portainer
-      import_tasks: tasks/portainer.yml
-
-    - name: Setup homer
-      import_tasks: tasks/homer.yml
-
-    - name: Setup jellyfin
-      import_tasks: tasks/jellyfin.yml
-
-    - name: Setup nextcloud
-      import_tasks: tasks/nextcloud.yml
-
-    - name: Setup filebrowser
-      import_tasks: tasks/filebrowser.yml
-
-    - name: Setup nginx
-      import_tasks: tasks/nginx.yml
+    - name: Deploy services
+      import_tasks: tasks/deploy-services.yml
 
     - name: Setup firewall rules
       import_tasks: tasks/ufw.yml
+
+    - name: Performing smoke tests
+      import_tasks: tasks/smoke-tests.yml
+      tags: never
