@@ -65,7 +65,7 @@
 - name: Reboot Pi after upgrade
   reboot:
     post_reboot_delay: 10
-  when: reboot_after_pi_preparation|bool == true
+  when: reboot_after_pi_preparation|bool == true and ansible_connection != 'local'
   become: yes
 
 - name: Configure disk mounts in /etc/fstab

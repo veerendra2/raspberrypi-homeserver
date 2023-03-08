@@ -26,7 +26,8 @@
     state: present
     name: traefik
     compose:
-      - "{{ [services_base_dir_location, 'traefikv2', 'traefik.yml'] | path_join }}"
+      - "{{ [services_base_dir_location, 'traefik', 'traefik.yml'] | path_join }}"
+  when: "'traefik' in services"
 
 - name: Deploy service stacks
   docker_stack:
