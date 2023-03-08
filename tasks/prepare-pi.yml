@@ -48,17 +48,6 @@
       - bluetooth
       - hciuart
 
-  # - name: Disable bluetooth in /boot/firmware/config.txt
-  #   ini_file:
-  #     path: /boot/firmware/config.txt
-  #     section: all
-  #     option: dtoverlay
-  #     value: disable-bt
-  #     mode: '0744'
-  #     backup: yes
-  # become: yes
-  # when: disable_bluetooth|bool == true
-
 - name: Disable HDMI Output
   shell: /usr/bin/tvservice -o
   become: yes

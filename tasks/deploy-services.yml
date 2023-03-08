@@ -15,12 +15,11 @@
 
 - name: Synchronize services directories
   synchronize:
-    src: "services/{{ item }}"
+    src: "services/"
     dest: "{{ services_base_dir_location }}"
     delete: false
     recursive: true
     perms: false
-  with_items: "{{ services }}"
 
 - name: Create traefik_public network
   docker_stack:
