@@ -68,16 +68,6 @@
   when: reboot_after_pi_preparation|bool == true
   become: yes
 
-- name: Create mount directories
-  file:
-    path: "{{ item.value }}"
-    state: directory
-    owner: "{{ run_user }}"
-    group: "{{ run_user }}"
-    mode: "0644"
-  loop: "{{ lookup('dict', disk_mount_dirs) }}"
-  become: yes
-
 - name: Configure disk mounts in /etc/fstab
   mount:
     path: "{{ item.value }}"
@@ -86,5 +76,14 @@
     opts: rw,async
     state: mounted
     boot: no
+  loop: "{{ lookup('dict', disk_mount_dirs) }}"
+  become: yes
+
+- name: Change mount directories ownership
+  file:
+    path: "{{ item.value }}"
+    owner: "{{ run_user }}"
+    group: "{{ run_user }}"
+    mode: "0644"
   loop: "{{ lookup('dict', disk_mount_dirs) }}"
   become: yes
