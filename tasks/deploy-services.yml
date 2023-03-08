@@ -15,19 +15,19 @@
 
 - name: Synchronize services directories
   synchronize:
-    src: "services/{{ item }}"
+    src: "services/"
     dest: "{{ services_base_dir_location }}"
     delete: false
     recursive: true
     perms: false
-  with_items: "{{ services }}"
 
 - name: Create traefik_public network
   docker_stack:
     state: present
     name: traefik
     compose:
-      - "{{ [services_base_dir_location, 'traefikv2', 'traefik.yml'] | path_join }}"
+      - "{{ [services_base_dir_location, 'traefik', 'traefik.yml'] | path_join }}"
+  when: "'traefik' in services"
 
 - name: Deploy service stacks
   docker_stack:

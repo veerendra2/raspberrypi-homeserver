@@ -1,4 +1,4 @@
-version: "3.0"
+version: "3.2"
 
 volumes:
   config:
@@ -28,6 +28,15 @@ services:
     hostname: jellyfin
     env_file:
       - .env_jellyfin
+    ports:
+      - target: 7359
+        published: 7359
+        protocol: udp
+        mode: host
+      - target: 1900
+        published: 1900
+        protocol: udp
+        mode: host
     volumes:
       - /media/disk2:/disk2:ro
       - /media/disk2/jellyfin/config:/config

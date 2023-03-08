@@ -3,7 +3,7 @@ version: "3.7"
 networks:
   traefik_public:
     external: true
-  net:
+  internal:
     driver: overlay
     attachable: true
     ipam:
@@ -46,7 +46,7 @@ services:
     volumes:
       - /media/disk2/postgres:/var/lib/postgresql/data:rw
     networks:
-      - net
+      - internal
     secrets:
       - postgres_db
       - postgres_password
@@ -77,6 +77,6 @@ services:
     volumes:
       - redis:/data
     networks:
-      - net
+      - internal
     secrets:
       - redis_host_password

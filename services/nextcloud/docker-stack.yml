@@ -3,22 +3,22 @@ version: "3.7"
 networks:
   traefik_public:
     external: true
-  databases_net:
+  databases_internal:
     external: true
 
 secrets:
   nextcloud_admin_password:
-    file: ../databases/secrets/nextcloud_admin_password.txt
+    file: secrets/nextcloud_admin_password.txt
   nextcloud_admin_user:
-    file: ../databases/secrets/nextcloud_admin_user.txt
+    file: secrets/nextcloud_admin_user.txt
   postgres_db:
-    file: ../databases/secrets/postgres_db.txt
+    file: secrets/postgres_db.txt
   postgres_password:
-    file: ../databases/secrets/postgres_password.txt
+    file: secrets/postgres_password.txt
   postgres_user:
-    file: ../databases/secrets/postgres_user.txt
+    file: secrets/postgres_user.txt
   redis_host_password:
-    file: ../databases/secrets/redis_host_password.txt
+    file: secrets/redis_host_password.txt
 
 services:
   nextcloud:
@@ -42,11 +42,8 @@ services:
     hostname: nextcloud
     env_file:
       - .env_nextcloud
-    depends_on:
-      - postgres
-      - redis
     networks:
-      - databases_net
+      - databases_internal
       - traefik_public
     volumes:
       - /media/disk2/nextcloud:/var/www/html

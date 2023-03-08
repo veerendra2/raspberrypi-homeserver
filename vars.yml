@@ -11,8 +11,8 @@ services:
   - portainer
   - traefik
 
-# Service's docker stack files copies in this location. It should not end with slash
-services_base_dir_location: /opt/services
+# Service's docker stack files copies in this location. It should end with slash
+services_base_dir_location: /opt/services/
 
 pkgs:
   - "neofetch"
