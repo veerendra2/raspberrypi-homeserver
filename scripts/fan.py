@@ -14,7 +14,7 @@ PWM_FREQ = 25000
 PWM_RANGE = 100
 
 # Temperature thresholds and corresponding duty cycles
-TEMP_THRESHOLDS = [(75, 100), (70, 80), (60, 70), (48, 50), (30, 40)]
+TEMP_THRESHOLDS = [(75, 100), (70, 80), (60, 70), (40, 60), (30, 40)]
 
 logging.basicConfig(format='%(levelname)s:%(asctime)s %(message)s', level=logging.DEBUG)
 

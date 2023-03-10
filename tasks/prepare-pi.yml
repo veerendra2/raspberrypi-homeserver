@@ -71,11 +71,10 @@
 - name: Configure disk mounts in /etc/fstab
   mount:
     path: "{{ item.value }}"
-    src: LABEL="{{ item.key }}"
+    src: "{{ item.key }}"
     fstype: ext4
     opts: rw,async
     state: mounted
-    boot: no
   loop: "{{ lookup('dict', disk_mount_dirs) }}"
   become: yes
 
@@ -84,19 +83,6 @@
     path: "{{ item.value }}"
     owner: "{{ run_user }}"
     group: "{{ run_user }}"
-    mode: "0644"
+    mode: "0744"
   loop: "{{ lookup('dict', disk_mount_dirs) }}"
-  become: yes
-
-- name: Add mount disks in /etc/rc.local
-  copy:
-    content: |
-      #!/bin/sh -e
-      mount /dev/sdb1 /media/disk2
-      exit 0
-    dest: /etc/rc.local
-    force: false
-    group: root
-    owner: root
-    mode: 0755
   become: yes

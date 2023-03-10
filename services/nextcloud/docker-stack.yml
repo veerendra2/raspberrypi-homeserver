@@ -11,14 +11,12 @@ secrets:
     file: secrets/nextcloud_admin_password.txt
   nextcloud_admin_user:
     file: secrets/nextcloud_admin_user.txt
-  postgres_db:
-    file: secrets/postgres_db.txt
-  postgres_password:
-    file: secrets/postgres_password.txt
-  postgres_user:
-    file: secrets/postgres_user.txt
-  redis_host_password:
-    file: secrets/redis_host_password.txt
+  databases_postgres_password:
+    external: true
+  databases_postgres_user:
+    external: true
+  databases_redis_host_password:
+    external: true
 
 services:
   nextcloud:
@@ -50,8 +48,6 @@ services:
     secrets:
       - nextcloud_admin_password
       - nextcloud_admin_user
-      - postgres_db
-      - postgres_password
-      - postgres_user
-      - redis_host_password
-
+      - databases_postgres_password
+      - databases_postgres_user
+      - databases_redis_host_password

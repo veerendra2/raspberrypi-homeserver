@@ -14,12 +14,6 @@ volumes:
   redis:
 
 secrets:
-  nextcloud_admin_password:
-    file: ./secrets/nextcloud_admin_password.txt
-  nextcloud_admin_user:
-    file: ./secrets/nextcloud_admin_user.txt
-  postgres_db:
-    file: ./secrets/postgres_db.txt
   postgres_password:
     file: ./secrets/postgres_password.txt
   postgres_user:
@@ -44,11 +38,10 @@ services:
     env_file:
       - .env_postgres
     volumes:
-      - /media/disk2/postgres:/var/lib/postgresql/data:rw
+      - ./test:/var/lib/postgresql/data:rw
     networks:
       - internal
     secrets:
-      - postgres_db
       - postgres_password
       - postgres_user
 
