@@ -44,7 +44,7 @@ services:
       - databases_internal
       - traefik_public
     volumes:
-      - ./test:/var/www/html
+      - /media/disk2/nextcloud:/var/www/html
     secrets:
       - nextcloud_admin_password
       - nextcloud_admin_user
