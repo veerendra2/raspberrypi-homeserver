@@ -7,7 +7,7 @@ services:
   - jellyfin
   - monitoring
   - nextcloud
-  - pihole
+#  - pihole
   - portainer
   - traefik
 
@@ -96,9 +96,9 @@ reboot_after_pi_preparation: true
 
 # Mount partions configuration in /etc/fstab
 disk_mount_dirs:
-  # [DISK_LABEL]: [MOUNT DIRECTORY]
-  usb-ext-hdd: /media/disk1 # Backup disk
-  usb-ext-ssd: /media/disk2 # Main disk for nextcloud, filebrowser, jellyfin, etc
+  # [DISK_PARTITION]: [MOUNT DIRECTORY]
+  /dev/sda1: /media/disk1 # Backup disk
+  /dev/sdb1: /media/disk2 # Main disk for nextcloud, filebrowser, jellyfin and postgres
 
 # Pi power optimization setttings
 disable_hdmi: true

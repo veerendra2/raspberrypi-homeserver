@@ -69,8 +69,17 @@ helloworld1.1.cku71u9yhzkj@atom    | 64 bytes from 172.16.202.5: seq=1 ttl=64 ti
 ```
 
 ## Create databases
+Create databases manually for services
+```bash
+# Find the postgres container
+$ docker ps | grep postgres
+$ docker exec -it --user postgres [CONTAINER_ID] /bin/sh
+$ psql -U veerendra
+```
+
+Run below sql command to create database(If required, create user too)
 ```sql
-create user veerendra with encrypted password 'mypass';
-create database nextcloud;
-grant all privileges on database nextcloud to veerendra;
+CREATE USER suma WITH ENCRYPTED PASSWORD 'mypass';
+CREATE DATABASE mydb;
+GRANT ALL PRIVILEGES ON DATABASE mydb TO suma;
 ```
