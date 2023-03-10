@@ -17,6 +17,8 @@ secrets:
     external: true
   databases_redis_host_password:
     external: true
+  databases_postgres_db:
+    external: true
 
 services:
   nextcloud:
@@ -51,3 +53,4 @@ services:
       - databases_postgres_password
       - databases_postgres_user
       - databases_redis_host_password
+      - databases_postgres_db

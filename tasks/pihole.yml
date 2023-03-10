@@ -26,6 +26,7 @@
         src: /run/systemd/resolve/resolv.conf
         dest: /etc/resolv.conf
         state: link
+      ignore_errors: yes
 
     - name: Restart systemd-resolved
       service:

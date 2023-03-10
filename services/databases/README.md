@@ -69,7 +69,9 @@ helloworld1.1.cku71u9yhzkj@atom    | 64 bytes from 172.16.202.5: seq=1 ttl=64 ti
 ```
 
 ## Create databases
-Create databases manually for services
+Default user `trinity` and `nextcloud` database create during startup
+
+If required create databases manually for other services
 ```bash
 # Find the postgres container
 $ docker ps | grep postgres

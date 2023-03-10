@@ -20,6 +20,8 @@ secrets:
     file: ./secrets/postgres_user.txt
   redis_host_password:
     file: ./secrets/redis_host_password.txt
+  postgres_db:
+    file: ./secrets/postgres_db.txt
 
 services:
   postgres:
@@ -38,12 +40,13 @@ services:
     env_file:
       - .env_postgres
     volumes:
-      - ./test:/var/lib/postgresql/data:rw
+      - /media/disk2/postgres:/var/lib/postgresql/data:rw
     networks:
       - internal
     secrets:
       - postgres_password
       - postgres_user
+      - postgres_db
 
   redis:
     image: redis:7.0.5-alpine
