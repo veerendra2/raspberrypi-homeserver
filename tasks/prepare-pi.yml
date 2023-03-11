@@ -37,21 +37,9 @@
     state: present
     key: "{{ github_username_keys }}"
 
-# POWER OPTIMIZATION
-- block:
-  - name: Stop and disable hciuart and bluetooth deamon
-    systemd:
-      name: "{{ item }}"
-      state: stopped
-      enabled: no
-    with_items:
-      - bluetooth
-      - hciuart
-
-- name: Disable HDMI Output
-  shell: /usr/bin/tvservice -o
-  become: yes
-  when: disable_bluetooth|bool == true
+- name: Generate ssh key pair
+  openssh_keypair:
+    path: "{{ [ansible_env.HOME, '.ssh', 'id_rsa'] | path_join }}"
 
 - name: Install pigpio and Pi fan controller
   import_tasks: pigpio.yml
@@ -61,6 +49,23 @@
 
 - name: Install bettercap
   import_tasks: bettercap.yml
+
+# POWER OPTIMIZATION
+- block:
+  - name: Stop and disable hciuart and bluetooth deamon
+    systemd:
+      name: "{{ item }}"
+      state: stopped
+      enabled: no
+    become: yes
+    with_items:
+      - bluetooth
+      - hciuart
+
+- name: Disable HDMI Output
+  shell: /usr/bin/tvservice -o
+  become: yes
+  when: disable_bluetooth|bool == true
 
 - name: Reboot Pi after upgrade
   reboot:
