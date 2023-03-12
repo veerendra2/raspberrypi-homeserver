@@ -1,5 +1,4 @@
 ---
-
 - name: Create temporary bettercap build directory
   tempfile:
     state: directory

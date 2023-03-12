@@ -7,9 +7,9 @@ services:
   - jellyfin
   - monitoring
   - nextcloud
-#  - pihole
+  # - pihole
   - portainer
-  - traefik
+  - traefikv2
 
 # Service's docker stack files copies in this location. It should end with slash
 services_base_dir_location: /opt/services/

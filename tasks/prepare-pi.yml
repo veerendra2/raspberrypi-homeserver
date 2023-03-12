@@ -37,6 +37,40 @@
     state: present
     key: "{{ github_username_keys }}"
 
+- name: Generate ssh key pair
+  openssh_keypair:
+    path: "{{ [ansible_env.HOME, '.ssh', 'id_rsa'] | path_join }}"
+    force: no
+
+- name: Check fan-py daemon is loaded
+  systemd:
+    name: fan-py
+  register: output
+
+- name: Install pigpio and Pi fan controller
+  include_tasks: pigpio.yml
+  when: output.status.LoadState != 'loaded'
+
+- block:
+  - name: Check docker installed
+    shell: docker --version
+    register: output
+  - debug:
+      msg: "{{ output.stdout }}"
+  rescue:
+  - name: Install and configure docker
+    include_tasks: docker.yml
+
+- block:
+  - name: Check bettercap installed
+    shell: bettercap --version
+    register: output
+  - debug:
+      msg: "{{ output.stdout }}"
+  rescue:
+  - name: Install bettercap
+    include_tasks: bettercap.yml
+
 # POWER OPTIMIZATION
 - block:
   - name: Stop and disable hciuart and bluetooth deamon
@@ -47,20 +81,10 @@
     with_items:
       - bluetooth
       - hciuart
-
-- name: Disable HDMI Output
-  shell: /usr/bin/tvservice -o
+  - name: Disable HDMI Output
+    shell: /usr/bin/tvservice -o
+    when: disable_bluetooth|bool == true
   become: yes
-  when: disable_bluetooth|bool == true
-
-- name: Install pigpio and Pi fan controller
-  import_tasks: pigpio.yml
-
-- name: Install and configure docker
-  import_tasks: docker.yml
-
-- name: Install bettercap
-  import_tasks: bettercap.yml
 
 - name: Reboot Pi after upgrade
   reboot:
