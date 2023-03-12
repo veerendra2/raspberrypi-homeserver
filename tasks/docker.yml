@@ -24,21 +24,21 @@
       append: true
 
   - block:
-      - name: Update userns-remap config
-        shell: |
-          cp /etc/docker/daemon.json /etc/docker/daemon.json.backup
-          jq '. += { "userns-remap" : "default" }' < /etc/docker/daemon.json > /tmp/daemon.json
-          mv /tmp/daemon.json /etc/docker/daemon.json
+    - name: Update userns-remap config
+      shell: |
+        cp /etc/docker/daemon.json /etc/docker/daemon.json.backup
+        jq '. += { "userns-remap" : "default" }' < /etc/docker/daemon.json > /tmp/daemon.json
+        mv /tmp/daemon.json /etc/docker/daemon.json
     rescue:
-      - name: Create /etc/docker/daemon.json and configure userns-remap
-        blockinfile:
-          path: /etc/docker/daemon.json
-          marker: ""
-          create: yes
-          block: |
-            {
-              "userns-remap": "default"
-            }
+    - name: Create /etc/docker/daemon.json and configure userns-remap
+      blockinfile:
+        path: /etc/docker/daemon.json
+        marker: ""
+        create: yes
+        block: |
+          {
+            "userns-remap": "default"
+          }
     when: enable_userns_remap|bool == true
 
   - name: Enable docker swarm mode

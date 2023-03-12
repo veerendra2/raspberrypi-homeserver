@@ -52,24 +52,24 @@
   when: output.status.LoadState != 'loaded'
 
 - block:
-    - name: Check docker installed
-      shell: docker --version
-      register: output
-    - debug:
-        msg: "docker version: {{ output.stdout }}"
+  - name: Check docker installed
+    shell: docker --version
+    register: output
+  - debug:
+      msg: "{{ output.stdout }}"
   rescue:
-    - name: Install and configure docker
-      include_tasks: docker.yml
+  - name: Install and configure docker
+    include_tasks: docker.yml
 
 - block:
-    - name: Check bettercap installed
-      shell: bettercap --version
-      register: output
-    - debug:
-        msg: "bettercap version: {{ output.stdout }}"
+  - name: Check bettercap installed
+    shell: bettercap --version
+    register: output
+  - debug:
+      msg: "{{ output.stdout }}"
   rescue:
-    - name: Install bettercap
-      include_tasks: bettercap.yml
+  - name: Install bettercap
+    include_tasks: bettercap.yml
 
 # POWER OPTIMIZATION
 - block:
@@ -78,15 +78,13 @@
       name: "{{ item }}"
       state: stopped
       enabled: no
-    become: yes
     with_items:
       - bluetooth
       - hciuart
-
-- name: Disable HDMI Output
-  shell: /usr/bin/tvservice -o
+  - name: Disable HDMI Output
+    shell: /usr/bin/tvservice -o
+    when: disable_bluetooth|bool == true
   become: yes
-  when: disable_bluetooth|bool == true
 
 - name: Reboot Pi after upgrade
   reboot:
