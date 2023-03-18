@@ -5,3 +5,5 @@ apps/nginx/ssl/*
 !apps/nginx/ssl/.gitkeep
 services/traefik/config/ssl/*.crt
 services/traefik/config/ssl/*.key
+services/torrent-stack/wireguard-config/*
+services/torrent-stack/deluge-config/*

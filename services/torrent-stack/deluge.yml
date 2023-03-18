@@ -1,0 +1,34 @@
+version: "3.2"
+
+networks:
+  internal:
+    driver: overlay
+    attachable: true
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.16.204.0/24
+
+services:
+  deluge:
+    image: linuxserver/deluge:arm64v8-2.1.1
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - "traefik.enable=false"
+    hostname: deluge
+    env_file:
+      - .env_deluge
+    networks:
+      internal:
+        ipv4_address: 172.16.204.20
+      external: {}
+    volumes:
+      - ./deluge-config:/config
+      - /media/disk2/downloads:/downloads

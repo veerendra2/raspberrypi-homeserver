@@ -1,0 +1,63 @@
+version: "3.7"
+services:
+
+  torrent-client:
+    image: linuxserver/deluge
+    restart: unless-stopped
+    network_mode: service:vpn-sidecar
+    depends_on:
+      - vpn-sidecar
+    volumes:
+      - deluge-data-volume:/config
+      - downloads-volume:/downloads
+
+  web-proxy:
+    image: dperson/nginx
+    restart: unless-stopped
+    networks:
+      - default
+      - isolated_torrent_network
+      - traefik_public
+    environment:
+      - PROXY=http://torrent-client:8112;/
+    ports:
+      - 8112:80
+    links:
+      - vpn-sidecar:torrent-client
+    depends_on:
+      - torrent-client
+    read_only: true
+    tmpfs:
+      - /run
+      - /tmp
+      - /var/cache/nginx
+
+  vpn-sidecar:
+    image: linuxserver/wireguard
+    restart: unless-stopped
+    networks:
+      - isolated_torrent_network
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    volumes:
+      - /lib/modules:/lib/modules
+      - ./wireguard-config:/config
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=0 # for raspberry pi compatibility?
+
+volumes:
+  deluge-data-volume: # deluge application files - change to a persistent location
+    driver_opts:
+        type: tmpfs
+        device: tmpfs
+  downloads-volume: # (optional) file download location - change to a persistent location
+    driver_opts:
+        type: tmpfs
+        device: tmpfs
+networks:
+  default:
+  isolated_torrent_network:
+  traefik_public:
+    external: true
