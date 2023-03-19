@@ -109,3 +109,12 @@ services:
         subtitle: "Self-hosted cloud"
         url: "/nextcloud/"
         method: "get"
+  - name: Torrent
+    icon: ""
+    items:
+      - name: "Deluge"
+        type: "Ping"
+        logo: "assets/tools/deluge.png"
+        subtitle: "BitTorrent client"
+        url: "/deluge/"
+        method: "get"

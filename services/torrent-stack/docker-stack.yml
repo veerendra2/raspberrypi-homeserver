@@ -1,0 +1,69 @@
+version: "3.2"
+
+networks:
+  traefik_private:
+    external: true
+  internal:
+    driver: overlay
+    attachable: true
+    ipam:
+      config:
+        - subnet: 172.16.203.0/24
+
+volumes:
+  deluge:
+
+services:
+  wireguard:
+    image: linuxserver/wireguard:arm64v8-version-v1.0.20210914
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - traefik.enable=false
+    hostname: wireguard
+    env_file:
+      - .env_wireguard
+    networks:
+      - internal
+      - traefik_private
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - /lib/modules:/lib/modules
+      - ./wireguard/wg0.conf:/config/wg0.conf
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=0
+
+  deluge:
+    image: linuxserver/deluge:arm64v8-2.1.1-r3-ls179
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.deluge.tls=true
+        - traefik.http.routers.deluge.rule=PathPrefix(`/deluge`)
+        # - traefik.http.routers.deluge.middlewares=deluge-stripprefix
+        # - traefik.http.middlewares.deluge-stripprefix.stripprefix.prefixes=/deluge
+        - traefik.http.services.deluge.loadbalancer.server.port=8112
+    hostname: deluge
+    env_file:
+      - .env_deluge
+    networks:
+      - traefik_private
+    volumes:
+      #- deluge:/config
+      - ./deluge:/config
+      - /media/disk2/downloads:/downloads

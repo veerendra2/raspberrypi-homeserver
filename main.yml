@@ -24,9 +24,11 @@
   tasks:
     - name: Prepare Pi
       import_tasks: tasks/prepare-pi.yml
+      tags: prepare-pi
 
     - name: Deploy services
       import_tasks: tasks/deploy-services.yml
+      tags: services
 
     - name: Setup firewall rules
       import_tasks: tasks/ufw.yml

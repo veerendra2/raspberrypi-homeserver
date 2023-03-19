@@ -3,6 +3,8 @@ version: "3.2"
 networks:
   traefik_public:
     external: true
+  traefik_private:
+    external: true
 
 services:
   proxy:
@@ -40,3 +42,4 @@ services:
       - ./config:/etc/traefik
     networks:
       - traefik_public
+      - traefik_private
