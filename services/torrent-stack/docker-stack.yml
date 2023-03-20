@@ -10,9 +10,6 @@ networks:
       config:
         - subnet: 172.16.203.0/24
 
-volumes:
-  deluge:
-
 services:
   wireguard:
     image: linuxserver/wireguard:arm64v8-version-v1.0.20210914
@@ -40,9 +37,10 @@ services:
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv6.conf.all.disable_ipv6=0
+      #- net.ipv4.ip_forward=1
 
-  deluge:
-    image: linuxserver/deluge:arm64v8-2.1.1-r3-ls179
+  qbittorrent:
+    image: linuxserver/qbittorrent:arm64v8-4.5.2
     deploy:
       replicas: 1
       placement:
@@ -53,17 +51,46 @@ services:
         max_attempts: 3
       labels:
         - traefik.enable=true
-        - traefik.http.routers.deluge.tls=true
-        - traefik.http.routers.deluge.rule=PathPrefix(`/deluge`)
-        # - traefik.http.routers.deluge.middlewares=deluge-stripprefix
-        # - traefik.http.middlewares.deluge-stripprefix.stripprefix.prefixes=/deluge
-        - traefik.http.services.deluge.loadbalancer.server.port=8112
-    hostname: deluge
+        - traefik.http.routers.qbittorrent.tls=true
+        - traefik.http.routers.qbittorrent.rule=PathPrefix(`/qbittorrent`)
+        - traefik.http.routers.qbittorrent.middlewares=qbittorrent-stripprefix
+        - traefik.http.middlewares.qbittorrent-stripprefix.stripprefix.prefixes=/qbittorrent
+        - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
+    hostname: qbittorrent
     env_file:
-      - .env_deluge
+      - .env_qbittorrent
     networks:
       - traefik_private
+    cap_add:
+      - NET_ADMIN
     volumes:
-      #- deluge:/config
-      - ./deluge:/config
+      - ./qbittorrent:/config
       - /media/disk2/downloads:/downloads
+
+  # radarr:
+  #   image: linuxserver/radarr:arm64v8-4.3.2
+  #   deploy:
+  #     replicas: 1
+  #     placement:
+  #       constraints: [node.role == manager]
+  #     restart_policy:
+  #       condition: on-failure
+  #       delay: 30s
+  #       max_attempts: 3
+  #     labels:
+  #       - traefik.enable=true
+  #       - traefik.http.routers.radarr.tls=true
+  #       - traefik.http.routers.radarr.rule=PathPrefix(`/radarr`)
+  #       - traefik.http.routers.radarr.middlewares=radarr-stripprefix
+  #       - traefik.http.middlewares.radarr-stripprefix.stripprefix.prefixes=/radarr
+  #       - traefik.http.services.radarr.loadbalancer.server.port=7878
+  #   hostname: radarr
+  #   env_file:
+  #     - .env_radarr
+  #   networks:
+  #     - traefik_private
+  #   cap_add:
+  #     - NET_ADMIN
+  #   volumes:
+  #     - ./radarr:/config
+  #     - /media/disk2/downloads:/downloads

@@ -6,4 +6,4 @@ apps/nginx/ssl/*
 services/traefik/config/ssl/*.crt
 services/traefik/config/ssl/*.key
 services/torrent-stack/wireguard/*
-services/torrent-stack/deluge/*
+services/torrent-stack/qbittorrent/*

@@ -112,9 +112,9 @@ services:
   - name: Torrent
     icon: ""
     items:
-      - name: "Deluge"
+      - name: "qBittorent"
         type: "Ping"
-        logo: "assets/tools/deluge.png"
+        logo: "assets/tools/qbittorrent.png"
         subtitle: "BitTorrent client"
-        url: "/deluge/"
+        url: "/qbittorrent/"
         method: "get"

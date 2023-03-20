@@ -35,8 +35,18 @@
       <img src="https://user-images.githubusercontent.com/8393701/194067359-05781276-1953-4b6c-a548-c3d292d49389.png" alt="Homer" width="60"/> <br /> Homer
     </center>
   </td>
+  <td>
+    <center>
+      <img src="https://user-images.githubusercontent.com/8393701/196800928-49cd5781-88b2-40ff-b398-7d335cca24c0.png" alt="ufw" width="60"/> <br /> ufw
+    </center>
+  </td>
 </tr>
 <tr>
+  <td>
+    <center>
+      <img src="https://user-images.githubusercontent.com/8393701/194383872-f90aab62-ebac-4973-bbb0-766fafd2a8cd.png" alt="Filebrowser" width="60"/> <br /> Filebrowser
+    </center>
+  </td>
   <td>
     <center>
       <img src="https://user-images.githubusercontent.com/8393701/194766544-2b539ee7-cb51-426f-9174-a98c1f94a044.png" alt="Jellyfin" width="60"/> <br /> Jellyfin
@@ -49,17 +59,17 @@
   </td>
   <td>
     <center>
-      <img src="https://user-images.githubusercontent.com/8393701/194383872-f90aab62-ebac-4973-bbb0-766fafd2a8cd.png" alt="Filebrowser" width="60"/> <br /> Filebrowser
-    </center>
-  </td>
-  <td>
-    <center>
       <img src="https://user-images.githubusercontent.com/8393701/221434420-2277ee82-115d-4ec6-bbe7-d0a010687dda.png" alt="Traefik" width="60"/> <br /> Traefik
     </center>
   </td>
   <td>
     <center>
-      <img src="https://user-images.githubusercontent.com/8393701/196800928-49cd5781-88b2-40ff-b398-7d335cca24c0.png" alt="ufw" width="60"/> <br /> ufw
+      <img src="https://user-images.githubusercontent.com/8393701/226209007-03526f21-c6f6-40e1-bafd-396c87ce570c.png" alt="Wireguard" width="60"/> <br /> Wireguard
+    </center>
+  </td>
+  <td>
+    <center>
+      <img src="https://user-images.githubusercontent.com/8393701/226446777-1f166dd0-7347-412d-9f53-ede03a5e680d.png" alt="qBittorrent" width="60"/> <br /> qBittorrent
     </center>
   </td>
 </tr>
