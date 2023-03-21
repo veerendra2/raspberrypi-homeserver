@@ -34,10 +34,10 @@ services:
     volumes:
       - /lib/modules:/lib/modules
       - ./wireguard/wg0.conf:/config/wg0.conf
+      - ./wireguard/danted.conf:/etc/danted.conf
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv6.conf.all.disable_ipv6=0
-      #- net.ipv4.ip_forward=1
 
   qbittorrent:
     image: linuxserver/qbittorrent:arm64v8-4.5.2
@@ -67,30 +67,30 @@ services:
       - ./qbittorrent:/config
       - /media/disk2/downloads:/downloads
 
-  # radarr:
-  #   image: linuxserver/radarr:arm64v8-4.3.2
-  #   deploy:
-  #     replicas: 1
-  #     placement:
-  #       constraints: [node.role == manager]
-  #     restart_policy:
-  #       condition: on-failure
-  #       delay: 30s
-  #       max_attempts: 3
-  #     labels:
-  #       - traefik.enable=true
-  #       - traefik.http.routers.radarr.tls=true
-  #       - traefik.http.routers.radarr.rule=PathPrefix(`/radarr`)
-  #       - traefik.http.routers.radarr.middlewares=radarr-stripprefix
-  #       - traefik.http.middlewares.radarr-stripprefix.stripprefix.prefixes=/radarr
-  #       - traefik.http.services.radarr.loadbalancer.server.port=7878
-  #   hostname: radarr
-  #   env_file:
-  #     - .env_radarr
-  #   networks:
-  #     - traefik_private
-  #   cap_add:
-  #     - NET_ADMIN
-  #   volumes:
-  #     - ./radarr:/config
-  #     - /media/disk2/downloads:/downloads
+  radarr:
+    image: linuxserver/radarr:arm64v8-4.3.2
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.radarr.tls=true
+        - traefik.http.routers.radarr.rule=PathPrefix(`/radarr`)
+        - traefik.http.routers.radarr.middlewares=radarr-stripprefix
+        - traefik.http.middlewares.radarr-stripprefix.stripprefix.prefixes=/radarr
+        - traefik.http.services.radarr.loadbalancer.server.port=7878
+    hostname: radarr
+    env_file:
+      - .env_radarr
+    networks:
+      - traefik_private
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./radarr:/config
+      - /media/disk2/downloads:/downloads
