@@ -1,13 +1,13 @@
 <Config>
   <LogLevel>info</LogLevel>
-  <UrlBase></UrlBase>
+  <UrlBase>/radarr</UrlBase>
   <UpdateMechanism>Docker</UpdateMechanism>
   <BindAddress>*</BindAddress>
   <Port>7878</Port>
   <SslPort>9898</SslPort>
   <EnableSsl>False</EnableSsl>
   <LaunchBrowser>True</LaunchBrowser>
-  <ApiKey>4d404c13d3ac46978a317004069e863d</ApiKey>
+  <ApiKey>my-api-key</ApiKey>
   <AuthenticationMethod>None</AuthenticationMethod>
   <Branch>master</Branch>
   <SslCertPath></SslCertPath>

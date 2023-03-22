@@ -10,6 +10,10 @@ networks:
       config:
         - subnet: 172.16.203.0/24
 
+volumes:
+  qbitorrent:
+  radarr:
+
 services:
   wireguard:
     image: linuxserver/wireguard:arm64v8-version-v1.0.20210914
@@ -25,7 +29,7 @@ services:
         - traefik.enable=false
     hostname: wireguard
     env_file:
-      - .env_wireguard
+      - ./wireguard/.env_wireguard
     networks:
       - internal
       - traefik_private
@@ -34,7 +38,9 @@ services:
     volumes:
       - /lib/modules:/lib/modules
       - ./wireguard/wg0.conf:/config/wg0.conf
-      - ./wireguard/danted.conf:/etc/danted.conf
+      - ./wireguard/dante-server/danted.conf:/etc/danted.conf
+      - ./wireguard/dante-server/install.sh:/custom-cont-init.d/install.sh:ro
+      #- ./wireguard/dante-server/run.sh:/custom-services.d/run.sh:ro
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv6.conf.all.disable_ipv6=0
@@ -58,13 +64,12 @@ services:
         - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
     hostname: qbittorrent
     env_file:
-      - .env_qbittorrent
+      - ./qbittorrent/.env_qbittorrent
     networks:
       - traefik_private
-    cap_add:
-      - NET_ADMIN
     volumes:
-      - ./qbittorrent:/config
+      - qbitorrent:/config
+      - ./qbittorrent/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf
       - /media/disk2/downloads:/downloads
 
   radarr:
@@ -81,16 +86,13 @@ services:
         - traefik.enable=true
         - traefik.http.routers.radarr.tls=true
         - traefik.http.routers.radarr.rule=PathPrefix(`/radarr`)
-        - traefik.http.routers.radarr.middlewares=radarr-stripprefix
-        - traefik.http.middlewares.radarr-stripprefix.stripprefix.prefixes=/radarr
         - traefik.http.services.radarr.loadbalancer.server.port=7878
     hostname: radarr
     env_file:
-      - .env_radarr
+      - ./radarr/.env_radarr
     networks:
       - traefik_private
-    cap_add:
-      - NET_ADMIN
     volumes:
-      - ./radarr:/config
+      - radarr:/config
+      - ./radarr/config.xml:/config/config.xml
       - /media/disk2/downloads:/downloads
