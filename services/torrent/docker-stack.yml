@@ -40,7 +40,7 @@ services:
       - ./wireguard/wg0.conf:/config/wg0.conf
       - ./wireguard/dante-server/danted.conf:/etc/danted.conf
       - ./wireguard/dante-server/install.sh:/custom-cont-init.d/install.sh:ro
-      #- ./wireguard/dante-server/run.sh:/custom-services.d/run.sh:ro
+      - ./wireguard/dante-server/run.sh:/custom-services.d/run.sh:ro
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv6.conf.all.disable_ipv6=0
@@ -70,6 +70,7 @@ services:
     volumes:
       - qbitorrent:/config
       - ./qbittorrent/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf
+      - ./qbittorrent/webui:/config/qBittorrent/webui
       - /media/disk2/downloads:/downloads
 
   radarr:
