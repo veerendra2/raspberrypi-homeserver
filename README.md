@@ -107,6 +107,7 @@
   * Docker container metrics
 * Beautiful Homer dashboard to view all services
 * Uncomplicated firewall
+* qBittorrent with Wireguard proxy and kill switch with `healthcheck`
 
 ## Homer screenshot
 ![image](https://user-images.githubusercontent.com/8393701/221434707-6c8e83a5-8116-4f78-9b2f-941bf1c053e2.png)
