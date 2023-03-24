@@ -109,3 +109,18 @@ services:
         subtitle: "Self-hosted cloud"
         url: "/nextcloud/"
         method: "get"
+  - name: Torrent
+    icon: ""
+    items:
+      - name: "qBittorent"
+        type: "Ping"
+        logo: "assets/tools/qbittorrent.png"
+        subtitle: "BitTorrent client"
+        url: "/qbittorrent/"
+        method: "get"
+      - name: "Radarr"
+        type: "Ping"
+        logo: "assets/tools/radarr.svg"
+        subtitle: "Movie collection manager for Usenet and BitTorrent users"
+        url: "/radarr/"
+        method: "get"

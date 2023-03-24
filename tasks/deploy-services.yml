@@ -13,6 +13,13 @@
 - include_tasks: pihole.yml
   when: "'pihole' in services"
 
+- name: Create .vpn_ip file for torrent service
+  copy:
+    dest: services/torrent/.vpn_ip
+    content: |
+      VPN_IP={{ vpn_ip }}
+  when: "vpn_ip and 'torrent' in services"
+
 - name: Synchronize services directories
   synchronize:
     src: "services/"

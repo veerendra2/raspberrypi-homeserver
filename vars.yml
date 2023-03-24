@@ -10,6 +10,7 @@ services:
   # - pihole
   - portainer
   - traefikv2
+  - torrent
 
 # Service's docker stack files copies in this location. It should end with slash
 services_base_dir_location: /opt/services/
@@ -103,3 +104,6 @@ disk_mount_dirs:
 # Pi power optimization setttings
 disable_hdmi: true
 disable_bluetooth: true
+
+# VPN ip to test connection is secure. More in services/torrent/
+vpn_ip: ""

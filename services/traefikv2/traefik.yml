@@ -7,8 +7,17 @@ services:
       replicas: 0
     networks:
       - public
+      - private
 
 networks:
+  private:
+    driver: overlay
+    attachable: true
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.16.204.0/24
+
   public:
     driver: overlay
     attachable: true
