@@ -5,3 +5,4 @@ apps/nginx/ssl/*
 !apps/nginx/ssl/.gitkeep
 services/traefik/config/ssl/*[.crt, .key]
 services/torrent/wireguard/wg0.conf
+services/torrent/.vpn_ip

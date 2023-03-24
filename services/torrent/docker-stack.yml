@@ -1,4 +1,4 @@
-version: "3.2"
+version: "3.7"
 
 networks:
   traefik_private:
@@ -65,13 +65,19 @@ services:
     hostname: qbittorrent
     env_file:
       - ./qbittorrent/.env_qbittorrent
+      - .vpn_ip
     networks:
       - traefik_private
     volumes:
       - qbitorrent:/config
       - ./qbittorrent/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf
-      - ./qbittorrent/webui:/config/qBittorrent/webui
+      - ./ip-test.sh:/opt/ip-test.sh
       - /media/disk2/downloads:/downloads
+    healthcheck:
+      test: ["CMD", "/opt/ip-test.sh"]
+      interval: 30m
+      timeout: 10s
+      retries: 1
 
   radarr:
     image: linuxserver/radarr:arm64v8-4.3.2
@@ -91,9 +97,16 @@ services:
     hostname: radarr
     env_file:
       - ./radarr/.env_radarr
+      - .vpn_ip
     networks:
       - traefik_private
     volumes:
       - radarr:/config
       - ./radarr/config.xml:/config/config.xml
+      - ./ip-test.sh:/opt/ip-test.sh
       - /media/disk2/downloads:/downloads
+    healthcheck:
+      test: ["CMD", "/opt/ip-test.sh"]
+      interval: 30m
+      timeout: 10s
+      retries: 1
