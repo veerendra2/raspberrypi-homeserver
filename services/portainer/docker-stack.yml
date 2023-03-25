@@ -1,4 +1,4 @@
-version: '3.2'
+version: '3.8'
 
 networks:
   traefik_public:
@@ -13,7 +13,7 @@ secrets:
 
 services:
   portainer:
-    image: portainer/portainer-ce:linux-arm64-2.17.0-alpine
+    image: portainer/portainer-ce:linux-arm64-2.17.1-alpine
     deploy:
       replicas: 1
       placement:

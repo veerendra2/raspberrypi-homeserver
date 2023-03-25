@@ -7,7 +7,7 @@
 HTTPBIN_ORG_IP=107.22.139.22
 MY_IP=`curl -s -x socks5://wireguard:1080 http://$HTTPBIN_ORG_IP/ip | jq --raw-output .origin`
 
-if [ "$MY_IP" == "$VPN_IP1" ];
+if [ "$MY_IP" == "$VPN_IP" ];
 then
   echo "$MY_IP and $VPN_IP are matched"
   exit 0

@@ -1,4 +1,4 @@
-version: "3.2"
+version: "3.8"
 
 networks:
   traefik_public:
@@ -6,7 +6,7 @@ networks:
 
 services:
   homer:
-    image: b4bz/homer:v23.02.1
+    image: b4bz/homer:v23.02.2
     deploy:
       replicas: 1
       placement:

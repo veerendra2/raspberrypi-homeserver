@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.8"
 
 networks:
   traefik_public:
@@ -49,7 +49,7 @@ services:
       - postgres_db
 
   redis:
-    image: redis:7.0.5-alpine
+    image: redis:7.0.10-alpine
     deploy:
       replicas: 1
       placement:

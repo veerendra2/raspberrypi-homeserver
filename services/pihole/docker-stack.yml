@@ -1,4 +1,3 @@
----
 version: "3.8"
 
 networks:
@@ -14,7 +13,7 @@ secrets:
 
 services:
   pihole:
-    image: pihole/pihole:2022.11.1
+    image: pihole/pihole:2023.03.1
     deploy:
       replicas: 1
       placement:

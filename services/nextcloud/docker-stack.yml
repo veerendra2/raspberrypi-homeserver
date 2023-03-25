@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.8"
 
 networks:
   traefik_public:
@@ -22,7 +22,7 @@ secrets:
 
 services:
   nextcloud:
-    image: arm64v8/nextcloud:25.0.3-apache
+    image: arm64v8/nextcloud:25.0.4-apache
     deploy:
       replicas: 1
       placement:
