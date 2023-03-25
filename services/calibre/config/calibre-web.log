@@ -1,0 +1,55 @@
+[2023-03-25 19:32:35,825]  WARN {cps.config_sql:327} Log path None not valid, falling back to default
+[2023-03-25 19:32:35,860]  WARN {cps.config_sql:358} invalidating configuration
+[2023-03-25 19:32:36,061]  INFO {cps:143} *** "APScheduler" version does not fit the requirements. Should: available, Found: Not available, please consider installing required version ***
+[2023-03-25 19:32:36,062]  INFO {cps:143} *** "greenlet" version does not fit the requirements. Should: available, Found: Not available, please consider installing required version ***
+[2023-03-25 19:32:36,062]  INFO {cps:152} Starting Calibre Web...
+[2023-03-25 19:32:39,359]  INFO {apscheduler.scheduler:171} Scheduler started
+[2023-03-25 19:32:39,467]  WARN {py.warnings:109} /usr/local/lib/python3.10/dist-packages/apscheduler/util.py:436: PytzUsageWarning: The localize method is no longer necessary, as this time zone supports the fold attribute (PEP 495). For more details on migrating to a PEP 495-compliant implementation, see https://pytz-deprecation-shim.readthedocs.io/en/latest/migration.html
+  return tzinfo.localize(dt)
+
+[2023-03-25 19:32:39,469]  INFO {apscheduler.scheduler:885} Added job "end scheduled task" to job store "default"
+[2023-03-25 19:32:39,942]  INFO {cps.ub:890} github Blueprint Created
+[2023-03-25 19:32:39,964]  INFO {cps.ub:890} google Blueprint Created
+[2023-03-25 19:32:43,483]  INFO {cps.server:205} Starting Gevent server on [::]:8083
+[2023-03-25 19:34:11,408]  INFO {cps.server:275} webserver stop (restart=False)
+[2023-03-25 19:34:11,410]  INFO {cps.server:260} Performing shutdown of Calibre-Web
+[2023-03-25 19:34:11,411]  INFO {apscheduler.scheduler:202} Scheduler has been shut down
+[2023-03-25 19:34:55,431]  WARN {cps.config_sql:358} invalidating configuration
+[2023-03-25 19:34:55,537]  INFO {cps:143} *** "APScheduler" version does not fit the requirements. Should: available, Found: Not available, please consider installing required version ***
+[2023-03-25 19:34:55,537]  INFO {cps:143} *** "greenlet" version does not fit the requirements. Should: available, Found: Not available, please consider installing required version ***
+[2023-03-25 19:34:55,538]  INFO {cps:152} Starting Calibre Web...
+[2023-03-25 19:34:57,343]  INFO {apscheduler.scheduler:171} Scheduler started
+[2023-03-25 19:34:57,431]  WARN {py.warnings:109} /usr/local/lib/python3.10/dist-packages/apscheduler/util.py:436: PytzUsageWarning: The localize method is no longer necessary, as this time zone supports the fold attribute (PEP 495). For more details on migrating to a PEP 495-compliant implementation, see https://pytz-deprecation-shim.readthedocs.io/en/latest/migration.html
+  return tzinfo.localize(dt)
+
+[2023-03-25 19:34:57,432]  INFO {apscheduler.scheduler:885} Added job "end scheduled task" to job store "default"
+[2023-03-25 19:35:00,801]  INFO {cps.server:205} Starting Gevent server on [::]:8083
+[2023-03-25 19:36:35,709]  INFO {cps.server:275} webserver stop (restart=False)
+[2023-03-25 19:36:36,716]  INFO {cps.server:260} Performing shutdown of Calibre-Web
+[2023-03-25 19:36:36,717]  INFO {apscheduler.scheduler:202} Scheduler has been shut down
+[2023-03-25 19:37:12,730]  WARN {cps.config_sql:358} invalidating configuration
+[2023-03-25 19:37:12,834]  INFO {cps:143} *** "APScheduler" version does not fit the requirements. Should: available, Found: Not available, please consider installing required version ***
+[2023-03-25 19:37:12,834]  INFO {cps:143} *** "greenlet" version does not fit the requirements. Should: available, Found: Not available, please consider installing required version ***
+[2023-03-25 19:37:12,835]  INFO {cps:152} Starting Calibre Web...
+[2023-03-25 19:37:14,802]  INFO {apscheduler.scheduler:171} Scheduler started
+[2023-03-25 19:37:14,890]  WARN {py.warnings:109} /usr/local/lib/python3.10/dist-packages/apscheduler/util.py:436: PytzUsageWarning: The localize method is no longer necessary, as this time zone supports the fold attribute (PEP 495). For more details on migrating to a PEP 495-compliant implementation, see https://pytz-deprecation-shim.readthedocs.io/en/latest/migration.html
+  return tzinfo.localize(dt)
+
+[2023-03-25 19:37:14,891]  INFO {apscheduler.scheduler:885} Added job "end scheduled task" to job store "default"
+[2023-03-25 19:37:18,287]  INFO {cps.server:205} Starting Gevent server on [::]:8083
+[2023-03-25 20:06:34,595]  INFO {cps.server:275} webserver stop (restart=False)
+[2023-03-25 20:06:34,597]  INFO {cps.server:260} Performing shutdown of Calibre-Web
+[2023-03-25 20:06:34,598]  INFO {apscheduler.scheduler:202} Scheduler has been shut down
+[2023-03-25 20:06:54,469]  WARN {cps.config_sql:358} invalidating configuration
+[2023-03-25 20:06:54,600]  INFO {cps:143} *** "APScheduler" version does not fit the requirements. Should: available, Found: Not available, please consider installing required version ***
+[2023-03-25 20:06:54,601]  INFO {cps:143} *** "greenlet" version does not fit the requirements. Should: available, Found: Not available, please consider installing required version ***
+[2023-03-25 20:06:54,602]  INFO {cps:152} Starting Calibre Web...
+[2023-03-25 20:06:56,442]  INFO {apscheduler.scheduler:171} Scheduler started
+[2023-03-25 20:06:56,529]  WARN {py.warnings:109} /usr/local/lib/python3.10/dist-packages/apscheduler/util.py:436: PytzUsageWarning: The localize method is no longer necessary, as this time zone supports the fold attribute (PEP 495). For more details on migrating to a PEP 495-compliant implementation, see https://pytz-deprecation-shim.readthedocs.io/en/latest/migration.html
+  return tzinfo.localize(dt)
+
+[2023-03-25 20:06:56,530]  INFO {apscheduler.scheduler:885} Added job "end scheduled task" to job store "default"
+[2023-03-25 20:06:59,848]  INFO {cps.server:205} Starting Gevent server on [::]:8083
+[2023-03-25 20:11:02,288]  INFO {cps.server:275} webserver stop (restart=False)
+[2023-03-25 20:11:02,290]  INFO {cps.server:260} Performing shutdown of Calibre-Web
+[2023-03-25 20:11:02,291]  INFO {apscheduler.scheduler:202} Scheduler has been shut down

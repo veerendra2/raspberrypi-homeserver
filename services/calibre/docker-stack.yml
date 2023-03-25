@@ -1,0 +1,35 @@
+version: "3.8"
+
+networks:
+  traefik_public:
+    external: true
+
+volumes:
+  calibre:
+
+services:
+  calibre:
+    image: linuxserver/calibre-web:arm64v8-0.6.19
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.calibre.tls=true
+        - traefik.http.routers.calibre.rule=PathPrefix(`/calibre`)
+        - traefik.http.routers.calibre.middlewares=calibre-stripprefix
+        - traefik.http.middlewares.calibre-stripprefix.stripprefix.prefixes=/calibre
+        - traefik.http.services.calibre.loadbalancer.server.port=8083
+    hostname: calibre
+    env_file:
+      - .env_calibre
+    networks:
+      - traefik_public
+    volumes:
+      - ./config:/config
+      - /media/disk2/books:/books
