@@ -67,14 +67,44 @@ services:
         subtitle: "Traefik Dahsboard"
         url: "/dashboard/#/"
         method: "get"
-  - name: DNS
+  # - name: DNS
+  #   icon: ""
+  #   items:
+  #     - name: "Pi-hole"
+  #       type: "Ping"
+  #       logo: "assets/tools/pi-hole.png"
+  #       subtitle: "Network-wide ad blocking"
+  #       url: "/admin/"
+  #       method: "get"
+  - name: Media Streaming
+    icon: "/assets/icons/play-button.png"
+    items:
+      - name: "Jellyfin"
+        type: "Emby"
+        logo: "assets/tools/jellyfin.png"
+        subtitle: "Multimedia streaming"
+        url: "/jellyfin/"
+        method: "get"
+  - name: Torrent
     icon: ""
     items:
-      - name: "Pi-hole"
+      - name: "qBittorent"
         type: "Ping"
-        logo: "assets/tools/pi-hole.png"
-        subtitle: "Network-wide ad blocking"
-        url: "/admin/"
+        logo: "assets/tools/qbittorrent.png"
+        subtitle: "BitTorrent client"
+        url: "/qbittorrent/"
+        method: "get"
+      - name: "Radarr"
+        type: "Ping"
+        logo: "assets/tools/radarr.svg"
+        subtitle: "Movie collection manager for Usenet and BitTorrent users"
+        url: "/radarr/"
+        method: "get"
+      - name: "jackett"
+        type: "Ping"
+        logo: "assets/tools/jackett.png"
+        subtitle: "Proxy for Radarr and Sonarr"
+        url: "/jackett/"
         method: "get"
   - name: Management Tools
     icon: ""
@@ -91,15 +121,6 @@ services:
         subtitle: "File management UI"
         url: "/filebrowser/"
         method: "get"
-  - name: Media Streaming
-    icon: "/assets/icons/play-button.png"
-    items:
-      - name: "Jellyfin"
-        type: "Emby"
-        logo: "assets/tools/jellyfin.png"
-        subtitle: "Multimedia streaming"
-        url: "/jellyfin/"
-        method: "get"
   - name: Cloud
     icon: ""
     items:
@@ -108,19 +129,4 @@ services:
         logo: "assets/tools/nextcloud.png"
         subtitle: "Self-hosted cloud"
         url: "/nextcloud/"
-        method: "get"
-  - name: Torrent
-    icon: ""
-    items:
-      - name: "qBittorent"
-        type: "Ping"
-        logo: "assets/tools/qbittorrent.png"
-        subtitle: "BitTorrent client"
-        url: "/qbittorrent/"
-        method: "get"
-      - name: "Radarr"
-        type: "Ping"
-        logo: "assets/tools/radarr.svg"
-        subtitle: "Movie collection manager for Usenet and BitTorrent users"
-        url: "/radarr/"
         method: "get"
