@@ -9,7 +9,7 @@
   "UpdateDisabled": false,
   "UpdatePrerelease": false,
   "BasePathOverride": "/jackett",
-  "BaseUrlOverride": "",
+  "BaseUrlOverride": "http://jackett:9117",
   "CacheEnabled": true,
   "CacheTtl": 2100,
   "CacheMaxResultsPerIndexer": 1000,
