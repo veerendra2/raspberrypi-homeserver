@@ -35,13 +35,13 @@
       <img src="https://user-images.githubusercontent.com/8393701/194067359-05781276-1953-4b6c-a548-c3d292d49389.png" alt="Homer" width="60"/> <br /> Homer
     </center>
   </td>
+</tr>
+<tr>
   <td>
     <center>
       <img src="https://user-images.githubusercontent.com/8393701/196800928-49cd5781-88b2-40ff-b398-7d335cca24c0.png" alt="ufw" width="60"/> <br /> ufw
     </center>
   </td>
-</tr>
-<tr>
   <td>
     <center>
       <img src="https://user-images.githubusercontent.com/8393701/194383872-f90aab62-ebac-4973-bbb0-766fafd2a8cd.png" alt="Filebrowser" width="60"/> <br /> Filebrowser
@@ -62,6 +62,8 @@
       <img src="https://user-images.githubusercontent.com/8393701/221434420-2277ee82-115d-4ec6-bbe7-d0a010687dda.png" alt="Traefik" width="60"/> <br /> Traefik
     </center>
   </td>
+</tr>
+<tr>
   <td>
     <center>
       <img src="https://user-images.githubusercontent.com/8393701/226209007-03526f21-c6f6-40e1-bafd-396c87ce570c.png" alt="Wireguard" width="60"/> <br /> Wireguard
@@ -72,6 +74,16 @@
       <img src="https://user-images.githubusercontent.com/8393701/226446777-1f166dd0-7347-412d-9f53-ede03a5e680d.png" alt="qBittorrent" width="60"/> <br /> qBittorrent
     </center>
   </td>
+  <td>
+    <center>
+      <img src="https://user-images.githubusercontent.com/8393701/227026824-d321bde0-75da-4b7c-a7aa-e8af514bd1f5.svg" alt="Radarr" width="60"/> <br /> Radarr
+    </center>
+  </td>
+  <td>
+    <center>
+      <img src="https://user-images.githubusercontent.com/8393701/229378978-cf3db371-c705-435b-aaf8-fe224b1bea66.png" alt="Jackett" width="60"/> <br /> Jackett
+    </center>
+  </td>
 </tr>
 </table>
 
@@ -80,14 +92,6 @@
   <img src="https://user-images.githubusercontent.com/8393701/221664828-4531e8b6-491c-44b3-b270-cda18040abba.png" /><br/>Docker Swarm
 </p>
 
-
-<!-- <table>
-<center>
-<img src="https://user-images.githubusercontent.com/8393701/221664828-4531e8b6-491c-44b3-b270-cda18040abba.png" alt="Docker Swarm"/> <br/>Docker Swarm
-</center>
-</tr>
-</table> -->
-
 ## Table of Contents
 * [Features](https://github.com/veerendra2/raspberrypi-homeserver#features)
 * [Homer screenshot](https://github.com/veerendra2/raspberrypi-homeserver#homer-screenshot)
@@ -95,6 +99,7 @@
 * [Docker swarm services architecture](https://github.com/veerendra2/raspberrypi-homeserver/wiki)
 * [Project roadmap](https://github.com/veerendra2/raspberrypi-homeserver/projects)
 * [Docs](https://github.com/veerendra2/raspberrypi-homeserver/wiki)
+* [Youtube video](https://www.youtube.com/watch?v=lb4s4roM6zY)
 
 ## Features
 * Fully automated with Ansible
@@ -110,7 +115,7 @@
 * qBittorrent with Wireguard proxy and kill switch with `healthcheck`
 
 ## Homer screenshot
-![image](https://user-images.githubusercontent.com/8393701/221434707-6c8e83a5-8116-4f78-9b2f-941bf1c053e2.png)
+![image](https://user-images.githubusercontent.com/8393701/229379261-2bed7cf0-6117-4edd-b391-a31969915c40.png)
 
 ## Getting started
 * Follow prerequisite [manual steps](https://github.com/veerendra2/raspberrypi-homeserver/wiki/Manual-Steps) to prepare Pi

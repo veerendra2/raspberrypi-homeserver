@@ -1,5 +1,5 @@
 <Config>
-  <LogLevel>info</LogLevel>
+  <LogLevel>debug</LogLevel>
   <UrlBase>/radarr</UrlBase>
   <UpdateMechanism>Docker</UpdateMechanism>
   <BindAddress>*</BindAddress>
@@ -14,4 +14,5 @@
   <SslCertPassword></SslCertPassword>
   <InstanceName>Radarr</InstanceName>
   <AnalyticsEnabled>False</AnalyticsEnabled>
+  <Theme>auto</Theme>
 </Config>
