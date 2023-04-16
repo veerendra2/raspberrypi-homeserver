@@ -54,7 +54,7 @@ services:
       - internal
 
   grafana:
-    image: grafana/grafana:9.3.8
+    image: grafana/grafana:9.4.7
     deploy:
       replicas: 1
       placement:

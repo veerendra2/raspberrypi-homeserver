@@ -102,7 +102,7 @@
 * [Youtube video](https://www.youtube.com/watch?v=lb4s4roM6zY)
 
 ## Features
-* Fully automated with Ansible
+* Automated with Ansible
 * All services are deployable on docker swarm
 * Traefik reverse proxy
 * Grafana dashboards to view
@@ -138,3 +138,8 @@ $ ansible-playbook main.yml
     ...
     ```
 * Currently I'm using IP address `192.168.0.120` to access services, change services configs if you have a domain
+
+## Related Blogs
+* https://veerendra2.github.io/pihole-dhcp-relay
+* https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1
+* https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2
