@@ -12,3 +12,7 @@
   └── torrents
   ```
   * `torrents` - Torrent files pick from this location
+
+## More Info
+* https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1
+* https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2
