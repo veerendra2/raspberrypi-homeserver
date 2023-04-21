@@ -140,6 +140,7 @@ $ ansible-playbook main.yml
 * Currently I'm using IP address `192.168.0.120` to access services, change services configs if you have a domain
 
 ## Related Blogs
+* https://veerendra2.github.io/portainer-vs-yacht/
 * https://veerendra2.github.io/pihole-dhcp-relay
 * https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1
 * https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2
