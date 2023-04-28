@@ -96,6 +96,7 @@
 * [Features](https://github.com/veerendra2/raspberrypi-homeserver#features)
 * [Homer screenshot](https://github.com/veerendra2/raspberrypi-homeserver#homer-screenshot)
 * [Getting started](https://github.com/veerendra2/raspberrypi-homeserver#getting-started)
+* [Related Blogs](https://github.com/veerendra2/raspberrypi-homeserver#related-blogs)
 * [Docker swarm services architecture](https://github.com/veerendra2/raspberrypi-homeserver/wiki)
 * [Project roadmap](https://github.com/veerendra2/raspberrypi-homeserver/projects)
 * [Docs](https://github.com/veerendra2/raspberrypi-homeserver/wiki)
