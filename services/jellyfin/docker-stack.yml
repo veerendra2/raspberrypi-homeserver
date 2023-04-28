@@ -10,7 +10,7 @@ networks:
 
 services:
   jellyfin:
-    image: jellyfin/jellyfin:10.8.9
+    image: jellyfin/jellyfin:10.8.10
     deploy:
       replicas: 1
       placement:
