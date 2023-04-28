@@ -115,6 +115,20 @@
 * Uncomplicated firewall
 * qBittorrent with Wireguard proxy and kill switch with `healthcheck`
 
+<table align="center">
+<tr>
+  <td>
+    <center>
+      <img src="https://user-images.githubusercontent.com/8393701/235221520-ddcc1eee-97fd-490f-bd73-7990656d9b0f.jpg" alt="PiHole" width=""/>
+    </center>
+  </td>
+  <td>
+    <center>
+      <img src="https://user-images.githubusercontent.com/8393701/235221534-9d38ce85-86f7-4a10-b7f2-e8a54c1106d5.jpg" alt="Grafana" width=""/>
+    </center>
+  </td>
+</table>
+
 ## Homer screenshot
 ![image](https://user-images.githubusercontent.com/8393701/229379261-2bed7cf0-6117-4edd-b391-a31969915c40.png)
 
