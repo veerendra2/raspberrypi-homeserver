@@ -92,14 +92,15 @@
   <img src="https://user-images.githubusercontent.com/8393701/221664828-4531e8b6-491c-44b3-b270-cda18040abba.png" /><br/>Docker Swarm
 </p>
 
+
 ## Table of Contents
 * [Features](https://github.com/veerendra2/raspberrypi-homeserver#features)
-* [Homer screenshot](https://github.com/veerendra2/raspberrypi-homeserver#homer-screenshot)
+* [My Raspberry Pi config](https://github.com/veerendra2/raspberrypi-homeserver#my-Raspberry-pi-config)
+* [Architecture diagram](https://github.com/veerendra2/raspberrypi-homeserver#architecture-diagram)
 * [Getting started](https://github.com/veerendra2/raspberrypi-homeserver#getting-started)
 * [Related Blogs](https://github.com/veerendra2/raspberrypi-homeserver#related-blogs)
-* [Docker swarm services architecture](https://github.com/veerendra2/raspberrypi-homeserver/wiki)
-* [Project roadmap](https://github.com/veerendra2/raspberrypi-homeserver/projects)
 * [Docs](https://github.com/veerendra2/raspberrypi-homeserver/wiki)
+* [Project roadmap](https://github.com/veerendra2/raspberrypi-homeserver/projects)
 * [Youtube video](https://www.youtube.com/watch?v=lb4s4roM6zY)
 
 ## Features
@@ -115,22 +116,58 @@
 * Uncomplicated firewall
 * qBittorrent with Wireguard proxy and kill switch with `healthcheck`
 
+## My Raspberry Pi config
 <table align="center">
 <tr>
   <td>
     <center>
-      <img src="https://user-images.githubusercontent.com/8393701/235221520-ddcc1eee-97fd-490f-bd73-7990656d9b0f.jpg" alt="PiHole" width=""/>
+      <img src="https://user-images.githubusercontent.com/8393701/235317038-70f5f50b-541b-48bb-84e0-a53e63308d00.jpg" alt="PiHole" width=""/>
     </center>
   </td>
   <td>
     <center>
-      <img src="https://user-images.githubusercontent.com/8393701/235221534-9d38ce85-86f7-4a10-b7f2-e8a54c1106d5.jpg" alt="Grafana" width=""/>
+      <img src="https://user-images.githubusercontent.com/8393701/235317036-59dcc390-6f38-49ab-bfbc-4502f291d210.jpg" alt="Grafana" width=""/>
     </center>
   </td>
+</tr>
 </table>
 
-## Homer screenshot
+<table>
+<tr>
+  <td>Model</td>
+  <td>Raspberry Pi 4 Model B Rev 1.4</td>
+</tr>
+<tr>
+  <td>CPU</td>
+  <td>BCM2835 (4) @ 1.800GHz</td>
+</tr>
+<tr>
+  <td>Memory</td>
+  <td>8 GB</td>
+</tr>
+<tr>
+  <td>OS</td>
+  <td>Ubuntu 22.04.2 LTS aarch64</td>
+</tr>
+<tr>
+  <td>Case</td>
+  <td>Geekworm NASPi Gemini 2.5 V2.0 Dual 2.5 Inch SATA HDD/SSD</td>
+</tr>
+<tr>
+  <td>Disks</td>
+  <td>- 1 TB Crucial SSD<br/>- 1 TB Western Digital HDD</td>
+</tr>
+<tr>
+  <td>Docker Swarm Nodes</td>
+  <td>1 (Single node docker swarm cluster)</td>
+</tr>
+</table>
+
+### Dashboard
 ![image](https://user-images.githubusercontent.com/8393701/229379261-2bed7cf0-6117-4edd-b391-a31969915c40.png)
+
+## Architecture diagram
+![Architecture](https://user-images.githubusercontent.com/8393701/235324714-75620112-a89b-4d10-ab9d-2e44de75d36b.jpg)
 
 ## Getting started
 * Follow prerequisite [manual steps](https://github.com/veerendra2/raspberrypi-homeserver/wiki/Manual-Steps) to prepare Pi
