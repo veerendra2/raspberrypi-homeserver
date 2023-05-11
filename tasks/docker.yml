@@ -23,28 +23,15 @@
       groups: docker
       append: true
 
-  - block:
-    - name: Update userns-remap config
-      shell: |
-        cp /etc/docker/daemon.json /etc/docker/daemon.json.backup
-        jq '. += { "userns-remap" : "default" }' < /etc/docker/daemon.json > /tmp/daemon.json
-        mv /tmp/daemon.json /etc/docker/daemon.json
-    rescue:
-    - name: Create /etc/docker/daemon.json and configure userns-remap
-      blockinfile:
-        path: /etc/docker/daemon.json
-        marker: ""
-        create: yes
-        block: |
-          {
-            "userns-remap": "default"
-          }
-    when: enable_userns_remap|bool == true
+  - name: Create /etc/docker/daemon.json
+    template:
+      src: templates/daemon.json.j2
+      dest: /etc/docker/daemon.json
 
   - name: Enable docker swarm mode
     docker_swarm:
       state: present
-      advertise_addr: "{{ swarm_advertise_addr }}"
+      advertise_addr: "{{ docker_swarm_advertise_addr }}"
     register: output
     when: enable_docker_swarm_mode|bool == true
 

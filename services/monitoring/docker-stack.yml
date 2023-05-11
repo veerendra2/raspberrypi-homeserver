@@ -20,7 +20,7 @@ secrets:
 
 services:
   prometheus:
-    image: prom/prometheus:v2.43.0
+    image: prom/prometheus:v2.43.1
     deploy:
       replicas: 1
       placement:
@@ -54,7 +54,7 @@ services:
       - internal
 
   grafana:
-    image: grafana/grafana:9.4.7
+    image: grafana/grafana:9.5.2
     deploy:
       replicas: 1
       placement:
