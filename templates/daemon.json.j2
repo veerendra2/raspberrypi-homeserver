@@ -1,0 +1,15 @@
+{
+{% if enable_docker_live_restore %}
+  "live-restore": true
+{% endif %}
+{% if enable_userns_remap %}
+  "userns-remap": "default"
+{% endif %}
+{% if enable_userns_remap %}
+  "userns-remap": "default"
+{% endif %}
+{% if enable_docker_swarm_metrics %}
+  "metrics-addr" : "0.0.0.0:9323",
+  "experimental" : true
+{% endif %}
+}

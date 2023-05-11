@@ -79,8 +79,10 @@ pypi:
 
 # Docker
 enable_userns_remap: false
+enable_docker_live_restore: false
+enable_docker_swarm_metrics: true
 enable_docker_swarm_mode: true
-swarm_advertise_addr: 192.168.0.120
+docker_swarm_advertise_addr: 192.168.0.120
 
 # Run any custom scripts
 scripts:
@@ -105,5 +107,5 @@ disk_mount_dirs:
 disable_hdmi: true
 disable_bluetooth: true
 
-# VPN ip to test connection is secure. More in services/torrent/
+# VPN ip to test connection is secure. More info in https://github.com/veerendra2/raspberrypi-homeserver/blob/main/services/torrent/README.md
 vpn_ip: ""

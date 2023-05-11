@@ -8,7 +8,7 @@ networks:
 
 services:
   proxy:
-    image: traefik:v2.9.9
+    image: arm64v8/traefik:v2.10.1
     deploy:
       replicas: 1
       placement:
