@@ -23,7 +23,7 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=traefik_public"
-        - "traefik.http.routers.api.rule=Host(`veerendra.duckdns.org`) && PathPrefix(`/dashboard`) || Host(`veerendra.duckdns.org`) && PathPrefix(`/api`)"
+        - "traefik.http.routers.api.rule=Host(``) && PathPrefix(`/dashboard`) || Host(``) && PathPrefix(`/api`)"
         - "traefik.http.routers.api.entrypoints=https"
         - "traefik.http.routers.api.tls=true"
         - "traefik.http.routers.api.service=api@internal"
