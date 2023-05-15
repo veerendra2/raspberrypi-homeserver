@@ -1,0 +1,17 @@
+<Config>
+  <LogLevel>info</LogLevel>
+  <EnableSsl>False</EnableSsl>
+  <Port>8989</Port>
+  <SslPort>9898</SslPort>
+  <UrlBase>/sonarr</UrlBase>
+  <BindAddress>*</BindAddress>
+  <ApiKey>my-api-key</ApiKey>
+  <AuthenticationMethod>None</AuthenticationMethod>
+  <UpdateMechanism>Docker</UpdateMechanism>
+  <LaunchBrowser>True</LaunchBrowser>
+  <Branch>main</Branch>
+  <SslCertHash></SslCertHash>
+  <InstanceName>Sonarr</InstanceName>
+  <SyslogPort>514</SyslogPort>
+  <AnalyticsEnabled>False</AnalyticsEnabled>
+</Config>

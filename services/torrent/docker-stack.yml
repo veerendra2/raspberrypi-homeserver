@@ -13,6 +13,7 @@ networks:
 volumes:
   qbitorrent:
   radarr:
+  sonarr:
   jackett:
 
 services:
@@ -106,12 +107,38 @@ services:
       - ./radarr/config.xml:/config/config.xml
       - ./ip-test.sh:/opt/ip-test.sh
       - /media/disk2/downloads:/downloads
-      - /media/disk2/movies:/downloads/movies
     # healthcheck:
     #   test: ["CMD", "/opt/ip-test.sh"]
     #   interval: 2m
     #   timeout: 10s
     #   retries: 3
+
+  sonarr:
+    image: linuxserver/sonarr:arm64v8-3.0.10
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.sonarr.tls=true
+        - traefik.http.routers.sonarr.rule=PathPrefix(`/sonarr`)
+        - traefik.http.services.sonarr.loadbalancer.server.port=8989
+    hostname: sonarr
+    env_file:
+      - ./sonarr/.env_sonarr
+      - .vpn_ip
+    networks:
+      - traefik_private
+    volumes:
+      - sonarr:/config
+      - ./sonarr/config.xml:/config/config.xml
+      - ./ip-test.sh:/opt/ip-test.sh
+      - /media/disk2/downloads:/downloads
 
   jackett:
     image: linuxserver/jackett:arm64v8-0.20.3917
@@ -137,5 +164,6 @@ services:
     volumes:
       - jackett:/config
       - ./jackett/ServerConfig.json:/config/Jackett/ServerConfig.json
-      - /media/disk2/downloads/torrents:/opt/torrents
       - ./ip-test.sh:/opt/ip-test.sh
+      - /media/disk2/downloads/torrents:/opt/torrents
+

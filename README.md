@@ -81,6 +81,11 @@
   </td>
   <td>
     <center>
+      <img src="https://user-images.githubusercontent.com/8393701/238430770-f759203b-0be2-41bd-b6d5-453104b5cdec.png" alt="Sonarr" width="60"/> <br /> Sonarr
+    </center>
+  </td>
+  <td>
+    <center>
       <img src="https://user-images.githubusercontent.com/8393701/229378978-cf3db371-c705-435b-aaf8-fe224b1bea66.png" alt="Jackett" width="60"/> <br /> Jackett
     </center>
   </td>
@@ -98,8 +103,8 @@
 * [My Raspberry Pi config](https://github.com/veerendra2/raspberrypi-homeserver#my-Raspberry-pi-config)
 * [Architecture diagram](https://github.com/veerendra2/raspberrypi-homeserver#architecture-diagram)
 * [Getting started](https://github.com/veerendra2/raspberrypi-homeserver#getting-started)
-* [Related Blogs](https://github.com/veerendra2/raspberrypi-homeserver#related-blogs)
-* [Docs](https://github.com/veerendra2/raspberrypi-homeserver/wiki)
+* [Related blogs](https://github.com/veerendra2/raspberrypi-homeserver#related-blogs)
+* [GitBook docs](https://latitude-1.gitbook.io/raspberrypi-home-server/)
 * [Project roadmap](https://github.com/veerendra2/raspberrypi-homeserver/projects)
 * [Youtube video](https://www.youtube.com/watch?v=lb4s4roM6zY)
 
@@ -112,11 +117,11 @@
   * Internet speed everyone hour
   * Uptime with blackbox exporter
   * Docker container metrics
-* Beautiful Homer dashboard to view all services
+* Homer dashboard to view all services
 * Uncomplicated firewall
 * qBittorrent with Wireguard proxy and kill switch with `healthcheck`
 
-## My Raspberry Pi config
+## My Raspberry Pi Config
 <table align="center">
 <tr>
   <td>
@@ -166,10 +171,10 @@
 ### Dashboard
 ![image](https://user-images.githubusercontent.com/8393701/229379261-2bed7cf0-6117-4edd-b391-a31969915c40.png)
 
-## Architecture diagram
+## Architecture Diagram
 ![Architecture](https://user-images.githubusercontent.com/8393701/235324714-75620112-a89b-4d10-ab9d-2e44de75d36b.jpg)
 
-## Getting started
+## Getting Started
 * Follow prerequisite [manual steps](https://github.com/veerendra2/raspberrypi-homeserver/wiki/Manual-Steps) to prepare Pi
 * Browse [vars.yml](./vars.yml) to configuration
 ```
@@ -192,7 +197,7 @@ $ ansible-playbook main.yml
 * Currently I'm using IP address `192.168.0.120` to access services, change services configs if you have a domain
 
 ## Related Blogs
-* https://veerendra2.github.io/portainer-vs-yacht/
+* https://veerendra2.github.io/portainer-vs-yacht
 * https://veerendra2.github.io/pihole-dhcp-relay
 * https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1
 * https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2

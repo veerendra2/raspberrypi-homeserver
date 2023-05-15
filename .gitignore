@@ -6,3 +6,5 @@ apps/nginx/ssl/*
 services/traefik/config/ssl/*[.crt, .key]
 services/torrent/wireguard/wg0.conf
 services/torrent/.vpn_ip
+services/traefikv2/config/acme.json
+services/traefikv2/.env_traefik

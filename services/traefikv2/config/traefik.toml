@@ -9,6 +9,14 @@
 [log]
   level = "DEBUG"
 
+
+[certificatesResolvers.httpResolver.acme]
+  email = "test@example.com"
+  storage = "/etc/traefik/acme.json"
+  [certificatesResolvers.httpResolver.acme.dnsChallenge]
+    provider = "duckdns"
+    resolvers = ["1.1.1.1:53", "8.8.8.8:53"]
+
 [entryPoints.http]
   address = ":80"
   [entryPoints.http.http.redirections.entryPoint]
@@ -17,6 +25,11 @@
 
 [entryPoints.https]
   address = ":443"
+  [entryPoints.https.http.tls]
+    certResolver = "httpResolver"
+    [[entryPoints.https.http.tls.domains]]
+      main = "veerendra.duckdns.org"
+      sans = ["*.example.com"]
 
 [providers.docker]
   endpoint = "unix:///var/run/docker.sock"
