@@ -1,16 +1,20 @@
 version: "3.8"
 
 networks:
-  traefik_public:
+  network_public:
     external: true
-  traefik_private:
+  network_private:
     external: true
 
 volumes:
   traefik:
 
+secrets:
+  duckdns:
+    file: ./secrets/duckdns.txt
+
 services:
-  proxy:
+  traefik:
     image: arm64v8/traefik:v2.10.1
     deploy:
       replicas: 1
@@ -22,13 +26,14 @@ services:
         max_attempts: 3
       labels:
         - "traefik.enable=true"
-        - "traefik.docker.network=traefik_public"
-        - "traefik.http.routers.api.rule=Host(``) && PathPrefix(`/dashboard`) || Host(``) && PathPrefix(`/api`)"
+        - "traefik.docker.network=network_public"
+        - "traefik.http.routers.api.rule=Host(`${DOMAIN}`) && PathPrefix(`/dashboard`) || Host(`${DOMAIN}`) && PathPrefix(`/api`)"
+        - "traefik.http.routers.api.tls.certresolver=httpResolver"
         - "traefik.http.routers.api.entrypoints=https"
         - "traefik.http.routers.api.tls=true"
         - "traefik.http.routers.api.service=api@internal"
         - "traefik.http.services.dummy.loadbalancer.server.port=9999"
-    hostname: traefikv2
+    hostname: traefik
     env_file:
       - .env_traefik
     ports:
@@ -44,5 +49,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config:/etc/traefik
     networks:
-      - traefik_public
-      - traefik_private
+      - network_public
+      - network_private
+    secrets:
+      - duckdns

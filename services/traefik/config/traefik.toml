@@ -4,14 +4,13 @@
 [api]
   dashboard = true
 
-#[accessLog]
+[accessLog]
 
 [log]
   level = "DEBUG"
 
-
 [certificatesResolvers.httpResolver.acme]
-  email = "test@example.com"
+  email = "veerendra2@github.com"
   storage = "/etc/traefik/acme.json"
   [certificatesResolvers.httpResolver.acme.dnsChallenge]
     provider = "duckdns"
@@ -25,11 +24,6 @@
 
 [entryPoints.https]
   address = ":443"
-  [entryPoints.https.http.tls]
-    certResolver = "httpResolver"
-    [[entryPoints.https.http.tls.domains]]
-      main = "veerendra.duckdns.org"
-      sans = ["*.example.com"]
 
 [providers.docker]
   endpoint = "unix:///var/run/docker.sock"

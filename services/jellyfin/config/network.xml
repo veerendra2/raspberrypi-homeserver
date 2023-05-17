@@ -23,7 +23,7 @@
   <TrustAllIP6Interfaces>false</TrustAllIP6Interfaces>
   <HDHomerunPortRange />
   <PublishedServerUriBySubnet>
-    <string>http://192.168.0.120/jellyfin</string>
+    <string></string>
   </PublishedServerUriBySubnet>
   <AutoDiscoveryTracing>false</AutoDiscoveryTracing>
   <AutoDiscovery>true</AutoDiscovery>

@@ -1,7 +1,7 @@
 version: "3.8"
 
 networks:
-  traefik_public:
+  network_public:
     external: true
 
 services:
@@ -17,8 +17,8 @@ services:
         max_attempts: 3
       labels:
         - "traefik.enable=true"
-        - "traefik.docker.network=traefik_public"
-        - "traefik.http.routers.homer.rule=PathPrefix(`/`)"
+        - "traefik.docker.network=network_public"
+        - "traefik.http.routers.homer.rule=Host(`${DOMAIN}`) && PathPrefix(`/`)"
         - "traefik.http.routers.homer.tls=true"
         - "traefik.http.services.homer.loadbalancer.server.port=8080"
     hostname: homer
@@ -27,4 +27,4 @@ services:
     volumes:
       - ./assets/:/www/assets
     networks:
-      traefik_public:
+      - network_public

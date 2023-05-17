@@ -1,3 +1,6 @@
 #!/usr/bin/with-contenv bash
 
-danted
+#danted
+
+# For alpine distro
+#sockd

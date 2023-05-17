@@ -1,14 +1,11 @@
 ---
-version: '3.8'
+version: "3.8"
 
 networks:
-  traefik_public:
+  network_monitoring:
     external: true
-  internal:
-    driver: overlay
-    ipam:
-      config:
-        - subnet: 172.16.201.0/24
+  network_public:
+    external: true
 
 volumes:
   prometheus_data:
@@ -31,8 +28,8 @@ services:
         max_attempts: 3
       labels:
         - "traefik.enable=true"
-        - "traefik.docker.network=traefik_public"
-        - "traefik.http.routers.prometheus.rule=PathPrefix(`/prometheus`)"
+        - "traefik.docker.network=network_public"
+        - "traefik.http.routers.prometheus.rule=Host(`${DOMAIN}`) && PathPrefix(`/prometheus`)"
         - "traefik.http.routers.prometheus.tls=true"
         - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
     hostname: prometheus
@@ -50,8 +47,8 @@ services:
     env_file:
       - ./prometheus/.env_prometheus
     networks:
-      - traefik_public
-      - internal
+      - network_public
+      - network_monitoring
 
   grafana:
     image: grafana/grafana:9.5.2
@@ -65,8 +62,8 @@ services:
         max_attempts: 3
       labels:
         - "traefik.enable=true"
-        - "traefik.docker.network=traefik_public"
-        - "traefik.http.routers.grafana.rule=PathPrefix(`/grafana`)"
+        - "traefik.docker.network=network_public"
+        - "traefik.http.routers.grafana.rule=Host(`${DOMAIN}`) && PathPrefix(`/grafana`)"
         - "traefik.http.routers.grafana.tls=true"
         - "traefik.http.routers.grafana.middlewares=grafana-stripprefix"
         - "traefik.http.middlewares.grafana-stripprefix.stripprefix.prefixes=/grafana"
@@ -81,8 +78,8 @@ services:
     depends_on:
       - prometheus
     networks:
-      - traefik_public
-      - internal
+      - network_public
+      - network_monitoring
     secrets:
       - grafana_admin_password
 
@@ -109,7 +106,7 @@ services:
     depends_on:
       - prometheus
     networks:
-      - internal
+      - network_monitoring
 
   # Caution: cadvisor is reletivly CPU hunger.
   # https://github.com/google/cadvisor/issues/2523
@@ -138,7 +135,7 @@ services:
     depends_on:
       - prometheus
     networks:
-      - internal
+      - network_monitoring
 
   ping:
     image: prom/blackbox-exporter:v0.23.0
@@ -163,7 +160,7 @@ services:
     command:
       - '--config.file=/config/blackbox.yml'
     networks:
-      - internal
+      - network_monitoring
 
   speedtest:
     image: ghcr.io/miguelndecarvalho/speedtest-exporter:v3.5.3
@@ -183,4 +180,4 @@ services:
     depends_on:
       - prometheus
     networks:
-      - internal
+      - network_monitoring

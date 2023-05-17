@@ -5,7 +5,7 @@ volumes:
   cache:
 
 networks:
-  traefik_public:
+  network_public:
     external: true
 
 services:
@@ -21,8 +21,8 @@ services:
         max_attempts: 3
       labels:
         - traefik.enable=true
-        - traefik.docker.network=traefik_public
-        - "traefik.http.routers.jellyfin.rule=PathPrefix(`/jellyfin`)"
+        - traefik.docker.network=network_public
+        - "traefik.http.routers.jellyfin.rule=Host(`${DOMAIN}`) && PathPrefix(`/jellyfin`)"
         - "traefik.http.routers.jellyfin.tls=true"
         - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
     hostname: jellyfin
@@ -45,4 +45,4 @@ services:
       #- ./config/system.xml:/config/config/system.xml
       - /etc/localtime:/etc/localtime:ro
     networks:
-      - traefik_public
+      - network_public
