@@ -14,7 +14,7 @@ volumes:
 
 services:
   wireguard:
-    image: linuxserver/wireguard:arm64v8-version-v1.0.20210914
+    image: linuxserver/wireguard:arm64v8-1.0.20210914-legacy
     deploy:
       replicas: 1
       placement:
