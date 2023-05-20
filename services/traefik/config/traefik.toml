@@ -4,7 +4,7 @@
 [api]
   dashboard = true
 
-[accessLog]
+#[accessLog]
 
 [log]
   level = "DEBUG"

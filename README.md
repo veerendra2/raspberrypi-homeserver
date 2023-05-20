@@ -100,13 +100,13 @@
 
 ## Table of Contents
 * [Features](https://github.com/veerendra2/raspberrypi-homeserver#features)
-* [My Raspberry Pi config](https://github.com/veerendra2/raspberrypi-homeserver#my-Raspberry-pi-config)
-* [Architecture diagram](https://github.com/veerendra2/raspberrypi-homeserver#architecture-diagram)
-* [Getting started](https://github.com/veerendra2/raspberrypi-homeserver#getting-started)
-* [Related blogs](https://github.com/veerendra2/raspberrypi-homeserver#related-blogs)
-* [GitBook docs](https://latitude-1.gitbook.io/raspberrypi-home-server/)
-* [Project roadmap](https://github.com/veerendra2/raspberrypi-homeserver/projects)
-* [Youtube video](https://www.youtube.com/watch?v=lb4s4roM6zY)
+* [My Raspberry Pi Config](https://github.com/veerendra2/raspberrypi-homeserver#my-Raspberry-pi-config)
+* [Architecture Diagram](https://github.com/veerendra2/raspberrypi-homeserver#architecture-diagram)
+* [Getting Started](https://github.com/veerendra2/raspberrypi-homeserver#getting-started)
+* [Related Blogs](https://github.com/veerendra2/raspberrypi-homeserver#related-blogs)
+* [GitBook Docs](https://dust6765.gitbook.io/raspberrypi-home-server/)
+* [Project Roadmap](https://github.com/veerendra2/raspberrypi-homeserver/projects)
+* [Youtube Video](https://www.youtube.com/watch?v=lb4s4roM6zY)
 
 ## Features
 * Automated with Ansible
@@ -175,18 +175,21 @@
 ![Architecture](https://user-images.githubusercontent.com/8393701/235324714-75620112-a89b-4d10-ab9d-2e44de75d36b.jpg)
 
 ## Getting Started
-* Follow prerequisite [manual steps](https://github.com/veerendra2/raspberrypi-homeserver/wiki/Manual-Steps) to prepare Pi
+> Refer [Gitbook Docs](https://dust6765.gitbook.io/raspberrypi-home-server/) for more details and how to deploy manually
+
+* Follow prerequisite [manual steps](https://dust6765.gitbook.io/raspberrypi-home-server/settings/manual-steps) to prepare Pi
 * Browse [vars.yml](./vars.yml) to configuration
-```
+
+```bash
 $ git clone https://github.com/veerendra2/raspberrypi-homeserver.git
 $ cd raspberrypi-homeserver
-# Review vars.yml and inventory.yml and run
+# review vars.yml and inventory.yml and run
 $ ansible-playbook main.yml
 ```
 ### NOTE
 * The setup created to deploy all services on single node docker swarm cluster. If you want to use this setup on multi node swarm cluster, there are some additional tweaks required like
   * Change plancement
-    ```
+    ```yaml
     ...
       deploy:
         replicas: 1
