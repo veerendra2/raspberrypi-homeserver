@@ -28,13 +28,13 @@
     recursive: true
     perms: false
 
-- name: Create traefik_public network
+- name: Create networks
   docker_stack:
     state: present
     name: traefik
     compose:
-      - "{{ [services_base_dir_location, 'traefikv2', 'traefik.yml'] | path_join }}"
-  when: "'traefikv2' in services"
+      - "{{ [services_base_dir_location, 'traefik', 'network.yml'] | path_join }}"
+  when: "'traefik' in services"
 
 - name: Deploy service stacks
   docker_stack:
@@ -42,4 +42,6 @@
     name: "{{ item }}"
     compose:
       - "{{ [services_base_dir_location, item, 'docker-stack.yml'] | path_join }}"
+    env:
+      DOMAIN: "{{ duckdns_domain }}"
   with_items: "{{ services }}"

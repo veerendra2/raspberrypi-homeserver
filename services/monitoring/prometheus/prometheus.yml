@@ -52,6 +52,7 @@ scrape_configs:
     file_sd_configs:
       - files:
           - pinghosts.yml
+          - customhosts.yml
     relabel_configs:
       - source_labels: [__address__]
         regex: "(.*);(.*)" # first is the url, thus unique for instance

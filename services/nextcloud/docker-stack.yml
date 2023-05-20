@@ -1,9 +1,9 @@
 version: "3.8"
 
 networks:
-  traefik_public:
+  network_public:
     external: true
-  databases_internal:
+  network_databases:
     external: true
 
 secrets:
@@ -22,7 +22,7 @@ secrets:
 
 services:
   nextcloud:
-    image: arm64v8/nextcloud:25.0.4-apache
+    image: arm64v8/nextcloud:26.0.1-apache
     deploy:
       replicas: 1
       placement:
@@ -32,19 +32,19 @@ services:
         delay: 30s
         max_attempts: 3
       labels:
-        - "traefik.enable=true"
-        - "traefik.docker.network=traefik_public"
-        - "traefik.http.routers.nextcloud.rule=PathPrefix(`/nextcloud`)"
-        - "traefik.http.routers.nextcloud.tls=true"
-        - "traefik.http.routers.nextcloud.middlewares=nextcloud-stripprefix"
-        - "traefik.http.middlewares.nextcloud-stripprefix.stripprefix.prefixes=/nextcloud"
-        - "traefik.http.services.nextcloud.loadbalancer.server.port=80"
+        - traefik.enable=true
+        - traefik.docker.network=network_public
+        - traefik.http.routers.nextcloud.rule=Host(`${DOMAIN}`) && PathPrefix(`/nextcloud`)
+        - traefik.http.routers.nextcloud.tls=true
+        - traefik.http.routers.nextcloud.middlewares=nextcloud-stripprefix
+        - traefik.http.middlewares.nextcloud-stripprefix.stripprefix.prefixes=/nextcloud
+        - traefik.http.services.nextcloud.loadbalancer.server.port=80
     hostname: nextcloud
     env_file:
       - .env_nextcloud
     networks:
-      - databases_internal
-      - traefik_public
+      - network_public
+      - network_databases
     volumes:
       - /media/disk2/nextcloud:/var/www/html
     secrets:

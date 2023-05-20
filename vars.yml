@@ -9,7 +9,7 @@ services:
   - nextcloud
   # - pihole
   - portainer
-  - traefikv2
+  - traefik
   - torrent
 
 # Service's docker stack files copies in this location. It should end with slash
@@ -109,3 +109,6 @@ disable_bluetooth: true
 
 # VPN ip to test connection is secure. More info in https://github.com/veerendra2/raspberrypi-homeserver/blob/main/services/torrent/README.md
 vpn_ip: ""
+
+# DuckDNS domain to generate certificates
+duckdns_domain: ""

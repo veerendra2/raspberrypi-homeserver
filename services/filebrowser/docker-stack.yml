@@ -1,7 +1,7 @@
 version: "3.8"
 
 networks:
-  traefik_public:
+  network_public:
     external: true
 
 volumes:
@@ -20,8 +20,8 @@ services:
         max_attempts: 3
       labels:
         - "traefik.enable=true"
-        - "traefik.docker.network=traefik_public"
-        - "traefik.http.routers.filebrowser.rule=PathPrefix(`/filebrowser`)"
+        - "traefik.docker.network=network_public"
+        - "traefik.http.routers.filebrowser.rule=Host(`${DOMAIN}`) && PathPrefix(`/filebrowser`)"
         - "traefik.http.routers.filebrowser.tls=true"
         - "traefik.http.services.filebrowser.loadbalancer.server.port=8080"
     hostname: filebrowser
@@ -32,5 +32,5 @@ services:
       - /media/disk2:/data/disk2
       - filebrowser:/config
     networks:
-      traefik_public:
+      network_public:
 

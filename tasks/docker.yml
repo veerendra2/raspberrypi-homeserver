@@ -25,7 +25,7 @@
 
   - name: Create /etc/docker/daemon.json
     template:
-      src: templates/daemon.json.j2
+      src: templates/docker_daemon.json.j2
       dest: /etc/docker/daemon.json
 
   - name: Enable docker swarm mode

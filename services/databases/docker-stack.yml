@@ -1,14 +1,10 @@
 version: "3.8"
 
 networks:
-  traefik_public:
+  networks_public:
     external: true
-  internal:
-    driver: overlay
-    attachable: true
-    ipam:
-      config:
-        - subnet: 172.16.202.0/24
+  network_databases:
+    external: true
 
 volumes:
   redis:
@@ -42,7 +38,7 @@ services:
     volumes:
       - /media/disk2/postgres:/var/lib/postgresql/data:rw
     networks:
-      - internal
+      - network_databases
     secrets:
       - postgres_password
       - postgres_user
@@ -73,6 +69,6 @@ services:
     volumes:
       - redis:/data
     networks:
-      - internal
+      - network_databases
     secrets:
       - redis_host_password

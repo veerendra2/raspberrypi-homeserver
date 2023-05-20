@@ -1,3 +1,10 @@
 #!/usr/bin/with-contenv bash
 
-danted
+if [[ `grep "alpine" /etc/os-release` ]];
+then
+  echo "*** run sockd ***"
+  sockd -f /etc/danted.conf
+else
+  echo "*** run danted ***"
+  danted
+fi

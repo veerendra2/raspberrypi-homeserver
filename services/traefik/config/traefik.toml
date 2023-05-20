@@ -1,0 +1,34 @@
+[global]
+  checkNewVersion = true
+
+[api]
+  dashboard = true
+
+#[accessLog]
+
+[log]
+  level = "DEBUG"
+
+[certificatesResolvers.httpResolver.acme]
+  email = "veerendra2@github.com"
+  storage = "/etc/traefik/acme.json"
+  [certificatesResolvers.httpResolver.acme.dnsChallenge]
+    provider = "duckdns"
+    resolvers = ["1.1.1.1:53", "8.8.8.8:53"]
+
+[entryPoints.http]
+  address = ":80"
+  [entryPoints.http.http.redirections.entryPoint]
+    to = "https"
+    scheme = "https"
+
+[entryPoints.https]
+  address = ":443"
+
+[providers.docker]
+  endpoint = "unix:///var/run/docker.sock"
+  swarmMode = true
+  watch = true
+
+#[providers.file]
+#  filename = "/etc/traefik/dynamic.toml"

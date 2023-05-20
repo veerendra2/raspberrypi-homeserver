@@ -81,6 +81,11 @@
   </td>
   <td>
     <center>
+      <img src="https://user-images.githubusercontent.com/8393701/238430770-f759203b-0be2-41bd-b6d5-453104b5cdec.png" alt="Sonarr" width="60"/> <br /> Sonarr
+    </center>
+  </td>
+  <td>
+    <center>
       <img src="https://user-images.githubusercontent.com/8393701/229378978-cf3db371-c705-435b-aaf8-fe224b1bea66.png" alt="Jackett" width="60"/> <br /> Jackett
     </center>
   </td>
@@ -95,13 +100,13 @@
 
 ## Table of Contents
 * [Features](https://github.com/veerendra2/raspberrypi-homeserver#features)
-* [My Raspberry Pi config](https://github.com/veerendra2/raspberrypi-homeserver#my-Raspberry-pi-config)
-* [Architecture diagram](https://github.com/veerendra2/raspberrypi-homeserver#architecture-diagram)
-* [Getting started](https://github.com/veerendra2/raspberrypi-homeserver#getting-started)
+* [My Raspberry Pi Config](https://github.com/veerendra2/raspberrypi-homeserver#my-Raspberry-pi-config)
+* [Architecture Diagram](https://github.com/veerendra2/raspberrypi-homeserver#architecture-diagram)
+* [Getting Started](https://github.com/veerendra2/raspberrypi-homeserver#getting-started)
 * [Related Blogs](https://github.com/veerendra2/raspberrypi-homeserver#related-blogs)
-* [Docs](https://github.com/veerendra2/raspberrypi-homeserver/wiki)
-* [Project roadmap](https://github.com/veerendra2/raspberrypi-homeserver/projects)
-* [Youtube video](https://www.youtube.com/watch?v=lb4s4roM6zY)
+* [GitBook Docs](https://dust6765.gitbook.io/raspberrypi-home-server/)
+* [Project Roadmap](https://github.com/veerendra2/raspberrypi-homeserver/projects)
+* [Youtube Video](https://www.youtube.com/watch?v=lb4s4roM6zY)
 
 ## Features
 * Automated with Ansible
@@ -112,11 +117,11 @@
   * Internet speed everyone hour
   * Uptime with blackbox exporter
   * Docker container metrics
-* Beautiful Homer dashboard to view all services
+* Homer dashboard to view all services
 * Uncomplicated firewall
 * qBittorrent with Wireguard proxy and kill switch with `healthcheck`
 
-## My Raspberry Pi config
+## My Raspberry Pi Config
 <table align="center">
 <tr>
   <td>
@@ -166,22 +171,25 @@
 ### Dashboard
 ![image](https://user-images.githubusercontent.com/8393701/229379261-2bed7cf0-6117-4edd-b391-a31969915c40.png)
 
-## Architecture diagram
+## Architecture Diagram
 ![Architecture](https://user-images.githubusercontent.com/8393701/235324714-75620112-a89b-4d10-ab9d-2e44de75d36b.jpg)
 
-## Getting started
-* Follow prerequisite [manual steps](https://github.com/veerendra2/raspberrypi-homeserver/wiki/Manual-Steps) to prepare Pi
+## Getting Started
+> Refer [Gitbook Docs](https://dust6765.gitbook.io/raspberrypi-home-server/) for more details and how to deploy manually
+
+* Follow prerequisite [manual steps](https://dust6765.gitbook.io/raspberrypi-home-server/settings/manual-steps) to prepare Pi
 * Browse [vars.yml](./vars.yml) to configuration
-```
+
+```bash
 $ git clone https://github.com/veerendra2/raspberrypi-homeserver.git
 $ cd raspberrypi-homeserver
-# Review vars.yml and inventory.yml and run
+# review vars.yml and inventory.yml and run
 $ ansible-playbook main.yml
 ```
 ### NOTE
 * The setup created to deploy all services on single node docker swarm cluster. If you want to use this setup on multi node swarm cluster, there are some additional tweaks required like
   * Change plancement
-    ```
+    ```yaml
     ...
       deploy:
         replicas: 1
@@ -192,7 +200,7 @@ $ ansible-playbook main.yml
 * Currently I'm using IP address `192.168.0.120` to access services, change services configs if you have a domain
 
 ## Related Blogs
-* https://veerendra2.github.io/portainer-vs-yacht/
+* https://veerendra2.github.io/portainer-vs-yacht
 * https://veerendra2.github.io/pihole-dhcp-relay
 * https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1
 * https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2

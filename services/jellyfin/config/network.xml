@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <NetworkConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <RequireHttps>false</RequireHttps>
-  <CertificatePath />
-  <CertificatePassword />
   <BaseUrl>/jellyfin</BaseUrl>
   <PublicHttpsPort>8920</PublicHttpsPort>
   <HttpServerPortNumber>8096</HttpServerPortNumber>
@@ -23,7 +21,7 @@
   <TrustAllIP6Interfaces>false</TrustAllIP6Interfaces>
   <HDHomerunPortRange />
   <PublishedServerUriBySubnet>
-    <string>http://192.168.0.120/jellyfin</string>
+    <string></string>
   </PublishedServerUriBySubnet>
   <AutoDiscoveryTracing>false</AutoDiscoveryTracing>
   <AutoDiscovery>true</AutoDiscovery>

@@ -1,23 +1,20 @@
-version: "3.7"
+version: "3.8"
 
 networks:
-  traefik_private:
+  network_private:
     external: true
-  internal:
-    driver: overlay
-    attachable: true
-    ipam:
-      config:
-        - subnet: 172.16.203.0/24
+  network_public:
+    external: true
 
 volumes:
   qbitorrent:
   radarr:
+  sonarr:
   jackett:
 
 services:
   wireguard:
-    image: linuxserver/wireguard:arm64v8-version-v1.0.20210914
+    image: linuxserver/wireguard:arm64v8-1.0.20210914-legacy
     deploy:
       replicas: 1
       placement:
@@ -32,8 +29,8 @@ services:
     env_file:
       - ./wireguard/.env_wireguard
     networks:
-      - internal
-      - traefik_private
+      - network_public
+      - network_private
     cap_add:
       - NET_ADMIN
     volumes:
@@ -58,8 +55,9 @@ services:
         max_attempts: 3
       labels:
         - traefik.enable=true
+        - traefik.docker.network=network_private
         - traefik.http.routers.qbittorrent.tls=true
-        - traefik.http.routers.qbittorrent.rule=PathPrefix(`/qbittorrent`)
+        - traefik.http.routers.qbittorrent.rule=Host(`${DOMAIN}`) && PathPrefix(`/qbittorrent`)
         - traefik.http.routers.qbittorrent.middlewares=qbittorrent-stripprefix
         - traefik.http.middlewares.qbittorrent-stripprefix.stripprefix.prefixes=/qbittorrent
         - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
@@ -68,7 +66,7 @@ services:
       - ./qbittorrent/.env_qbittorrent
       - .vpn_ip
     networks:
-      - traefik_private
+      - network_private
     volumes:
       - qbitorrent:/config
       - ./qbittorrent/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf
@@ -92,21 +90,54 @@ services:
         max_attempts: 3
       labels:
         - traefik.enable=true
+        - traefik.docker.network=network_private
         - traefik.http.routers.radarr.tls=true
-        - traefik.http.routers.radarr.rule=PathPrefix(`/radarr`)
+        - traefik.http.routers.radarr.rule=Host(`${DOMAIN}`) && PathPrefix(`/radarr`)
         - traefik.http.services.radarr.loadbalancer.server.port=7878
     hostname: radarr
     env_file:
       - ./radarr/.env_radarr
       - .vpn_ip
     networks:
-      - traefik_private
+      - network_private
     volumes:
       - radarr:/config
       - ./radarr/config.xml:/config/config.xml
       - ./ip-test.sh:/opt/ip-test.sh
       - /media/disk2/downloads:/downloads
-      - /media/disk2/movies:/downloads/movies
+    # healthcheck:
+    #   test: ["CMD", "/opt/ip-test.sh"]
+    #   interval: 2m
+    #   timeout: 10s
+    #   retries: 3
+
+  sonarr:
+    image: linuxserver/sonarr:arm64v8-3.0.10
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=network_private
+        - traefik.http.routers.sonarr.tls=true
+        - traefik.http.routers.sonarr.rule=Host(`${DOMAIN}`) && PathPrefix(`/sonarr`)
+        - traefik.http.services.sonarr.loadbalancer.server.port=8989
+    hostname: sonarr
+    env_file:
+      - ./sonarr/.env_sonarr
+      - .vpn_ip
+    networks:
+      - network_private
+    volumes:
+      - sonarr:/config
+      - ./sonarr/config.xml:/config/config.xml
+      - ./ip-test.sh:/opt/ip-test.sh
+      - /media/disk2/downloads:/downloads
     # healthcheck:
     #   test: ["CMD", "/opt/ip-test.sh"]
     #   interval: 2m
@@ -125,17 +156,18 @@ services:
         max_attempts: 3
       labels:
         - traefik.enable=true
+        - traefik.docker.network=network_private
         - traefik.http.routers.jackett.tls=true
-        - traefik.http.routers.jackett.rule=PathPrefix(`/jackett`)
+        - traefik.http.routers.jackett.rule=Host(`${DOMAIN}`) && PathPrefix(`/jackett`)
         - traefik.http.services.jackett.loadbalancer.server.port=9117
     hostname: jackett
     env_file:
       - ./jackett/.env_jackett
       - .vpn_ip
     networks:
-      - traefik_private
+      - network_private
     volumes:
       - jackett:/config
       - ./jackett/ServerConfig.json:/config/Jackett/ServerConfig.json
-      - /media/disk2/downloads/torrents:/opt/torrents
       - ./ip-test.sh:/opt/ip-test.sh
+      - /media/disk2/downloads/torrents:/opt/torrents

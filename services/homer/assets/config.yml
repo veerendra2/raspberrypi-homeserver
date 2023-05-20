@@ -40,9 +40,14 @@ colors:
     link-hover: "#ffdd57"
 
 links:
-  - name: "Raspberry Pi Homeserver Project"
+  - name: "Project"
     icon: "fab fa-github"
     url: "https://github.com/veerendra2/raspberrypi-homeserver"
+    target: "_blank"
+
+  - name: "Documentation"
+    icon: "fab fa-book"
+    url: "https://latitude-1.gitbook.io/raspberrypi-home-server/"
     target: "_blank"
 
 services:
@@ -55,18 +60,21 @@ services:
         subtitle: "Visualization web application"
         url: "/grafana/"
         method: "get"
+
       - name: "Prometheus"
-        type: Ping
+        type: Prometheus
         logo: "assets/tools/prometheus.png"
         subtitle: "Systems monitoring and alerting tool"
         url: "/prometheus/"
         method: "get"
+
       - name: "Traefik"
         type: Ping
         logo: "assets/tools/traefik.png"
         subtitle: "Traefik Dahsboard"
         url: "/dashboard/#/"
         method: "get"
+
   # - name: DNS
   #   icon: ""
   #   items:
@@ -76,6 +84,7 @@ services:
   #       subtitle: "Network-wide ad blocking"
   #       url: "/admin/"
   #       method: "get"
+
   - name: Media Streaming
     icon: "/assets/icons/play-button.png"
     items:
@@ -85,27 +94,38 @@ services:
         subtitle: "Multimedia streaming"
         url: "/jellyfin/"
         method: "get"
+
   - name: Torrent
     icon: ""
     items:
       - name: "qBittorent"
-        type: "Ping"
+        type: "qBittorrent"
         logo: "assets/tools/qbittorrent.png"
         subtitle: "BitTorrent client"
         url: "/qbittorrent/"
         method: "get"
+
       - name: "Radarr"
         type: "Ping"
         logo: "assets/tools/radarr.svg"
         subtitle: "Movie collection manager for Usenet and BitTorrent users"
         url: "/radarr/"
         method: "get"
+
+      - name: "Sonarr"
+        type: "Ping"
+        logo: "assets/tools/sonarr.png"
+        subtitle: "PVR for Usenet and BitTorrent users"
+        url: "/sonarr/"
+        method: "get"
+
       - name: "jackett"
         type: "Ping"
         logo: "assets/tools/jackett.png"
         subtitle: "Proxy for Radarr and Sonarr"
         url: "/jackett/"
         method: "get"
+
   - name: Management Tools
     icon: ""
     items:
@@ -121,6 +141,7 @@ services:
         subtitle: "File management UI"
         url: "/filebrowser/"
         method: "get"
+
   - name: Cloud
     icon: ""
     items:

@@ -1,7 +1,7 @@
-version: '3.8'
+version: "3.8"
 
 networks:
-  traefik_public:
+  network_public:
     external: true
 
 volumes:
@@ -24,9 +24,9 @@ services:
         max_attempts: 3
       labels:
         - traefik.enable=true
-        - traefik.docker.network=traefik_public
+        - traefik.docker.network=network_public
         - "traefik.http.routers.portainer.tls=true"
-        - "traefik.http.routers.portainer.rule=PathPrefix(`/portainer`)"
+        - "traefik.http.routers.portainer.rule=Host(`${DOMAIN}`) && PathPrefix(`/portainer`)"
         - "traefik.http.routers.portainer.middlewares=portainer-stripprefix"
         - "traefik.http.middlewares.portainer-stripprefix.stripprefix.prefixes=/portainer"
         - "traefik.http.services.portainer.loadbalancer.server.port=9000"
@@ -41,7 +41,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
     networks:
-      - traefik_public
+      - network_public
     secrets:
       - portainer_admin_password
 
