@@ -5,7 +5,7 @@ networks:
     external: true
 
 volumes:
-  portainer_data:
+  portainer:
 
 secrets:
   portainer_admin_password:
@@ -39,7 +39,7 @@ services:
       - --admin-password-file=/run/secrets/portainer_admin_password
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - portainer:/data
     networks:
       - network_public
     secrets:

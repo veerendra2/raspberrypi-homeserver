@@ -1,0 +1,47 @@
+version: "3.8"
+
+networks:
+  network_private:
+    external: true
+
+volumes:
+  radarr:
+    driver: local
+      driver_opts:
+        o: bind
+        type: none
+        device: /media/disk2/volumes/radarr
+
+services:
+  radarr:
+    image: linuxserver/radarr:arm64v8-4.4.4
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=network_private
+        - traefik.http.routers.radarr.tls=true
+        - traefik.http.routers.radarr.rule=Host(`${DOMAIN}`) && PathPrefix(`/radarr`)
+        - traefik.http.services.radarr.loadbalancer.server.port=7878
+    hostname: radarr
+    env_file:
+      - ./radarr/.env_radarr
+      - .vpn_ip
+    networks:
+      - network_private
+    volumes:
+      - radarr:/config
+      - ./radarr/config.xml:/config/config.xml
+      - ./ip-test.sh:/opt/ip-test.sh
+      - /media/disk2/downloads:/downloads
+    # healthcheck:
+    #   test: ["CMD", "/opt/ip-test.sh"]
+    #   interval: 2m
+    #   timeout: 10s
+    #   retries: 3

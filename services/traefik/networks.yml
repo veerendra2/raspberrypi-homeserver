@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  scratch:
+  networks_scratch:
     image: scratch
     deploy:
       replicas: 0

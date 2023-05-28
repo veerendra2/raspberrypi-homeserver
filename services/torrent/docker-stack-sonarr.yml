@@ -1,0 +1,47 @@
+version: "3.8"
+
+networks:
+  network_private:
+    external: true
+
+volumes:
+  sonarr:
+    driver: local
+      driver_opts:
+        o: bind
+        type: none
+        device: /media/disk2/volumes/sonarr
+
+services:
+  sonarr:
+    image: linuxserver/sonarr:arm64v8-3.0.10
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=network_private
+        - traefik.http.routers.sonarr.tls=true
+        - traefik.http.routers.sonarr.rule=Host(`${DOMAIN}`) && PathPrefix(`/sonarr`)
+        - traefik.http.services.sonarr.loadbalancer.server.port=8989
+    hostname: sonarr
+    env_file:
+      - ./sonarr/.env_sonarr
+      - .vpn_ip
+    networks:
+      - network_private
+    volumes:
+      - sonarr:/config
+      - ./sonarr/config.xml:/config/config.xml
+      - ./ip-test.sh:/opt/ip-test.sh
+      - /media/disk2/downloads:/downloads
+    # healthcheck:
+    #   test: ["CMD", "/opt/ip-test.sh"]
+    #   interval: 2m
+    #   timeout: 10s
+    #   retries: 3

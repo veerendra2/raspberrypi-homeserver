@@ -1,0 +1,85 @@
+version: "3.8"
+
+networks:
+  network_private:
+    external: true
+  network_public:
+    external: true
+
+volumes:
+  qbitorrent:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /media/disk2/volumes/qbitorrent
+
+services:
+  wireguard:
+    image: linuxserver/wireguard:arm64v8-1.0.20210914-legacy
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - traefik.enable=false
+    hostname: wireguard
+    env_file:
+      - ./wireguard/.env_wireguard
+    networks:
+      - network_public
+      - network_private
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - /lib/modules:/lib/modules
+      - ./wireguard/wg0.conf:/config/wg0.conf
+      - ./wireguard/dante-server/danted.conf:/etc/danted.conf
+      - ./wireguard/dante-server/install.sh:/custom-cont-init.d/install.sh:ro
+      - ./wireguard/dante-server/run.sh:/custom-services.d/run.sh:ro
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=0
+
+  qbittorrent:
+    image: linuxserver/qbittorrent:arm64v8-4.5.2
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=network_private
+        - traefik.http.routers.qbittorrent.tls=true
+        - traefik.http.routers.qbittorrent.rule=Host(`${DOMAIN}`) && PathPrefix(`/qbittorrent`)
+        - traefik.http.routers.qbittorrent.middlewares=qbittorrent-stripprefix
+        - traefik.http.middlewares.qbittorrent-stripprefix.stripprefix.prefixes=/qbittorrent
+        - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
+    hostname: qbittorrent
+    env_file:
+      - ./qbittorrent/.env_qbittorrent
+      - .vpn_ip
+    networks:
+      - network_private
+    volumes:
+      - qbitorrent:/config
+      - ./qbittorrent/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf
+      - ./ip-test.sh:/opt/ip-test.sh
+      - /media/disk2/downloads:/downloads
+    # healthcheck:
+    #   test: ["CMD", "/opt/ip-test.sh"]
+    #   interval: 2m
+    #   timeout: 10s
+    #   retries: 3
+
+
+
+

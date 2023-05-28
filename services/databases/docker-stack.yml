@@ -36,7 +36,7 @@ services:
     env_file:
       - .env_postgres
     volumes:
-      - /media/disk2/postgres:/var/lib/postgresql/data:rw
+      - /media/disk2/volumes/postgres:/var/lib/postgresql/data:rw
     networks:
       - network_databases
     secrets:
