@@ -37,7 +37,7 @@ services:
       - NET_ADMIN
     volumes:
       - /lib/modules:/lib/modules
-      - ./wireguard/wg0.conf:/config/wg0.conf
+      - /media/disk2/volumes/secrets/wg0.conf:/config/wg0.conf
       - ./wireguard/dante-server/danted.conf:/etc/danted.conf
       - ./wireguard/dante-server/install.sh:/custom-cont-init.d/install.sh:ro
       - ./wireguard/dante-server/run.sh:/custom-services.d/run.sh:ro

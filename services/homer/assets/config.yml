@@ -47,7 +47,7 @@ links:
 
   - name: "Documentation"
     icon: "fab fa-book"
-    url: "https://latitude-1.gitbook.io/raspberrypi-home-server/"
+    url: "https://dust6765.gitbook.io/raspberrypi-home-server/"
     target: "_blank"
 
 services:

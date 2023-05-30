@@ -6,7 +6,7 @@ networks:
 
 services:
   homer:
-    image: b4bz/homer:v23.02.2
+    image: b4bz/homer:v23.05.1
     deploy:
       replicas: 1
       placement:

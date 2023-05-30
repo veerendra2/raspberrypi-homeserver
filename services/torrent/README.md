@@ -5,6 +5,7 @@
   * `radarr`
   * `sonarr`
   * `jacket`
+* Except wireguard, all services in this stack should connect only `network_private` network and configure proxy in the application itself.
 * Download directory tree
   ```bash
   $ tree /media/disk2/downloads/
