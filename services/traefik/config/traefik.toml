@@ -4,14 +4,14 @@
 [api]
   dashboard = true
 
-#[accessLog]
+[accessLog]
 
 [log]
   level = "DEBUG"
 
 [certificatesResolvers.httpResolver.acme]
   email = "veerendra2@github.com"
-  storage = "/etc/traefik/acme.json"
+  storage = "/opt/acme.json"
   [certificatesResolvers.httpResolver.acme.dnsChallenge]
     provider = "duckdns"
     resolvers = ["1.1.1.1:53", "8.8.8.8:53"]

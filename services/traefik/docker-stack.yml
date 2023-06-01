@@ -8,10 +8,15 @@ networks:
 
 volumes:
   traefik:
+    driver: local
+    driver_opts:
+       o: bind
+       type: none
+       device: /media/disk2/volumes/traefik
 
 secrets:
   duckdns:
-    file: ./secrets/duckdns.txt
+    file: /media/disk2/volumes/secrets/duckdns.txt
 
 services:
   traefik:
@@ -47,6 +52,7 @@ services:
         mode: host
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - traefik:/opt
       - ./config:/etc/traefik
     networks:
       - network_public

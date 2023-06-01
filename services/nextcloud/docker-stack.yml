@@ -46,7 +46,7 @@ services:
       - network_public
       - network_databases
     volumes:
-      - /media/disk2/nextcloud:/var/www/html
+      - /media/disk2/volumes/nextcloud:/var/www/html
     secrets:
       - nextcloud_admin_password
       - nextcloud_admin_user
