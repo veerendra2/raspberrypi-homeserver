@@ -46,7 +46,7 @@ services:
       - net.ipv6.conf.all.disable_ipv6=0
 
   qbittorrent:
-    image: linuxserver/qbittorrent:arm64v8-4.5.2
+    image: linuxserver/qbittorrent:arm64v8-4.5.3
     deploy:
       replicas: 1
       placement:
