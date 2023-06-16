@@ -90,6 +90,13 @@
     </center>
   </td>
 </tr>
+<tr>
+  <td>
+    <center>
+      <img src="https://user-images.githubusercontent.com/8393701/246494833-8c9f8489-8d1a-460e-9c3e-134a8958d5cf.svg" alt="SearXNG" width="60"/> <br /> SearXNG
+    </center>
+  </td>
+</tr>
 </table>
 
 
@@ -199,7 +206,7 @@ $ ansible-playbook main.yml
           constraints: [node.role == manager]
     ...
     ```
-* Currently I'm using IP address `192.168.0.120` to access services, change services configs if you have a domain
+* Currently ~~I'm using IP address `192.168.0.120` to access services, change services configs if you have a domain~~ using duckdns sub-domain. Refer my [blog post](https://veerendra2.github.io/traefik-https) to get more info.
 
 ## Related Blogs
 * https://veerendra2.github.io/portainer-vs-yacht

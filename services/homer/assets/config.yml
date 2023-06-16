@@ -151,3 +151,13 @@ services:
         subtitle: "Self-hosted cloud"
         url: "/nextcloud/"
         method: "get"
+
+  # - name: Search
+  #   icon: ""
+  #   items:
+  #     - name: "SearXNG"
+  #       type: "Ping"
+  #       logo: "assets/tools/searxng.svg"
+  #       subtitle: "Metasearch engine"
+  #       url: "/searxng/"
+  #       method: "get"

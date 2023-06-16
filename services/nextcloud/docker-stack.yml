@@ -1,3 +1,5 @@
+---
+# https://dust6765.gitbook.io/raspberrypi-home-server/services/nextcloud
 version: "3.8"
 
 networks:
@@ -34,8 +36,8 @@ services:
       labels:
         - traefik.enable=true
         - traefik.docker.network=network_public
-        - traefik.http.routers.nextcloud.rule=Host(`${DOMAIN}`) && PathPrefix(`/nextcloud`)
         - traefik.http.routers.nextcloud.tls=true
+        - traefik.http.routers.nextcloud.rule=Host(`${DOMAIN}`) && PathPrefix(`/nextcloud`)
         - traefik.http.routers.nextcloud.middlewares=nextcloud-stripprefix
         - traefik.http.middlewares.nextcloud-stripprefix.stripprefix.prefixes=/nextcloud
         - traefik.http.services.nextcloud.loadbalancer.server.port=80

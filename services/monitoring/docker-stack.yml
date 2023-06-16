@@ -1,4 +1,5 @@
 ---
+# https://dust6765.gitbook.io/raspberrypi-home-server/services/monitoring
 version: "3.8"
 
 networks:
@@ -8,8 +9,8 @@ networks:
     external: true
 
 volumes:
-  prometheus_data:
-  grafana_data:
+  prometheus:
+  grafana:
 
 secrets:
   grafana_admin_password:
@@ -27,15 +28,15 @@ services:
         delay: 30s
         max_attempts: 3
       labels:
-        - "traefik.enable=true"
-        - "traefik.docker.network=network_public"
-        - "traefik.http.routers.prometheus.rule=Host(`${DOMAIN}`) && PathPrefix(`/prometheus`)"
-        - "traefik.http.routers.prometheus.tls=true"
-        - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+        - traefik.enable=true
+        - traefik.docker.network=network_public
+        - traefik.http.routers.prometheus.tls=true
+        - traefik.http.routers.prometheus.rule=Host(`${DOMAIN}`) && PathPrefix(`/prometheus`)
+        - traefik.http.services.prometheus.loadbalancer.server.port=9090
     hostname: prometheus
     volumes:
       - ./prometheus:/etc/prometheus
-      - prometheus_data:/prometheus
+      - prometheus:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -61,16 +62,16 @@ services:
         delay: 30s
         max_attempts: 3
       labels:
-        - "traefik.enable=true"
-        - "traefik.docker.network=network_public"
-        - "traefik.http.routers.grafana.rule=Host(`${DOMAIN}`) && PathPrefix(`/grafana`)"
-        - "traefik.http.routers.grafana.tls=true"
-        - "traefik.http.routers.grafana.middlewares=grafana-stripprefix"
-        - "traefik.http.middlewares.grafana-stripprefix.stripprefix.prefixes=/grafana"
-        - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+        - traefik.enable=true
+        - traefik.docker.network=network_public
+        - traefik.http.routers.grafana.tls=true
+        - traefik.http.routers.grafana.rule=Host(`${DOMAIN}`) && PathPrefix(`/grafana`)
+        - traefik.http.routers.grafana.middlewares=grafana-stripprefix
+        - traefik.http.middlewares.grafana-stripprefix.stripprefix.prefixes=/grafana
+        - traefik.http.services.grafana.loadbalancer.server.port=3000
     hostname: grafana
     volumes:
-      - grafana_data:/var/lib/grafana
+      - grafana:/var/lib/grafana
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
     env_file:

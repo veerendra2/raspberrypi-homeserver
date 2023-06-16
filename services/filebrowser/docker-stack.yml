@@ -1,3 +1,5 @@
+---
+# https://dust6765.gitbook.io/raspberrypi-home-server/services/file-browser
 version: "3.8"
 
 networks:
@@ -19,11 +21,11 @@ services:
         delay: 30s
         max_attempts: 3
       labels:
-        - "traefik.enable=true"
-        - "traefik.docker.network=network_public"
-        - "traefik.http.routers.filebrowser.rule=Host(`${DOMAIN}`) && PathPrefix(`/filebrowser`)"
-        - "traefik.http.routers.filebrowser.tls=true"
-        - "traefik.http.services.filebrowser.loadbalancer.server.port=8080"
+        - traefik.enable=true
+        - traefik.docker.network=network_public
+        - traefik.http.routers.filebrowser.tls=true
+        - traefik.http.routers.filebrowser.rule=Host(`${DOMAIN}`) && PathPrefix(`/filebrowser`)
+        - traefik.http.services.filebrowser.loadbalancer.server.port=8080
     hostname: filebrowser
     env_file:
       - .env_filebrowser

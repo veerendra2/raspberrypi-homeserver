@@ -1,3 +1,5 @@
+---
+# https://dust6765.gitbook.io/raspberrypi-home-server/services/portainer
 version: "3.8"
 
 networks:
@@ -25,11 +27,11 @@ services:
       labels:
         - traefik.enable=true
         - traefik.docker.network=network_public
-        - "traefik.http.routers.portainer.tls=true"
-        - "traefik.http.routers.portainer.rule=Host(`${DOMAIN}`) && PathPrefix(`/portainer`)"
-        - "traefik.http.routers.portainer.middlewares=portainer-stripprefix"
-        - "traefik.http.middlewares.portainer-stripprefix.stripprefix.prefixes=/portainer"
-        - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+        - traefik.http.routers.portainer.tls=true"
+        - traefik.http.routers.portainer.rule=Host(`${DOMAIN}`) && PathPrefix(`/portainer`)
+        - traefik.http.routers.portainer.middlewares=portainer-stripprefix
+        - traefik.http.middlewares.portainer-stripprefix.stripprefix.prefixes=/portainer
+        - traefik.http.services.portainer.loadbalancer.server.port=9000
     hostname: portainer
     env_file:
       - .env_portainer
