@@ -152,12 +152,12 @@ services:
         url: "/nextcloud/"
         method: "get"
 
-  - name: Search
-    icon: ""
-    items:
-      - name: "SearXNG"
-        type: "Ping"
-        logo: "assets/tools/searxng.svg"
-        subtitle: "Metasearch engine"
-        url: "/searxng/"
-        method: "get"
+  # - name: Search
+  #   icon: ""
+  #   items:
+  #     - name: "SearXNG"
+  #       type: "Ping"
+  #       logo: "assets/tools/searxng.svg"
+  #       subtitle: "Metasearch engine"
+  #       url: "/searxng/"
+  #       method: "get"
