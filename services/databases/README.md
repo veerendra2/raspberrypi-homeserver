@@ -1,5 +1,5 @@
 # Databases
-Common databases for service. This `docker-stack.yaml` deploys below databases
+Common databases for all service. This `docker-stack.yaml` deploys below databases
 * Redis
 * Postgresql
 
@@ -38,7 +38,7 @@ services:
     - db_password
 ```
 ### Network
-`docker-stack.yml` stack create `databases_internal` network which has `attachable: true`, i.e. services can attach to this network to communicate to databases. Databases are reachable with their service names
+[`networks.yml`](../traefik/networks.yml) stack creates `network_databases` network which has `attachable: true`, i.e. services can attach to this network to communicate to databases. Databases are reachable with their service names
 ```bash
 $ docker service ls
 ID             NAME                      MODE         REPLICAS   IMAGE                                                 PORTS
@@ -47,13 +47,13 @@ jrsr17tq7byq   databases_postgres        replicated   1/1        arm64v8/postgre
 
 $ docker network ls
 NETWORK ID     NAME                  DRIVER    SCOPE
-j2476k65uux5   databases_internal    overlay   swarm
+j2476k65uux5   network_databases    overlay   swarm
 
 
-# Create a service with network databases_internal
+# Create a service with network network_databases
 $ docker service create \
   --replicas 1 \
-  --network databases_internal
+  --network network_databases
   --name helloworld1 alpine ping databases_postgres
 vzsktr6sn7ychq0p04o21hg10
 overall progress: 1 out of 1 tasks
@@ -68,20 +68,31 @@ helloworld1.1.cku71u9yhzkj@atom    | 64 bytes from 172.16.202.5: seq=1 ttl=64 ti
 ...
 ```
 
-## Create databases
-Default user `trinity` and `nextcloud` database create during startup
+## Postgresql Tips
+Default user `trinity` and `nextcloud` database create during startup.
 
-If required create databases manually for other services
+* Database creation
+  ```bash
+  # Find the postgres container
+  $ docker ps | grep postgres
+  $ docker exec -it --user postgres [CONTAINER_ID] /bin/sh
+  $ psql -U veerendra
+  ```
+
+  Run below sql command to create database(If required, create user too)
+  ```sql
+  CREATE USER suma WITH ENCRYPTED PASSWORD 'mypass';
+  CREATE DATABASE mydb;
+  GRANT ALL PRIVILEGES ON DATABASE mydb TO suma;
+  ```
+
+## Redis Tips
+Default password is `Snort9`
+
 ```bash
-# Find the postgres container
-$ docker ps | grep postgres
-$ docker exec -it --user postgres [CONTAINER_ID] /bin/sh
-$ psql -U veerendra
-```
-
-Run below sql command to create database(If required, create user too)
-```sql
-CREATE USER suma WITH ENCRYPTED PASSWORD 'mypass';
-CREATE DATABASE mydb;
-GRANT ALL PRIVILEGES ON DATABASE mydb TO suma;
+$ docker exec -it 6a012506399b redis-cli -h 127.0.0.1 -p 6379 -a 'Snort9'
+Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
+127.0.0.1:6379> ACL USERS
+1) "default"
+127.0.0.1:6379>
 ```

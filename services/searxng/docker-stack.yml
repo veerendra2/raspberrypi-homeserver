@@ -1,0 +1,33 @@
+version: "3.8"
+
+networks:
+  network_public:
+    external: true
+  network_databases:
+    external: true
+
+services:
+  searxng:
+    image: searxng/searxng:2023.6.13-1f0fb312
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=network_public
+        - traefik.http.routers.searxng.tls=true
+        - traefik.http.routers.searxng.rule=Host(`${DOMAIN}`) && PathPrefix(`/searxng`)
+        - traefik.http.services.searxng.loadbalancer.server.port=8080
+    hostname: searxng
+    env_file:
+      - .env_searxng
+    volumes:
+      - ./searxng:/etc/searxng:rw
+    networks:
+      - network_public
+      - network_databases
