@@ -21,7 +21,7 @@ secrets:
 
 services:
   traefik:
-    image: arm64v8/traefik:v2.10.1
+    image: arm64v8/traefik:v2.10.3
     deploy:
       replicas: 1
       placement:

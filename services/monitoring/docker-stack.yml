@@ -18,7 +18,7 @@ secrets:
 
 services:
   prometheus:
-    image: prom/prometheus-linux-arm64:v2.44.0
+    image: prom/prometheus-linux-arm64:v2.45.0
     deploy:
       replicas: 1
       placement:
@@ -52,7 +52,7 @@ services:
       - network_monitoring
 
   grafana:
-    image: grafana/grafana:9.5.2
+    image: grafana/grafana:10.0.1
     deploy:
       replicas: 1
       placement:

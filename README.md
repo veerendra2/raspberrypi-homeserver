@@ -96,6 +96,11 @@
       <img src="https://user-images.githubusercontent.com/8393701/246494833-8c9f8489-8d1a-460e-9c3e-134a8958d5cf.svg" alt="SearXNG" width="60"/> <br /> SearXNG
     </center>
   </td>
+  <td>
+    <center>
+      <img src="https://user-images.githubusercontent.com/8393701/252403104-a77ba8cf-9d2c-4791-8b22-9ca1f9ef5d5c.png" alt="Vaultwarden" width="60"/> <br /> Vaultwarden
+    </center>
+  </td>
 </tr>
 </table>
 
