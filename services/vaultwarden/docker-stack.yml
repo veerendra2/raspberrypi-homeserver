@@ -3,6 +3,18 @@ version: "3.8"
 networks:
   network_public:
     external: true
+  network_databases:
+    external: true
+
+secrets:
+  vaultwarden_postgres_password:
+    file: ./secrets/vaultwarden_postgres_password.txt
+  vaultwarden_postgres_user:
+    file: ./secrets/vaultwarden_postgres_user.txt
+  vaultwarden_postgres_db:
+    file: ./secrets/vaultwarden_postgres_db.txt
+  vaultwarden_admin_token:
+    file: ./secrets/vaultwarden_admin_token.txt
 
 services:
   vaultwarden:
@@ -31,5 +43,12 @@ services:
       - .env_vaultwarden
     volumes:
       - /media/disk2/volumes/vaultwarden:/data:rw
+      - ./scripts:/etc/vaultwarden.d
     networks:
       - network_public
+      - network_databases
+    secrets:
+      - vaultwarden_postgres_password
+      - vaultwarden_postgres_user
+      - vaultwarden_postgres_db
+      - vaultwarden_admin_token

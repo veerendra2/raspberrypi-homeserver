@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Update/rebalance services in docker swarm cluster. Run this script after docker daemon restart
 
 echo "*** Updating Docker Swarm Services ***"
