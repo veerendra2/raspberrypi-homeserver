@@ -129,12 +129,12 @@ services:
   - name: Management Tools
     icon: ""
     items:
-      - name: "Portainer"
-        type: Ping
-        logo: "assets/tools/portainer.png"
-        subtitle: "Container management UI"
-        url: "/portainer/"
-        method: "get"
+      # - name: "Portainer"
+      #   type: Ping
+      #   logo: "assets/tools/portainer.png"
+      #   subtitle: "Container management UI"
+      #   url: "/portainer/"
+      #   method: "get"
       - name: "Filebrowser"
         type: "Ping"
         logo: "assets/tools/filebrowser.png"
@@ -150,6 +150,16 @@ services:
         logo: "assets/tools/nextcloud.png"
         subtitle: "Self-hosted cloud"
         url: "/nextcloud/"
+        method: "get"
+
+  - name: Password Manager
+    icon: ""
+    items:
+      - name: "Vaultwarden"
+        type: "Ping"
+        logo: "assets/tools/vaultwarden.png"
+        subtitle: "Rust implementation of Bitwarden API"
+        url: "/vaultwarden/"
         method: "get"
 
   # - name: Search

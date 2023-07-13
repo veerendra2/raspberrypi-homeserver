@@ -6,9 +6,9 @@ Common databases for all service. This `docker-stack.yaml` deploys below databas
 ## Deploy databases
 ```bash
 $ cd raspberrypi-homeserver/services/databases
-
 $ docker stack deploy -c docker-stack.yml databases
 ```
+
 ### Secrets
 Databases secrets are typically shared between multiple services. The above stack creates secrets which can be used in servcies
 
@@ -21,7 +21,7 @@ nf17rcx3nqdv34cpa6m89bws5   databases_redis_host_password                  6 min
 ```
 
 You can use these secrets in services by defining as `external`
-```
+```yaml
 version: '3'
 
 secrets:
@@ -36,7 +36,9 @@ services:
   secrets:
     - db_user
     - db_password
+...
 ```
+
 ### Network
 [`networks.yml`](../traefik/networks.yml) stack creates `network_databases` network which has `attachable: true`, i.e. services can attach to this network to communicate to databases. Databases are reachable with their service names
 ```bash
@@ -49,8 +51,7 @@ $ docker network ls
 NETWORK ID     NAME                  DRIVER    SCOPE
 j2476k65uux5   network_databases    overlay   swarm
 
-
-# Create a service with network network_databases
+# For example, let's create a service with network "network_databases" to test connection to postgresq
 $ docker service create \
   --replicas 1 \
   --network network_databases
@@ -60,7 +61,7 @@ overall progress: 1 out of 1 tasks
 1/1: running   [==================================================>]
 verify: Service converged
 
-# Verify service reachable via service name
+# verify newly created service is reachable to postgres container via "network_databases"
 $ docker service logs vzsktr6sn7ychq0p04o21hg10
 helloworld1.1.cku71u9yhzkj@atom    | PING databases_postgres (172.16.202.5): 56 data bytes
 helloworld1.1.cku71u9yhzkj@atom    | 64 bytes from 172.16.202.5: seq=0 ttl=64 time=0.535 ms
@@ -73,16 +74,17 @@ Default user `trinity` and `nextcloud` database create during startup.
 
 * Database creation
   ```bash
-  # Find the postgres container
+  # find the postgres container
   $ docker ps | grep postgres
-  $ docker exec -it --user postgres [CONTAINER_ID] /bin/sh
-  $ psql -U veerendra
+
+  # login with default user and template0 database
+  $ docker exec -it --user postgres [CONTAINER_ID] psql -U trinity -d template1
   ```
 
   Run below sql command to create database(If required, create user too)
   ```sql
-  CREATE USER suma WITH ENCRYPTED PASSWORD 'mypass';
   CREATE DATABASE mydb;
+  CREATE USER suma WITH ENCRYPTED PASSWORD 'mypass';
   GRANT ALL PRIVILEGES ON DATABASE mydb TO suma;
   ```
 

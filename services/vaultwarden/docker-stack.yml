@@ -1,0 +1,54 @@
+version: "3.8"
+
+networks:
+  network_public:
+    external: true
+  network_databases:
+    external: true
+
+secrets:
+  vaultwarden_postgres_password:
+    file: ./secrets/vaultwarden_postgres_password.txt
+  vaultwarden_postgres_user:
+    file: ./secrets/vaultwarden_postgres_user.txt
+  vaultwarden_postgres_db:
+    file: ./secrets/vaultwarden_postgres_db.txt
+  vaultwarden_admin_token:
+    file: ./secrets/vaultwarden_admin_token.txt
+
+services:
+  vaultwarden:
+    image: vaultwarden/server:1.28.1-alpine
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=network_public
+        - traefik.http.routers.vaultwarden.tls=true
+        - traefik.http.routers.vaultwarden.rule=Host(`${DOMAIN}`) && PathPrefix(`/vaultwarden`)
+        - traefik.http.routers.vaultwarden.service=vaultwarden
+        - traefik.http.services.vaultwarden.loadbalancer.server.port=80
+        - traefik.http.routers.vaultwarden-websocket.tls=true
+        - traefik.http.routers.vaultwarden-websocket.rule=Host(`${DOMAIN}`) && Path(`/notifications/hub`)
+        - traefik.http.routers.vaultwarden-websocket.service=vaultwarden-websocket
+        - traefik.http.services.vaultwarden-websocket.loadbalancer.server.port=3012
+    hostname: vaultwarden
+    env_file:
+      - .env_vaultwarden
+    volumes:
+      - /media/disk2/volumes/vaultwarden:/data:rw
+      - ./scripts:/etc/vaultwarden.d
+    networks:
+      - network_public
+      - network_databases
+    secrets:
+      - vaultwarden_postgres_password
+      - vaultwarden_postgres_user
+      - vaultwarden_postgres_db
+      - vaultwarden_admin_token
