@@ -101,6 +101,11 @@
       <img src="https://user-images.githubusercontent.com/8393701/252403104-a77ba8cf-9d2c-4791-8b22-9ca1f9ef5d5c.png" alt="Vaultwarden" width="60"/> <br /> Vaultwarden
     </center>
   </td>
+  <td>
+    <center>
+      <img src="https://user-images.githubusercontent.com/8393701/253675772-39bd3d53-458d-479c-a49e-a6bf0a376afe.png" alt="rest-server" width="60"/> <br /> rest-server<br/>(Restic)
+    </center>
+  </td>
 </tr>
 </table>
 
