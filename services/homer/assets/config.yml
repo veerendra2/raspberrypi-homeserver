@@ -152,15 +152,15 @@ services:
         url: "/nextcloud/"
         method: "get"
 
-  - name: Password Manager
-    icon: ""
-    items:
-      - name: "Vaultwarden"
-        type: "Ping"
-        logo: "assets/tools/vaultwarden.png"
-        subtitle: "Rust implementation of Bitwarden API"
-        url: "/vaultwarden/"
-        method: "get"
+  # - name: Password Manager
+  #   icon: ""
+  #   items:
+  #     - name: "Vaultwarden"
+  #       type: "Ping"
+  #       logo: "assets/tools/vaultwarden.png"
+  #       subtitle: "Rust implementation of Bitwarden API"
+  #       url: "/vaultwarden/"
+  #       method: "get"
 
   # - name: Search
   #   icon: ""

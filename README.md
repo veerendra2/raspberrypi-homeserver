@@ -3,9 +3,10 @@
 ![GitHub forks](https://img.shields.io/github/forks/veerendra2/raspberrypi-homeserver?style=plastic)
 ![GitHub issues](https://img.shields.io/github/issues/veerendra2/raspberrypi-homeserver?style=plastic)
 ![GitHub release (release name instead of tag name)](https://img.shields.io/github/v/release/veerendra2/raspberrypi-homeserver?include_prereleases&style=plastic)
-# Raspberry Pi Home Server
+# Self-host Docker Swarm Stacks
+> _Previuosly known as "Raspberry Pi homeserver"_
 <p align="center">
-<b>A collection of applications and tools to make awesome Raspberry Pi homerserver</b>
+<b>A collection of applications and tools </b>
 </p>
 
 <table align="center">
