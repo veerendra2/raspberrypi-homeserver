@@ -8,7 +8,7 @@ networks:
 
 services:
   searxng:
-    image: searxng/searxng:2023.7.7-cada89ee
+    image: searxng/searxng:2023.7.29-8b4ba204b
     deploy:
       replicas: 1
       placement:

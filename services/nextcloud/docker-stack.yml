@@ -24,7 +24,7 @@ secrets:
 
 services:
   nextcloud:
-    image: arm64v8/nextcloud:27.0-apache
+    image: arm64v8/nextcloud:27.0.1-apache
     deploy:
       replicas: 1
       placement:
