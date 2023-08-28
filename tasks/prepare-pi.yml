@@ -1,112 +1,48 @@
 ---
-- name: Install necessary packages
-  apt:
-    name: "{{ pkgs }}"
-    state: latest
-    update_cache: yes
-    install_recommends: no
-    force_apt_get: yes
-  become: true
+- name: Install fan script
+  block:
+    - name: Check fan-py daemon is loaded
+      ansible.builtin.systemd:
+        name: fan-py
+      register: output
 
-- name: Install snap packages
-  snap:
-    name: "{{ snaps }}"
-    classic: yes
-  become: true
+    - name: Install pigpio and Pi fan controller
+      ansible.builtin.include_tasks: pigpio.yml
+      when: output.status.LoadState != 'loaded'
+  when: install_fan_script
 
-- name: Install pypi packages
-  pip:
-    name: "{{ pypi }}"
-    state: present
-    executable: "pip3"
-
-- name: Download scripts
-  get_url:
-    url: "{{ item.value }}"
-    dest: "/tmp/{{ item.key }}.sh"
-    mode: "0776"
-  loop: "{{ lookup('dict', scripts, wantlist=True) }}"
-
-- name: Run scripts
-  command: "/tmp/{{ item.key }}.sh"
-  loop: "{{ lookup('dict', scripts, wantlist=True) }}"
-
-- name: Set authorized keys taken from url
-  authorized_key:
-    user: "{{ run_user }}"
-    state: present
-    key: "{{ github_username_keys }}"
-
-- name: Generate ssh key pair
-  openssh_keypair:
-    path: "{{ [ansible_env.HOME, '.ssh', 'id_rsa'] | path_join }}"
-    force: no
-
-- name: Check fan-py daemon is loaded
-  systemd:
-    name: fan-py
-  register: output
-
-- name: Install pigpio and Pi fan controller
-  include_tasks: pigpio.yml
-  when: output.status.LoadState != 'loaded'
-
-- block:
-  - name: Check docker installed
-    shell: docker --version
-    register: output
-  - debug:
-      msg: "{{ output.stdout }}"
-  rescue:
-  - name: Install and configure docker
-    include_tasks: docker.yml
-
-- block:
-  - name: Check bettercap installed
-    shell: bettercap --version
-    register: output
-  - debug:
-      msg: "{{ output.stdout }}"
-  rescue:
-  - name: Install bettercap
-    include_tasks: bettercap.yml
-
-# POWER OPTIMIZATION
-- block:
-  - name: Stop and disable hciuart and bluetooth deamon
-    systemd:
-      name: "{{ item }}"
-      state: stopped
-      enabled: no
-    with_items:
-      - bluetooth
-      - hciuart
-  - name: Disable HDMI Output
-    shell: /usr/bin/tvservice -o
-    when: disable_bluetooth|bool == true
-  become: yes
-
-- name: Reboot Pi after upgrade
-  reboot:
-    post_reboot_delay: 10
-  when: reboot_after_pi_preparation|bool == true and ansible_connection != 'local'
-  become: yes
+- name: Power optimization
+  block:
+    - name: Stop and disable hciuart and bluetooth deamon
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        state: stopped
+        enabled: no
+      with_items:
+        - bluetooth
+        - hciuart
+    - name: Disable HDMI Output
+      ansible.builtin.command: /usr/bin/tvservice -o
+  when: disable_bluetooth|bool == true
 
 - name: Configure disk mounts in /etc/fstab
-  mount:
+  ansible.posix.mount:
     path: "{{ item.value }}"
     src: "{{ item.key }}"
     fstype: ext4
     opts: rw,async
     state: mounted
   loop: "{{ lookup('dict', disk_mount_dirs) }}"
-  become: yes
 
 - name: Change mount directories ownership
-  file:
+  ansible.builtin.file:
     path: "{{ item.value }}"
     owner: "{{ run_user }}"
     group: "{{ run_user }}"
     mode: "0744"
   loop: "{{ lookup('dict', disk_mount_dirs) }}"
-  become: yes
+
+- name: Reboot Pi after upgrade
+  ansible.builtin.reboot:
+    post_reboot_delay: 10
+  when: reboot_after_pi_preparation and ansible_connection != 'local'

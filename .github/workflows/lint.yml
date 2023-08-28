@@ -1,0 +1,30 @@
+---
+name: Lint
+'on':
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v2
+
+      - name: Set up Python3
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install yamllint
+        run: pip3 install yamllint
+
+      - name: Run yamllint
+        run: |
+          yamllint .
+
+      - name: Run ansible-lint
+        uses: ansible/ansible-lint@main

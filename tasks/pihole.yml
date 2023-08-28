@@ -1,35 +1,33 @@
 ---
 # https://github.com/pi-hole/docker-pi-hole#installing-on-ubuntu-or-fedora
-- name: Configure systemd-resolved for PiHole
-  block:
-    - name: Disable stub resolver in systemd-resolved config
-      ini_file:
-        path: /etc/systemd/resolved.conf
-        section: Resolve
-        option: DNSStubListener
-        value: "no"
-        backup: true
 
-    - name: Create backup /etc/resolv.conf
-      copy:
-        remote_src: yes
-        src: /etc/resolv.conf
-        dest: /etc/resolv.conf.backup
+- name: Disable stub resolver in systemd-resolved config
+  ini_file:
+    path: /etc/systemd/resolved.conf
+    section: Resolve
+    option: DNSStubListener
+    value: "no"
+    backup: true
 
-    - name: Remove /etc/resolv.conf
-      file:
-        path: /etc/resolv.conf
-        state: absent
+- name: Create backup /etc/resolv.conf
+  copy:
+    remote_src: yes
+    src: /etc/resolv.conf
+    dest: /etc/resolv.conf.backup
 
-    - name: Create link /etc/resolv.conf
-      file:
-        src: /run/systemd/resolve/resolv.conf
-        dest: /etc/resolv.conf
-        state: link
-      ignore_errors: yes
+- name: Remove /etc/resolv.conf
+  file:
+    path: /etc/resolv.conf
+    state: absent
 
-    - name: Restart systemd-resolved
-      service:
-        name: systemd-resolved
-        state: restarted
-  become: yes
+- name: Create link /etc/resolv.conf
+  file:
+    src: /run/systemd/resolve/resolv.conf
+    dest: /etc/resolv.conf
+    state: link
+  ignore_errors: yes
+
+- name: Restart systemd-resolved
+  service:
+    name: systemd-resolved
+    state: restarted

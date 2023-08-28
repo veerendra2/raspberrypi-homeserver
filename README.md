@@ -193,8 +193,6 @@
 ![Architecture](https://user-images.githubusercontent.com/8393701/235324714-75620112-a89b-4d10-ab9d-2e44de75d36b.jpg)
 
 ## Getting Started
-> :warning: **CAUTION** Ansible playbooks are highly unstable, needs to rework in future [#54](https://github.com/veerendra2/raspberrypi-homeserver/issues/54).
->
 > Refer [Gitbook Docs](https://dust6765.gitbook.io/raspberrypi-home-server/) for more details and how to deploy manually
 
 * Follow prerequisite [manual steps](https://dust6765.gitbook.io/raspberrypi-home-server/settings/manual-steps) to prepare Pi

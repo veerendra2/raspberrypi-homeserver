@@ -3,7 +3,7 @@
 # https://github.com/veerendra2/raspberrypi-homeserver/issues/54
 
 - name: Create base directory
-  file:
+  ansible.builtin.file:
     path: "{{ services_base_dir_location }}"
     state: directory
     owner: "{{ run_user }}"
@@ -14,14 +14,14 @@
   when: "'pihole' in services"
 
 - name: Create .vpn_ip file for torrent service
-  copy:
+  ansible.builtin.copy:
     dest: services/torrent/.vpn_ip
     content: |
       VPN_IP={{ vpn_ip }}
   when: "vpn_ip and 'torrent' in services"
 
 - name: Synchronize services directories
-  synchronize:
+  ansible.posix.synchronize:
     src: "services/"
     dest: "{{ services_base_dir_location }}"
     delete: false
@@ -29,7 +29,7 @@
     perms: false
 
 - name: Create networks
-  docker_stack:
+  community.docker.docker_stack:
     state: present
     name: traefik
     compose:
@@ -37,7 +37,7 @@
   when: "'traefik' in services"
 
 - name: Deploy service stacks
-  docker_stack:
+  community.docker.docker_stack:
     state: present
     name: "{{ item }}"
     compose:
