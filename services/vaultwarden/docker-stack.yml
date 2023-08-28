@@ -18,7 +18,7 @@ secrets:
 
 services:
   vaultwarden:
-    image: vaultwarden/server:1.28.1-alpine
+    image: vaultwarden/server:1.29.1-alpine
     deploy:
       replicas: 1
       placement:

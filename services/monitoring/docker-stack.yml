@@ -18,7 +18,7 @@ secrets:
 
 services:
   prometheus:
-    image: prom/prometheus-linux-arm64:v2.45.0
+    image: prom/prometheus-linux-arm64:v2.46.0
     deploy:
       replicas: 1
       placement:
@@ -52,7 +52,7 @@ services:
       - network_monitoring
 
   grafana:
-    image: grafana/grafana:10.0.1
+    image: grafana/grafana:10.0.3
     deploy:
       replicas: 1
       placement:
@@ -85,7 +85,7 @@ services:
       - grafana_admin_password
 
   nodeexporter:
-    image: prom/node-exporter-linux-arm64:v1.6.0
+    image: prom/node-exporter-linux-arm64:v1.6.1
     deploy:
       mode: global
       restart_policy:

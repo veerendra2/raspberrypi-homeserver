@@ -16,7 +16,7 @@ volumes:
 
 services:
   jackett:
-    image: linuxserver/jackett:arm64v8-0.20.3917
+    image: linuxserver/jackett:arm64v8-0.21.568
     deploy:
       replicas: 1
       placement:

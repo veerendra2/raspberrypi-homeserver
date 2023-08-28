@@ -225,3 +225,4 @@ $ ansible-playbook main.yml
 * https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1
 * https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2
 * https://veerendra2.github.io/traefik-https
+* https://dev.to/veerendra2/how-to-deploy-rest-serverrestic-on-docker-swarm-behind-traefik-reverse-proxy-4a8h
