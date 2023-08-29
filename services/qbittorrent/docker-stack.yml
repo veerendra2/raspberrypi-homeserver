@@ -1,5 +1,4 @@
 ---
-# https://dust6765.gitbook.io/raspberrypi-home-server/services/torrent-stack
 version: "3.8"
 
 networks:

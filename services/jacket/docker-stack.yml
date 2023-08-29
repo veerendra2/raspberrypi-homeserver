@@ -1,18 +1,9 @@
 ---
-# https://dust6765.gitbook.io/raspberrypi-home-server/services/torrent-stack
-version: "3.8"
+version: 3.8
 
 networks:
   network_private:
     external: true
-
-volumes:
-  jackett:
-    driver: local
-    driver_opts:
-       o: bind
-       type: none
-       device: /media/disk2/volumes/jackett
 
 services:
   jackett:
@@ -33,12 +24,11 @@ services:
         - traefik.http.services.jackett.loadbalancer.server.port=9117
     hostname: jackett
     env_file:
-      - ./jackett/.env_jackett
-      - .vpn_ip
+      - .env_jackett
     networks:
       - network_private
     volumes:
-      - jackett:/config
-      - ./jackett/ServerConfig.json:/config/Jackett/ServerConfig.json
-      - ./ip-test.sh:/opt/ip-test.sh
+      - ./config/ServerConfig.json:/config/Jackett/ServerConfig.json
+      # Change below
+      - /media/disk2/volumes/jackett:/config
       - /media/disk2/downloads/torrents:/opt/torrents

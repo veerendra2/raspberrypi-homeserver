@@ -9,8 +9,12 @@ services:
   - nextcloud
   # - pihole
   - portainer
-  - traefik
-  - torrent
+  - qbittorrent
+  - radarr
+  - sonarr
+  - rest-server
+  - vaultwarden
+  - searxng
 
 # Service's docker stack files copies in this location. It should end with slash
 services_base_dir_location: /opt/services/

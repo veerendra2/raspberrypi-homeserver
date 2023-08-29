@@ -1,6 +1,5 @@
 ---
-# https://dust6765.gitbook.io/raspberrypi-home-server/services/torrent-stack
-version: "3.8"
+version: 3.8
 
 networks:
   network_private:
@@ -33,17 +32,11 @@ services:
         - traefik.http.services.sonarr.loadbalancer.server.port=8989
     hostname: sonarr
     env_file:
-      - ./sonarr/.env_sonarr
-      - .vpn_ip
+      - .env_sonarr
     networks:
       - network_private
     volumes:
-      - sonarr:/config
       - ./sonarr/config.xml:/config/config.xml
-      - ./ip-test.sh:/opt/ip-test.sh
+      # Change below
+      - /media/disk2/volumes/sonarr:/config
       - /media/disk2/downloads:/downloads
-    # healthcheck:
-    #   test: ["CMD", "/opt/ip-test.sh"]
-    #   interval: 2m
-    #   timeout: 10s
-    #   retries: 3

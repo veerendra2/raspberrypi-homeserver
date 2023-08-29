@@ -34,7 +34,6 @@
     name: traefik
     compose:
       - "{{ [services_base_dir_location, 'traefik', 'network.yml'] | path_join }}"
-  when: "'traefik' in services"
 
 - name: Deploy service stacks
   community.docker.docker_stack:
