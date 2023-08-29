@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 networks:
   network_public:
@@ -42,8 +42,8 @@ services:
     env_file:
       - .env_vaultwarden
     volumes:
-      - /media/disk2/volumes/vaultwarden:/data:rw
       - ./scripts:/etc/vaultwarden.d
+      - /media/disk2/volumes/vaultwarden:/data:rw
     networks:
       - network_public
       - network_databases

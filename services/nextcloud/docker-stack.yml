@@ -1,6 +1,6 @@
 ---
 # https://dust6765.gitbook.io/raspberrypi-home-server/services/nextcloud
-version: "3.8"
+version: '3.8'
 
 networks:
   network_public:

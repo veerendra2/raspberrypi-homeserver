@@ -1,13 +1,9 @@
 ---
-# https://dust6765.gitbook.io/raspberrypi-home-server/services/portainer
-version: "3.8"
+version: '3.8'
 
 networks:
   network_public:
     external: true
-
-volumes:
-  portainer:
 
 secrets:
   portainer_admin_password:
@@ -41,7 +37,7 @@ services:
       - --admin-password-file=/run/secrets/portainer_admin_password
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer:/data
+      - /media/disk2/volumes/portainer:/data
     networks:
       - network_public
     secrets:

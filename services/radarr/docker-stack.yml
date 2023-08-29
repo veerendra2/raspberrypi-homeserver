@@ -29,6 +29,5 @@ services:
       - network_private
     volumes:
       - ./config/config.xml:/config/config.xml
-      # Change below
       - /media/disk2/volumes/radarr:/config
       - /media/disk2/downloads:/downloads

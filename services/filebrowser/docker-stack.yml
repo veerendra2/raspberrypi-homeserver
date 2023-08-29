@@ -1,13 +1,10 @@
 ---
 # https://dust6765.gitbook.io/raspberrypi-home-server/services/file-browser
-version: "3.8"
+version: '3.8'
 
 networks:
   network_public:
     external: true
-
-volumes:
-  filebrowser:
 
 services:
   filebrowser:
@@ -32,10 +29,10 @@ services:
     env_file:
       - .env_filebrowser
     volumes:
-      - /media/disk1:/srv/disk1
-      - /media/disk2:/srv/disk2
       - ./config/filebrowser.json:/.filebrowser.json
-      - filebrowser:/database
+      - /media/disk2/volumes/filebrowser:/database
+      - /media/disk2:/srv/disk2
+      - /media/disk1:/srv/disk1
     networks:
       network_public:
 

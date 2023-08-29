@@ -1,5 +1,5 @@
 ---
-version: 3.8
+version: '3.8'
 
 networks:
   network_private:
@@ -29,6 +29,5 @@ services:
       - network_private
     volumes:
       - ./config/ServerConfig.json:/config/Jackett/ServerConfig.json
-      # Change below
       - /media/disk2/volumes/jackett:/config
       - /media/disk2/downloads/torrents:/opt/torrents

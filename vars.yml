@@ -7,14 +7,14 @@ services:
   - jellyfin
   - monitoring
   - nextcloud
-  # - pihole
-  - portainer
-  - qbittorrent
-  - radarr
-  - sonarr
   - rest-server
-  - vaultwarden
-  - searxng
+  - qbittorrent
+  # - pihole
+  # - portainer
+  # - radarr
+  # - sonarr
+  # - vaultwarden
+  # - searxng
 
 # Service's docker stack files copies in this location. It should end with slash
 services_base_dir_location: /opt/services/

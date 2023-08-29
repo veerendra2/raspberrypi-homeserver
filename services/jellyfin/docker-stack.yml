@@ -1,10 +1,6 @@
 ---
 # https://dust6765.gitbook.io/raspberrypi-home-server/services/jellyfin
-version: "3.8"
-
-volumes:
-  config:
-  cache:
+version: '3.8'
 
 networks:
   network_public:
@@ -40,11 +36,11 @@ services:
         protocol: udp
         mode: host
     volumes:
-      - /media/disk2:/disk2:ro
-      - /media/disk2/volumes/jellyfin/config:/config
-      - /media/disk2/volumes/jellyfin/cache:/cache
       - ./config/network.xml:/config/config/network.xml
       - ./config/system.xml:/config/config/system.xml
       - /etc/localtime:/etc/localtime:ro
+      - /media/disk2:/disk2:ro
+      - /media/disk2/volumes/jellyfin/config:/config
+      - /media/disk2/volumes/jellyfin/cache:/cache
     networks:
       - network_public

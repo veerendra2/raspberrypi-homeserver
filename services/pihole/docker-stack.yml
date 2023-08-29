@@ -6,9 +6,6 @@ networks:
   network_public:
     external: true
 
-volumes:
-  pihole:
-
 secrets:
   pihole_admin_password:
     file: ./secrets/pihole_admin_password.txt
@@ -40,9 +37,9 @@ services:
       - 127.0.0.1
       - 1.1.1.1
     volumes:
-      - pihole:/etc
       - ./pihole/custom.list:/etc/pihole/custom.list:ro
       - /etc/resolv.conf:/etc/resolv.conf:ro
+      - /media/disk2/volumes/pihole:/etc
     secrets:
       - pihole_admin_password
     networks:

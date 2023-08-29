@@ -3,10 +3,10 @@
 ![GitHub forks](https://img.shields.io/github/forks/veerendra2/raspberrypi-homeserver?style=plastic)
 ![GitHub issues](https://img.shields.io/github/issues/veerendra2/raspberrypi-homeserver?style=plastic)
 ![GitHub release (release name instead of tag name)](https://img.shields.io/github/v/release/veerendra2/raspberrypi-homeserver?include_prereleases&style=plastic)
-# Self-host Docker Swarm Stacks
-> _Previuosly known as "Raspberry Pi homeserver"_
+# Raspberry Pi Homeserver
+
 <p align="center">
-<b>A collection of applications and tools </b>
+<b>A collection of self-host docker swarm stacks </b>
 </p>
 
 <table align="center">
@@ -195,6 +195,8 @@
 ## Getting Started
 > Refer [Gitbook Docs](https://dust6765.gitbook.io/raspberrypi-home-server/) for more details and how to deploy manually
 
+Ansible automation works well, if all services are intended to deploy on single box. Since I have only one machine, don't have to worry about the docker volumes, all of my docker volumes stored on single SSD mounted to host.
+
 * Follow prerequisite [manual steps](https://dust6765.gitbook.io/raspberrypi-home-server/settings/manual-steps) to prepare Pi
 * Browse [vars.yml](./vars.yml) to configuration
 
@@ -215,12 +217,12 @@ $ ansible-playbook main.yml
           constraints: [node.role == manager]
     ...
     ```
-* Currently ~~I'm using IP address `192.168.0.120` to access services, change services configs if you have a domain~~ using duckdns sub-domain. Refer my [blog post](https://veerendra2.github.io/traefik-https) to get more info.
+* Currently I'm using duckdns sub-domain. Refer my [blog post](https://veerendra2.github.io/traefik-https) to get more info.
 
 ## Related Blogs
-* https://veerendra2.github.io/portainer-vs-yacht
-* https://veerendra2.github.io/pihole-dhcp-relay
-* https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1
-* https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2
-* https://veerendra2.github.io/traefik-https
-* https://dev.to/veerendra2/how-to-deploy-rest-serverrestic-on-docker-swarm-behind-traefik-reverse-proxy-4a8h
+* [Portainer vs Yacht](https://veerendra2.github.io/portainer-vs-yacht)
+* [Pi-hole with DHCP Relay in Docker](https://veerendra2.github.io/pihole-dhcp-relay)
+* [Wireguard VPN and BitTorrent on Docker Swarm (Part 1)](https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1)
+* [Wireguard VPN and BitTorrent on Docker Swarm (Part 2)](https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2)
+* [Traefik HTTPS Config with DuckDNS for Local Homeserver](https://veerendra2.github.io/traefik-https)
+* [How to Deploy rest-server(Restic) on Docker Swarm Behind Traefik Reverse Proxy](https://dev.to/veerendra2/how-to-deploy-rest-serverrestic-on-docker-swarm-behind-traefik-reverse-proxy-4a8h)

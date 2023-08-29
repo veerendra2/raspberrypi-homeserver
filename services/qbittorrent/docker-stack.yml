@@ -1,19 +1,11 @@
 ---
-version: "3.8"
+version: '3.8'
 
 networks:
   network_private:
     external: true
   network_public:
     external: true
-
-volumes:
-  qbitorrent:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: /media/disk2/volumes/qbitorrent
 
 services:
   wireguard:
@@ -30,7 +22,7 @@ services:
         - traefik.enable=false
     hostname: wireguard
     env_file:
-      - ./wireguard/.env_wireguard
+      - .env_wireguard
     networks:
       - network_public
       - network_private
@@ -38,10 +30,10 @@ services:
       - NET_ADMIN
     volumes:
       - /lib/modules:/lib/modules
+      - ./dante-server/danted.conf:/etc/danted.conf
+      - ./dante-server/install.sh:/custom-cont-init.d/install.sh:ro
+      - ./dante-server/run.sh:/custom-services.d/run.sh:ro
       - /media/disk2/volumes/secrets/wg0.conf:/config/wg0.conf
-      - ./wireguard/dante-server/danted.conf:/etc/danted.conf
-      - ./wireguard/dante-server/install.sh:/custom-cont-init.d/install.sh:ro
-      - ./wireguard/dante-server/run.sh:/custom-services.d/run.sh:ro
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv6.conf.all.disable_ipv6=0
@@ -66,21 +58,17 @@ services:
         - traefik.http.services.qbittorrent.loadbalancer.server.port=8080
     hostname: qbittorrent
     env_file:
-      - ./qbittorrent/.env_qbittorrent
+      - .env_qbittorrent
       - .vpn_ip
     networks:
       - network_private
     volumes:
-      - qbitorrent:/config
-      - ./qbittorrent/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf
+      - ./config/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf
       - ./ip-test.sh:/opt/ip-test.sh
+      - /media/disk2/volumes/qbitorrent:/config
       - /media/disk2/downloads:/downloads
     # healthcheck:
     #   test: ["CMD", "/opt/ip-test.sh"]
     #   interval: 2m
     #   timeout: 10s
     #   retries: 3
-
-
-
-

@@ -1,17 +1,9 @@
 ---
-version: 3.8
+version: '3.8'
 
 networks:
   network_private:
     external: true
-
-volumes:
-  sonarr:
-    driver: local
-      driver_opts:
-        o: bind
-        type: none
-        device: /media/disk2/volumes/sonarr
 
 services:
   sonarr:
@@ -36,7 +28,6 @@ services:
     networks:
       - network_private
     volumes:
-      - ./sonarr/config.xml:/config/config.xml
-      # Change below
+      - ./config/config.xml:/config/config.xml
       - /media/disk2/volumes/sonarr:/config
       - /media/disk2/downloads:/downloads
