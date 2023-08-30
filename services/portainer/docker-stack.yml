@@ -24,7 +24,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_public
         - traefik.http.routers.portainer.tls=true"
-        - traefik.http.routers.portainer.rule=Host(`${DOMAIN}`) && PathPrefix(`/portainer`)
+        - traefik.http.routers.portainer.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/portainer`)
         - traefik.http.routers.portainer.middlewares=portainer-stripprefix
         - traefik.http.middlewares.portainer-stripprefix.stripprefix.prefixes=/portainer
         - traefik.http.services.portainer.loadbalancer.server.port=9000

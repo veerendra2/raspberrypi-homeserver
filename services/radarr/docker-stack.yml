@@ -20,7 +20,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_private
         - traefik.http.routers.radarr.tls=true
-        - traefik.http.routers.radarr.rule=Host(`${DOMAIN}`) && PathPrefix(`/radarr`)
+        - traefik.http.routers.radarr.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/radarr`)
         - traefik.http.services.radarr.loadbalancer.server.port=7878
     hostname: radarr
     env_file:

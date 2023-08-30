@@ -52,7 +52,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_private
         - traefik.http.routers.qbittorrent.tls=true
-        - traefik.http.routers.qbittorrent.rule=Host(`${DOMAIN}`) && PathPrefix(`/qbittorrent`)
+        - traefik.http.routers.qbittorrent.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/qbittorrent`)
         - traefik.http.routers.qbittorrent.middlewares=qbittorrent-stripprefix
         - traefik.http.middlewares.qbittorrent-stripprefix.stripprefix.prefixes=/qbittorrent
         - traefik.http.services.qbittorrent.loadbalancer.server.port=8080

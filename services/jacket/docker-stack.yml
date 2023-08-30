@@ -20,7 +20,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_private
         - traefik.http.routers.jackett.tls=true
-        - traefik.http.routers.jackett.rule=Host(`${DOMAIN}`) && PathPrefix(`/jackett`)
+        - traefik.http.routers.jackett.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/jackett`)
         - traefik.http.services.jackett.loadbalancer.server.port=9117
     hostname: jackett
     env_file:

@@ -20,7 +20,7 @@ services:
       labels:
         - "traefik.enable=true"
         - "traefik.docker.network=network_public"
-        - "traefik.http.routers.homer.rule=Host(`${DOMAIN}`) && PathPrefix(`/`)"
+        - "traefik.http.routers.homer.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/`)"
         - "traefik.http.routers.homer.tls=true"
         - "traefik.http.services.homer.loadbalancer.server.port=8080"
     hostname: homer

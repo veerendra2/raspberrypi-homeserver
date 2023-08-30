@@ -21,7 +21,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_public
         - traefik.http.routers.searxng.tls=true
-        - traefik.http.routers.searxng.rule=Host(`${DOMAIN}`) && PathPrefix(`/searxng`)
+        - traefik.http.routers.searxng.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/searxng`)
         - traefik.http.services.searxng.loadbalancer.server.port=8080
     hostname: searxng
     env_file:

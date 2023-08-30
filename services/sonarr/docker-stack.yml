@@ -20,7 +20,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_private
         - traefik.http.routers.sonarr.tls=true
-        - traefik.http.routers.sonarr.rule=Host(`${DOMAIN}`) && PathPrefix(`/sonarr`)
+        - traefik.http.routers.sonarr.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/sonarr`)
         - traefik.http.services.sonarr.loadbalancer.server.port=8989
     hostname: sonarr
     env_file:

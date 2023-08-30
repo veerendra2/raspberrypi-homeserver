@@ -21,7 +21,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_public
         - traefik.http.routers.jellyfin.tls=true
-        - traefik.http.routers.jellyfin.rule=Host(`${DOMAIN}`) && PathPrefix(`/jellyfin`)
+        - traefik.http.routers.jellyfin.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/jellyfin`)
         - traefik.http.services.jellyfin.loadbalancer.server.port=8096
     hostname: jellyfin
     env_file:

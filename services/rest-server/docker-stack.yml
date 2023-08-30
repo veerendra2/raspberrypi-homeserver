@@ -25,7 +25,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_public
         - traefik.http.routers.rest-server.tls=true
-        - traefik.http.routers.rest-server.rule=Host(`${DOMAIN}`) && PathPrefix(`/restic`)
+        - traefik.http.routers.rest-server.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/restic`)
         - traefik.http.services.rest-server.loadbalancer.server.port=8000
     hostname: rest-server
     user: 1000:1003

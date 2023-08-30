@@ -37,7 +37,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_public
         - traefik.http.routers.nextcloud.tls=true
-        - traefik.http.routers.nextcloud.rule=Host(`${DOMAIN}`) && PathPrefix(`/nextcloud`)
+        - traefik.http.routers.nextcloud.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/nextcloud`)
         - traefik.http.routers.nextcloud.middlewares=nextcloud-stripprefix
         - traefik.http.middlewares.nextcloud-stripprefix.stripprefix.prefixes=/nextcloud
         - traefik.http.services.nextcloud.loadbalancer.server.port=80

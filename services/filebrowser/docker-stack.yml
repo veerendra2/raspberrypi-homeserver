@@ -21,7 +21,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_public
         - traefik.http.routers.filebrowser.tls=true
-        - traefik.http.routers.filebrowser.rule=Host(`${DOMAIN}`) && PathPrefix(`/filebrowser`)
+        - traefik.http.routers.filebrowser.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/filebrowser`)
         - traefik.http.routers.filebrowser.middlewares=filebrowser-stripprefix
         - traefik.http.middlewares.filebrowser-stripprefix.stripprefix.prefixes=/filebrowser
         - traefik.http.services.filebrowser.loadbalancer.server.port=80

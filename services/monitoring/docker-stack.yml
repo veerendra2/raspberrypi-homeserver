@@ -31,7 +31,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_public
         - traefik.http.routers.prometheus.tls=true
-        - traefik.http.routers.prometheus.rule=Host(`${DOMAIN}`) && PathPrefix(`/prometheus`)
+        - traefik.http.routers.prometheus.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/prometheus`)
         - traefik.http.services.prometheus.loadbalancer.server.port=9090
     hostname: prometheus
     volumes:
@@ -65,7 +65,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_public
         - traefik.http.routers.grafana.tls=true
-        - traefik.http.routers.grafana.rule=Host(`${DOMAIN}`) && PathPrefix(`/grafana`)
+        - traefik.http.routers.grafana.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/grafana`)
         - traefik.http.routers.grafana.middlewares=grafana-stripprefix
         - traefik.http.middlewares.grafana-stripprefix.stripprefix.prefixes=/grafana
         - traefik.http.services.grafana.loadbalancer.server.port=3000
