@@ -8,7 +8,7 @@ networks:
 
 services:
   filebrowser:
-    image: filebrowser/filebrowser:v2.24.1
+    image: filebrowser/filebrowser:latest
     deploy:
       replicas: 1
       placement:

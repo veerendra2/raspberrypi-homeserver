@@ -1,7 +1,4 @@
 ---
-# This deploy-services.yml tasks will be replaced with proper GitOps in future
-# https://github.com/veerendra2/raspberrypi-homeserver/issues/54
-
 - name: Create base directory
   ansible.builtin.file:
     path: "{{ services_base_dir_location }}"
@@ -31,7 +28,7 @@
 - name: Create networks
   community.docker.docker_stack:
     state: present
-    name: traefik
+    name: network
     compose:
       - "{{ [services_base_dir_location, 'traefik', 'network.yml'] | path_join }}"
 
@@ -41,6 +38,4 @@
     name: "{{ item }}"
     compose:
       - "{{ [services_base_dir_location, item, 'docker-stack.yml'] | path_join }}"
-    env:
-      DOMAIN: "{{ duckdns_domain }}"
   with_items: "{{ services }}"

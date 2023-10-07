@@ -12,7 +12,7 @@ secrets:
 
 services:
   pihole:
-    image: pihole/pihole:2023.05.2
+    image: pihole/pihole:latest
     deploy:
       replicas: 1
       placement:

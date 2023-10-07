@@ -7,21 +7,13 @@ networks:
   network_private:
     external: true
 
-volumes:
-  traefik:
-    driver: local
-    driver_opts:
-       o: bind
-       type: none
-       device: /media/disk2/volumes/traefik
-
 secrets:
   duckdns:
     file: /media/disk2/volumes/secrets/duckdns.txt
 
 services:
   traefik:
-    image: arm64v8/traefik:v2.10.4
+    image: arm64v8/traefik:latest
     deploy:
       replicas: 1
       placement:
@@ -53,7 +45,7 @@ services:
         mode: host
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - traefik:/opt
+      - /media/disk2/volumes/traefik:/opt
       - ./config:/etc/traefik
     networks:
       - network_public

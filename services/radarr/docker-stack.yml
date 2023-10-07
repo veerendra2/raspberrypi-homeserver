@@ -7,7 +7,7 @@ networks:
 
 services:
   radarr:
-    image: linuxserver/radarr:arm64v8-4.6.4
+    image: linuxserver/radarr:arm64v8-latest
     deploy:
       replicas: 1
       placement:

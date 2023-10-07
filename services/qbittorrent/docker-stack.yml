@@ -39,7 +39,7 @@ services:
       - net.ipv6.conf.all.disable_ipv6=0
 
   qbittorrent:
-    image: linuxserver/qbittorrent:arm64v8-4.5.4
+    image: linuxserver/qbittorrent:arm64v8-latest
     deploy:
       replicas: 1
       placement:
@@ -65,7 +65,7 @@ services:
     volumes:
       - ./config/qBittorrent.conf:/config/qBittorrent/qBittorrent.conf
       - ./ip-test.sh:/opt/ip-test.sh
-      - /media/disk2/volumes/qbitorrent:/config
+      - /media/disk2/volumes/qbittorrent:/config
       - /media/disk2/downloads:/downloads
     # healthcheck:
     #   test: ["CMD", "/opt/ip-test.sh"]

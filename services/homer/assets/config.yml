@@ -135,6 +135,7 @@ services:
       #   subtitle: "Container management UI"
       #   url: "/portainer/"
       #   method: "get"
+
       - name: "Filebrowser"
         type: "Ping"
         logo: "assets/tools/filebrowser.png"
@@ -162,7 +163,7 @@ services:
   #       url: "/vaultwarden/"
   #       method: "get"
 
-  # - name: Search
+  # - name: Utilities
   #   icon: ""
   #   items:
   #     - name: "SearXNG"
@@ -170,4 +171,11 @@ services:
   #       logo: "assets/tools/searxng.svg"
   #       subtitle: "Metasearch engine"
   #       url: "/searxng/"
+  #       method: "get"
+
+  #     - name: "IT-Tools"
+  #       type: "Ping"
+  #       logo: "assets/tools/it-tools.png"
+  #       subtitle: "Useful tools for developer"
+  #       url: "/it-tools/"
   #       method: "get"

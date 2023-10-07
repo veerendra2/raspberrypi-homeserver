@@ -1,6 +1,7 @@
 ---
-# Services to be deployed. Names has to match in services/ directory.
+# Services to be deployed.
 services:
+  - traefik
   - databases
   - filebrowser
   - homer
@@ -9,6 +10,7 @@ services:
   - nextcloud
   - rest-server
   - qbittorrent
+  # - it-tools
   # - pihole
   # - portainer
   # - radarr
@@ -25,6 +27,8 @@ enable_docker_live_restore: false
 enable_docker_swarm_metrics: true
 enable_docker_swarm_mode: true
 docker_swarm_advertise_addr: 192.168.0.120
+
+run_user: "{{ ansible_env.USER }}"
 
 # Reboot after running tasks in tasks/prepare-pi.yml
 reboot_after_pi_preparation: true
@@ -45,5 +49,3 @@ disable_bluetooth: true
 # VPN ip to test connection is secure. More info in https://github.com/veerendra2/raspberrypi-homeserver/blob/main/services/torrent/README.md
 vpn_ip: ""
 
-# DuckDNS domain to generate certificates
-duckdns_domain: ""
