@@ -10,10 +10,11 @@
     backup: true
 
 - name: Create backup /etc/resolv.conf
-  ansible.builtin.copy`:
+  ansible.builtin.copy:
     remote_src: true
     src: /etc/resolv.conf
     dest: /etc/resolv.conf.backup
+    mode: '0644'
 
 - name: Remove /etc/resolv.conf
   ansible.builtin.file:

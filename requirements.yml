@@ -1,4 +1,6 @@
 ---
 roles:
   - name: veerendra2.prepare_dev_setup
+collections:
   - name: ansible.posix
+  - name: community.general
