@@ -1,3 +1,4 @@
 ---
 roles:
   - name: veerendra2.prepare_dev_setup
+  - name: ansible.posix
