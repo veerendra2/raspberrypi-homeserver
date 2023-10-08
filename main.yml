@@ -4,9 +4,9 @@
   vars_files:
     - vars.yml
 
-  # roles:
-  #   - role: veerendra2.prepare_dev_setup
-  #     tags: system
+  roles:
+    - role: veerendra2.prepare_dev_setup
+      tags: system
 
   tasks:
     - name: Prepare Pi
