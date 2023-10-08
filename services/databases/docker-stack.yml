@@ -1,15 +1,12 @@
 ---
 # https://dust6765.gitbook.io/raspberrypi-home-server/services/databases
-version: "3.8"
+version: '3.8'
 
 networks:
   networks_public:
     external: true
   network_databases:
     external: true
-
-volumes:
-  redis:
 
 secrets:
   postgres_password:
@@ -59,17 +56,17 @@ services:
       labels:
         - "traefik.enable=false"
     hostname: redis
-    command:  [
-    "sh", "-c",
-    '
-    docker-entrypoint.sh
-    --requirepass "$$(cat $$REDIS_PASSWORD_FILE)"
-    '
+    command: [
+      "sh", "-c",
+      '
+      docker-entrypoint.sh
+      --requirepass "$$(cat $$REDIS_PASSWORD_FILE)"
+      '
     ]
     env_file:
       - .env_redis
     volumes:
-      - redis:/data
+      - /media/disk2/volumes/redis:/data
     networks:
       - network_databases
     secrets:

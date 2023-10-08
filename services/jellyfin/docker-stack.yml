@@ -1,10 +1,6 @@
 ---
 # https://dust6765.gitbook.io/raspberrypi-home-server/services/jellyfin
-version: "3.8"
-
-volumes:
-  config:
-  cache:
+version: '3.8'
 
 networks:
   network_public:
@@ -12,7 +8,7 @@ networks:
 
 services:
   jellyfin:
-    image: jellyfin/jellyfin:10.8.10
+    image: jellyfin/jellyfin:10.8.11
     deploy:
       replicas: 1
       placement:
@@ -25,7 +21,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_public
         - traefik.http.routers.jellyfin.tls=true
-        - traefik.http.routers.jellyfin.rule=Host(`${DOMAIN}`) && PathPrefix(`/jellyfin`)
+        - traefik.http.routers.jellyfin.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/jellyfin`)
         - traefik.http.services.jellyfin.loadbalancer.server.port=8096
     hostname: jellyfin
     env_file:
@@ -40,11 +36,11 @@ services:
         protocol: udp
         mode: host
     volumes:
-      - /media/disk2:/disk2:ro
-      - /media/disk2/volumes/jellyfin/config:/config
-      - /media/disk2/volumes/jellyfin/cache:/cache
       - ./config/network.xml:/config/config/network.xml
       - ./config/system.xml:/config/config/system.xml
       - /etc/localtime:/etc/localtime:ro
+      - /media/disk2:/disk2:ro
+      - /media/disk2/volumes/jellyfin/config:/config
+      - /media/disk2/volumes/jellyfin/cache:/cache
     networks:
       - network_public

@@ -1,27 +1,27 @@
 ---
-# This deploy-services.yml tasks will be replaced with proper GitOps in future
-# https://github.com/veerendra2/raspberrypi-homeserver/issues/54
-
 - name: Create base directory
-  file:
+  ansible.builtin.file:
     path: "{{ services_base_dir_location }}"
     state: directory
     owner: "{{ run_user }}"
-  become: yes
+    mode: '0644'
+  become: true
 
-# Run pre deploy tasks for services
-- include_tasks: pihole.yml
+- name: Include pihole tasks
+  ansible.builtin.include_tasks: pihole.yml
   when: "'pihole' in services"
 
 - name: Create .vpn_ip file for torrent service
-  copy:
+  ansible.builtin.copy:
     dest: services/torrent/.vpn_ip
     content: |
       VPN_IP={{ vpn_ip }}
+    owner: "{{ run_user }}"
+    mode: '0644'
   when: "vpn_ip and 'torrent' in services"
 
 - name: Synchronize services directories
-  synchronize:
+  ansible.posix.synchronize:
     src: "services/"
     dest: "{{ services_base_dir_location }}"
     delete: false
@@ -29,19 +29,16 @@
     perms: false
 
 - name: Create networks
-  docker_stack:
+  community.docker.docker_stack:
     state: present
-    name: traefik
+    name: network
     compose:
       - "{{ [services_base_dir_location, 'traefik', 'network.yml'] | path_join }}"
-  when: "'traefik' in services"
 
 - name: Deploy service stacks
-  docker_stack:
+  community.docker.docker_stack:
     state: present
     name: "{{ item }}"
     compose:
       - "{{ [services_base_dir_location, item, 'docker-stack.yml'] | path_join }}"
-    env:
-      DOMAIN: "{{ duckdns_domain }}"
   with_items: "{{ services }}"

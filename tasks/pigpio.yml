@@ -1,28 +1,33 @@
 ---
 - name: Create temporary to pigpio build
-  tempfile:
+  ansible.builtin.tempfile:
     state: directory
     suffix: build
   register: tempdir
 
 - name: Download pigpio
-  get_url:
+  ansible.builtin.get_url:
     url: https://github.com/joan2937/pigpio/archive/master.zip
     dest: "{{ tempdir.path }}"
+    owner: "{{ run_user }}"
+    mode: '0440'
 
-- name: Run make and make install pigpio
-  shell: |
-    unzip pigpio-master.zip
-    cd pigpio-master
-    sudo make
-    sudo make install
-  args:
-    chdir: "{{ tempdir.path }}"
-  become: yes
+- name: Extract pigpio
+  ansible.builtin.unarchive:
+    src: "{{ tempdir.path }}/pigpio-master.zip"
+    dest: "{{ tempdir.path }}"
+    remote_src: true
+
+- name: Build and install pigpio
+  community.general.make:
+    chdir: "{{ tempdir.path }}/pigpio-master"
+    target: install
+    params:
+      NUM_THREADS: 2
+  become: true
 
 - name: Set systemd unit parameters for pigpiod
-  set_fact:
-    name: pigpiod
+  ansible.builtin.set_fact:
     description: Daemon required to control GPIO pins via pigpio
     exec_start_cmd: /usr/local/bin/pigpiod
     exec_kill_cmd: /bin/systemctl kill pigpiod
@@ -32,29 +37,26 @@
     service_type: forking
 
 - name: Create pigpiod systemd unit
-  template:
+  ansible.builtin.template:
     src: templates/systemd_unit.service.j2
     dest: /lib/systemd/system/pigpiod.service
-  become: yes
+    mode: '0640'
 
 - name: Enable and start pigpiod systemd daemon
-  systemd:
+  ansible.builtin.systemd:
     name: pigpiod
-    enabled: yes
-    daemon_reload: yes
+    enabled: true
+    daemon_reload: true
     state: started
-  become: yes
 
 - name: Copy fan.py script
-  copy:
+  ansible.builtin.copy:
     src: scripts/fan.py
     dest: /usr/local/bin/fan.py
     mode: '0744'
-  become: yes
 
 - name: Set systemd unit parameters for fan-py
-  set_fact:
-    name: fan-py
+  ansible.builtin.set_fact:
     description: Daemon required to control fan speed via pigpio
     exec_start_cmd: /usr/bin/python3 /usr/local/bin/fan.py
     exec_kill_cmd: /bin/kill -TERM $MAINPID
@@ -63,16 +65,15 @@
     pre_start_cmd: /bin/sleep 5
     service_type: simple
 
-- name: Create fan-py systemd unit
-  template:
+- name: Create fan-py systemd unit file
+  ansible.builtin.template:
     src: templates/systemd_unit.service.j2
     dest: /lib/systemd/system/fan-py.service
-  become: yes
+    mode: '0640'
 
 - name: Enable and start fan-py systemd daemon
-  systemd:
+  ansible.builtin.systemd:
     name: fan-py
-    enabled: yes
-    daemon_reload: yes
+    enabled: true
+    daemon_reload: true
     state: started
-  become: yes

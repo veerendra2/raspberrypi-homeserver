@@ -1,11 +1,12 @@
+---
 all:
   hosts:
     atom:
       ansible_ssh_port: 22
       ansible_ssh_host: 192.168.0.120
       ansible_ssh_user: veerendra
-      #ansible_ssh_password:
+      # ansible_ssh_password:
       extra_hosts:
-        - "atom:192.168.0.130" # Wifi Address
+        - "atom:192.168.0.130"
   localhost:
     ansible_connection: local

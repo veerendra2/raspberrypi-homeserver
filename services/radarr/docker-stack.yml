@@ -1,0 +1,33 @@
+---
+version: 3.8
+
+networks:
+  network_private:
+    external: true
+
+services:
+  radarr:
+    image: linuxserver/radarr:arm64v8-latest
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=network_private
+        - traefik.http.routers.radarr.tls=true
+        - traefik.http.routers.radarr.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/radarr`)
+        - traefik.http.services.radarr.loadbalancer.server.port=7878
+    hostname: radarr
+    env_file:
+      - .env_radarr
+    networks:
+      - network_private
+    volumes:
+      - ./config/config.xml:/config/config.xml
+      - /media/disk2/volumes/radarr:/config
+      - /media/disk2/downloads:/downloads

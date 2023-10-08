@@ -1,6 +1,6 @@
 ---
 # https://dust6765.gitbook.io/raspberrypi-home-server/services/monitoring
-version: "3.8"
+version: '3.8'
 
 networks:
   network_monitoring:
@@ -18,7 +18,7 @@ secrets:
 
 services:
   prometheus:
-    image: prom/prometheus-linux-arm64:v2.46.0
+    image: prom/prometheus-linux-arm64:latest
     deploy:
       replicas: 1
       placement:
@@ -31,7 +31,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_public
         - traefik.http.routers.prometheus.tls=true
-        - traefik.http.routers.prometheus.rule=Host(`${DOMAIN}`) && PathPrefix(`/prometheus`)
+        - traefik.http.routers.prometheus.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/prometheus`)
         - traefik.http.services.prometheus.loadbalancer.server.port=9090
     hostname: prometheus
     volumes:
@@ -52,7 +52,7 @@ services:
       - network_monitoring
 
   grafana:
-    image: grafana/grafana:10.0.3
+    image: grafana/grafana:latest
     deploy:
       replicas: 1
       placement:
@@ -65,7 +65,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_public
         - traefik.http.routers.grafana.tls=true
-        - traefik.http.routers.grafana.rule=Host(`${DOMAIN}`) && PathPrefix(`/grafana`)
+        - traefik.http.routers.grafana.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/grafana`)
         - traefik.http.routers.grafana.middlewares=grafana-stripprefix
         - traefik.http.middlewares.grafana-stripprefix.stripprefix.prefixes=/grafana
         - traefik.http.services.grafana.loadbalancer.server.port=3000
@@ -85,7 +85,7 @@ services:
       - grafana_admin_password
 
   nodeexporter:
-    image: prom/node-exporter-linux-arm64:v1.6.1
+    image: prom/node-exporter-linux-arm64:latest
     deploy:
       mode: global
       restart_policy:
@@ -112,7 +112,7 @@ services:
   # Caution: cadvisor is reletivly CPU hunger.
   # https://github.com/google/cadvisor/issues/2523
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor-arm64:v0.47.1
+    image: gcr.io/cadvisor/cadvisor-arm64:v0.47.2
     deploy:
       mode: global
       restart_policy:
@@ -139,7 +139,7 @@ services:
       - network_monitoring
 
   ping:
-    image: prom/blackbox-exporter-linux-arm64:v0.24.0
+    image: prom/blackbox-exporter-linux-arm64:latest
     deploy:
       replicas: 1
       placement:
@@ -164,7 +164,7 @@ services:
       - network_monitoring
 
   speedtest:
-    image: ghcr.io/miguelndecarvalho/speedtest-exporter:v3.5.3
+    image: ghcr.io/miguelndecarvalho/speedtest-exporter:latest
     deploy:
       replicas: 1
       placement:

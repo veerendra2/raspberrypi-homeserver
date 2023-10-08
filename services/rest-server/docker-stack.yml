@@ -1,3 +1,4 @@
+---
 version: "3.8"
 
 networks:
@@ -12,7 +13,7 @@ secrets:
 
 services:
   rest-server:
-    image: restic/rest-server:0.12.1
+    image: restic/rest-server:latest
     deploy:
       replicas: 1
       placement:
@@ -25,7 +26,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_public
         - traefik.http.routers.rest-server.tls=true
-        - traefik.http.routers.rest-server.rule=Host(`${DOMAIN}`) && PathPrefix(`/restic`)
+        - traefik.http.routers.rest-server.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/restic`)
         - traefik.http.services.rest-server.loadbalancer.server.port=8000
     hostname: rest-server
     user: 1000:1003

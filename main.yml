@@ -1,38 +1,24 @@
-# Author: Veerendra K
-# Description: An Ansible playbook to make awesome Raspberry Pi homeserver
-
-- name: Raspberry Pi Homeserver
+---
+- name: Homeserver Automation
   hosts: localhost
-  gather_facts: yes
   vars_files:
     - vars.yml
 
-  pre_tasks:
-    - name: Run update
-      apt:
-        upgrade: true
-        update_cache: yes
-      ignore_errors: yes
-      become: yes
-
-  post_tasks:
-    - name: Run autoremove
-      apt:
-        autoremove: yes
-      become: yes
+  # roles:
+  #   - role: veerendra2.prepare_dev_setup
+  #     tags: system
 
   tasks:
     - name: Prepare Pi
-      import_tasks: tasks/prepare-pi.yml
-      tags: prepare-pi
+      ansible.builtin.import_tasks: tasks/prepare-pi.yml
+      become: true
+      tags: pi
 
     - name: Deploy services
-      import_tasks: tasks/deploy-services.yml
+      ansible.builtin.import_tasks: tasks/deploy-services.yml
+      become: true
       tags: services
 
     - name: Setup firewall rules
-      import_tasks: tasks/ufw.yml
-
-    - name: Performing smoke tests
-      import_tasks: tasks/smoke-tests.yml
-      tags: never
+      ansible.builtin.import_tasks: tasks/ufw.yml
+      become: true

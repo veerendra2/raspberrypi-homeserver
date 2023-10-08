@@ -1,7 +1,2 @@
 # Docker Swarm Services
-> Refer [Gitbook Docs](https://dust6765.gitbook.io/raspberrypi-home-server/services)
-
-**NOTE:** Export `DOMAIN` environmental variable before deploying services
-  ```bash
-  $ export DOMAIN=mydomain.com
-  ```
+Update your duckdns sub-domain name in traefik label in all services. For example [./traefik/docker-stack.yml#31](./traefik/docker-stack.yml#31)

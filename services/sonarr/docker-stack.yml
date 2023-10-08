@@ -1,0 +1,33 @@
+---
+version: '3.8'
+
+networks:
+  network_private:
+    external: true
+
+services:
+  sonarr:
+    image: linuxserver/sonarr:arm64v8-latest
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=network_private
+        - traefik.http.routers.sonarr.tls=true
+        - traefik.http.routers.sonarr.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/sonarr`)
+        - traefik.http.services.sonarr.loadbalancer.server.port=8989
+    hostname: sonarr
+    env_file:
+      - .env_sonarr
+    networks:
+      - network_private
+    volumes:
+      - ./config/config.xml:/config/config.xml
+      - /media/disk2/volumes/sonarr:/config
+      - /media/disk2/downloads:/downloads

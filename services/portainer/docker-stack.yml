@@ -1,13 +1,9 @@
 ---
-# https://dust6765.gitbook.io/raspberrypi-home-server/services/portainer
-version: "3.8"
+version: '3.8'
 
 networks:
   network_public:
     external: true
-
-volumes:
-  portainer:
 
 secrets:
   portainer_admin_password:
@@ -28,7 +24,7 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_public
         - traefik.http.routers.portainer.tls=true"
-        - traefik.http.routers.portainer.rule=Host(`${DOMAIN}`) && PathPrefix(`/portainer`)
+        - traefik.http.routers.portainer.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/portainer`)
         - traefik.http.routers.portainer.middlewares=portainer-stripprefix
         - traefik.http.middlewares.portainer-stripprefix.stripprefix.prefixes=/portainer
         - traefik.http.services.portainer.loadbalancer.server.port=9000
@@ -41,9 +37,8 @@ services:
       - --admin-password-file=/run/secrets/portainer_admin_password
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer:/data
+      - /media/disk2/volumes/portainer:/data
     networks:
       - network_public
     secrets:
       - portainer_admin_password
-

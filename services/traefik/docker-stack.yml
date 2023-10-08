@@ -1,3 +1,4 @@
+---
 # https://dust6765.gitbook.io/raspberrypi-home-server/services/traefik-proxy
 version: "3.8"
 
@@ -7,21 +8,13 @@ networks:
   network_private:
     external: true
 
-volumes:
-  traefik:
-    driver: local
-    driver_opts:
-       o: bind
-       type: none
-       device: /media/disk2/volumes/traefik
-
 secrets:
   duckdns:
     file: /media/disk2/volumes/secrets/duckdns.txt
 
 services:
   traefik:
-    image: arm64v8/traefik:v2.10.4
+    image: arm64v8/traefik:latest
     deploy:
       replicas: 1
       placement:
@@ -36,7 +29,7 @@ services:
         - traefik.http.routers.api.tls=true
         - traefik.http.routers.api.entrypoints=https
         - traefik.http.routers.api.tls.certresolver=httpResolver
-        - traefik.http.routers.api.rule=Host(`${DOMAIN}`) && PathPrefix(`/dashboard`) || Host(`${DOMAIN}`) && PathPrefix(`/api`)
+        - traefik.http.routers.api.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/dashboard`) || Host(`veeru.duckdns.org`) && PathPrefix(`/api`)
         - traefik.http.routers.api.service=api@internal
         - traefik.http.services.dummy.loadbalancer.server.port=9999
     hostname: traefik
@@ -53,7 +46,7 @@ services:
         mode: host
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - traefik:/opt
+      - /media/disk2/volumes/traefik:/opt
       - ./config:/etc/traefik
     networks:
       - network_public

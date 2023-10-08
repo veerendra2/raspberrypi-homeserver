@@ -1,4 +1,5 @@
-version: "3.8"
+---
+version: '3.8'
 
 networks:
   network_public:
@@ -18,7 +19,7 @@ secrets:
 
 services:
   vaultwarden:
-    image: vaultwarden/server:1.29.1-alpine
+    image: vaultwarden/server:latest
     deploy:
       replicas: 1
       placement:
@@ -31,19 +32,19 @@ services:
         - traefik.enable=true
         - traefik.docker.network=network_public
         - traefik.http.routers.vaultwarden.tls=true
-        - traefik.http.routers.vaultwarden.rule=Host(`${DOMAIN}`) && PathPrefix(`/vaultwarden`)
+        - traefik.http.routers.vaultwarden.rule=Host(`veeru.duckdns.org`) && PathPrefix(`/vaultwarden`)
         - traefik.http.routers.vaultwarden.service=vaultwarden
         - traefik.http.services.vaultwarden.loadbalancer.server.port=80
         - traefik.http.routers.vaultwarden-websocket.tls=true
-        - traefik.http.routers.vaultwarden-websocket.rule=Host(`${DOMAIN}`) && Path(`/notifications/hub`)
+        - traefik.http.routers.vaultwarden-websocket.rule=Host(`veeru.duckdns.org`) && Path(`/notifications/hub`)
         - traefik.http.routers.vaultwarden-websocket.service=vaultwarden-websocket
         - traefik.http.services.vaultwarden-websocket.loadbalancer.server.port=3012
     hostname: vaultwarden
     env_file:
       - .env_vaultwarden
     volumes:
-      - /media/disk2/volumes/vaultwarden:/data:rw
       - ./scripts:/etc/vaultwarden.d
+      - /media/disk2/volumes/vaultwarden:/data:rw
     networks:
       - network_public
       - network_databases

@@ -3,9 +3,10 @@
 ![GitHub forks](https://img.shields.io/github/forks/veerendra2/raspberrypi-homeserver?style=plastic)
 ![GitHub issues](https://img.shields.io/github/issues/veerendra2/raspberrypi-homeserver?style=plastic)
 ![GitHub release (release name instead of tag name)](https://img.shields.io/github/v/release/veerendra2/raspberrypi-homeserver?include_prereleases&style=plastic)
-# Raspberry Pi Home Server
+# Raspberry Pi Homeserver
+
 <p align="center">
-<b>A collection of applications and tools to make awesome Raspberry Pi homerserver</b>
+<b>A collection of self-host docker swarm stacks </b>
 </p>
 
 <table align="center">
@@ -106,6 +107,11 @@
       <img src="https://user-images.githubusercontent.com/8393701/253675772-39bd3d53-458d-479c-a49e-a6bf0a376afe.png" alt="rest-server" width="60"/> <br /> rest-server<br/>(Restic)
     </center>
   </td>
+  <td>
+    <center>
+      <img src="https://user-images.githubusercontent.com/8393701/273405568-8b3eae3f-244b-4c8c-bee0-e6aab7b751f0.png" alt="IT-Tools" width="60"/> <br /> IT-Tools
+    </center>
+  </td>
 </tr>
 </table>
 
@@ -192,9 +198,9 @@
 ![Architecture](https://user-images.githubusercontent.com/8393701/235324714-75620112-a89b-4d10-ab9d-2e44de75d36b.jpg)
 
 ## Getting Started
-> :warning: **CAUTION** Ansible playbooks are highly unstable, needs to rework in future [#54](https://github.com/veerendra2/raspberrypi-homeserver/issues/54).
->
 > Refer [Gitbook Docs](https://dust6765.gitbook.io/raspberrypi-home-server/) for more details and how to deploy manually
+
+Ansible automation works well, if all services are intended to deploy on single box. Since I have only one machine, don't have to worry about the docker volumes, all of my docker volumes stored on single SSD mounted to host.
 
 * Follow prerequisite [manual steps](https://dust6765.gitbook.io/raspberrypi-home-server/settings/manual-steps) to prepare Pi
 * Browse [vars.yml](./vars.yml) to configuration
@@ -206,8 +212,8 @@ $ cd raspberrypi-homeserver
 $ ansible-playbook main.yml
 ```
 ### NOTE
-* The setup created to deploy all services on single node docker swarm cluster. If you want to use this setup on multi node swarm cluster, there are some additional tweaks required like
-  * Change plancement
+* This setup is created to deploy all services on single node docker swarm cluster. If you want to use this setup on multi node swarm cluster, there are some additional tweaks required like
+  * Change placement
     ```yaml
     ...
       deploy:
@@ -216,12 +222,13 @@ $ ansible-playbook main.yml
           constraints: [node.role == manager]
     ...
     ```
-* Currently ~~I'm using IP address `192.168.0.120` to access services, change services configs if you have a domain~~ using duckdns sub-domain. Refer my [blog post](https://veerendra2.github.io/traefik-https) to get more info.
+* Currently I'm using duckdns sub-domain (Refer example -> [services/traefik/docker-stack.yml#32](./services/traefik/docker-stack.yml#32)). Refer my [blog post](https://veerendra2.medium.com/traefik-https-config-with-duckdns-for-local-homeserver-c55db9971683) to get more info.
+* Update docker volume mount paths.
 
 ## Related Blogs
-* https://veerendra2.github.io/portainer-vs-yacht
-* https://veerendra2.github.io/pihole-dhcp-relay
-* https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1
-* https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2
-* https://veerendra2.github.io/traefik-https
-* https://dev.to/veerendra2/how-to-deploy-rest-serverrestic-on-docker-swarm-behind-traefik-reverse-proxy-4a8h
+* [Portainer vs Yacht](https://veerendra2.medium.com/portainer-vs-yacht-316405b9e867)
+* [Pi-hole with DHCP Relay in Docker](https://veerendra2.medium.com/pi-hole-with-dhcp-relay-in-docker-cef397922e5a)
+* [Wireguard VPN and BitTorrent on Docker Swarm (Part 1)](https://veerendra2.medium.com/wireguard-vpn-and-bittorrent-on-docker-swarm-part-1-1100b4115cc0)
+* [Wireguard VPN and BitTorrent on Docker Swarm (Part 2)](https://veerendra2.medium.com/wireguard-vpn-and-bittorrent-on-docker-swarm-part-2-b92a251ba873)
+* [Traefik HTTPS Config with DuckDNS for Local Homeserver](https://veerendra2.medium.com/traefik-https-config-with-duckdns-for-local-homeserver-c55db9971683)
+* [How to Deploy rest-server(Restic) on Docker Swarm Behind Traefik Reverse Proxy](https://dev.to/veerendra2/how-to-deploy-rest-serverrestic-on-docker-swarm-behind-traefik-reverse-proxy-4a8h)

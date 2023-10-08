@@ -1,81 +1,25 @@
 ---
-# Services to be deployed. Names has to match in services/ directory.
+# Services to be deployed.
 services:
+  - traefik
   - databases
   - filebrowser
   - homer
   - jellyfin
   - monitoring
   - nextcloud
+  - rest-server
+  - qbittorrent
+  # - it-tools
   # - pihole
-  - portainer
-  - traefik
-  - torrent
+  # - portainer
+  # - radarr
+  # - sonarr
+  # - vaultwarden
+  # - searxng
 
 # Service's docker stack files copies in this location. It should end with slash
 services_base_dir_location: /opt/services/
-
-pkgs:
-  - "neofetch"
-  - "net-tools"
-  - "iotop"
-  - "blktrace"
-  - "ethtool"
-  - "nmap"
-  - "socat"
-  - "bridge-utils"
-  - "conntrack"
-  - "python3-scapy"
-  - "wipe"
-  - "htop"
-  - "screen"
-  - "traceroute"
-  - "ssh"
-  - "secure-delete"
-  - "pwgen"
-  - "tree"
-  - "macchanger"
-  - "unzip"
-  - "p7zip-full"
-  - "apt-transport-https"
-  - "ca-certificates"
-  - "gnupg"
-  - "curl"
-  - "wireless-tools"
-  - "openvpn"
-  - "python3-pip"
-  - "openssl"
-  - "aircrack-ng"
-  - "nmap"
-  - "hostapd"
-  - "dsniff"
-  - "libpcap-dev"
-  - "libusb-1.0-0"
-  - "libnetfilter-queue-dev"
-  - "build-essential"
-  - "golang"
-  - "gettext"
-  - "dhcpcd5"
-  - "isc-dhcp-server"
-  - "git"
-  - "libusb-1.0-0-dev"
-  - "jq"
-  - "python-setuptools"
-  - "python3-distutils"
-  - "linux-modules-extra-raspi"
-
-snaps:
-  - ngrok
-
-pypi:
-  - requests
-  - beautifulsoup4
-  - ansible
-  - docker-compose
-  - setuptools
-  - jsondiff
-  - pyyaml
-  - docker
 
 # Docker
 enable_userns_remap: false
@@ -84,24 +28,19 @@ enable_docker_swarm_metrics: true
 enable_docker_swarm_mode: true
 docker_swarm_advertise_addr: 192.168.0.120
 
-# Run any custom scripts
-scripts:
-  dotfiles: https://raw.githubusercontent.com/veerendra2/dotfiles/master/install.sh
-
-# Do all operations with this user(This user has to be sudoer)
 run_user: "{{ ansible_env.USER }}"
-
-# Github user's ssh public keys
-github_username_keys: https://github.com/veerendra2.keys
 
 # Reboot after running tasks in tasks/prepare-pi.yml
 reboot_after_pi_preparation: true
 
+# install fan.py script to control fan speed
+install_fan_script: true
+
 # Mount partions configuration in /etc/fstab
 disk_mount_dirs:
-  # [DISK_PARTITION]: [MOUNT DIRECTORY]
-  /dev/sda1: /media/disk1 # Backup disk
-  /dev/sdb1: /media/disk2 # Main disk for nextcloud, filebrowser, jellyfin and postgres
+# [DISK_PARTITION]: [MOUNT DIRECTORY]
+  - /dev/sdb1: /media/disk2 # Main disk for nextcloud, filebrowser, jellyfin and postgres
+# - /dev/sda1: /media/disk1 # Backup disk
 
 # Pi power optimization setttings
 disable_hdmi: true
@@ -109,6 +48,3 @@ disable_bluetooth: true
 
 # VPN ip to test connection is secure. More info in https://github.com/veerendra2/raspberrypi-homeserver/blob/main/services/torrent/README.md
 vpn_ip: ""
-
-# DuckDNS domain to generate certificates
-duckdns_domain: ""
