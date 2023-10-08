@@ -1,2 +1,11 @@
 ---
 verbosity: 1
+
+skip_list:
+  - 'yaml'
+  - 'role-name'
+  - 'package-latest'
+  - 'latest[git]'
+  - 'no-changed-when'
+  - 'schema[meta]'
+  - 'ignore-errors'

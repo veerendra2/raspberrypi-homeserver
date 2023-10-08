@@ -4,10 +4,11 @@
     path: "{{ services_base_dir_location }}"
     state: directory
     owner: "{{ run_user }}"
-  become: yes
+    mode: '0644'
+  become: true
 
-# Run pre deploy tasks for services
-- include_tasks: pihole.yml
+- name: Include pihole tasks
+  ansible.builtin.include_tasks: pihole.yml
   when: "'pihole' in services"
 
 - name: Create .vpn_ip file for torrent service
@@ -15,6 +16,8 @@
     dest: services/torrent/.vpn_ip
     content: |
       VPN_IP={{ vpn_ip }}
+    owner: "{{ run_user }}"
+    mode: '0644'
   when: "vpn_ip and 'torrent' in services"
 
 - name: Synchronize services directories

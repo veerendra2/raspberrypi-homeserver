@@ -1,3 +1,4 @@
+---
 # https://dust6765.gitbook.io/raspberrypi-home-server/services/traefik-proxy
 version: "3.8"
 

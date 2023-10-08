@@ -56,12 +56,12 @@ services:
       labels:
         - "traefik.enable=false"
     hostname: redis
-    command:  [
-    "sh", "-c",
-    '
-    docker-entrypoint.sh
-    --requirepass "$$(cat $$REDIS_PASSWORD_FILE)"
-    '
+    command: [
+      "sh", "-c",
+      '
+      docker-entrypoint.sh
+      --requirepass "$$(cat $$REDIS_PASSWORD_FILE)"
+      '
     ]
     env_file:
       - .env_redis

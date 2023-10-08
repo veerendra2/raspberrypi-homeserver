@@ -1,5 +1,6 @@
 ---
 - name: Install fan script
+  when: install_fan_script
   block:
     - name: Check fan-py daemon is loaded
       ansible.builtin.systemd:
@@ -9,21 +10,20 @@
     - name: Install pigpio and Pi fan controller
       ansible.builtin.include_tasks: pigpio.yml
       when: output.status.LoadState != 'loaded'
-  when: install_fan_script
 
 - name: Power optimization
+  when: disable_bluetooth
   block:
     - name: Stop and disable hciuart and bluetooth deamon
       ansible.builtin.systemd:
         name: "{{ item }}"
         state: stopped
-        enabled: no
+        enabled: false
       with_items:
         - bluetooth
         - hciuart
     - name: Disable HDMI Output
       ansible.builtin.command: /usr/bin/tvservice -o
-  when: disable_bluetooth|bool == true
 
 - name: Configure disk mounts in /etc/fstab
   ansible.posix.mount:

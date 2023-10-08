@@ -2,7 +2,7 @@
 # https://github.com/pi-hole/docker-pi-hole#installing-on-ubuntu-or-fedora
 
 - name: Disable stub resolver in systemd-resolved config
-  ini_file:
+  community.general.ini_fil:
     path: /etc/systemd/resolved.conf
     section: Resolve
     option: DNSStubListener
@@ -10,24 +10,24 @@
     backup: true
 
 - name: Create backup /etc/resolv.conf
-  copy:
-    remote_src: yes
+  ansible.builtin.copy`:
+    remote_src: true
     src: /etc/resolv.conf
     dest: /etc/resolv.conf.backup
 
 - name: Remove /etc/resolv.conf
-  file:
+  ansible.builtin.file:
     path: /etc/resolv.conf
     state: absent
 
 - name: Create link /etc/resolv.conf
-  file:
+  ansible.builtin.file:
     src: /run/systemd/resolve/resolv.conf
     dest: /etc/resolv.conf
     state: link
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Restart systemd-resolved
-  service:
+  ansible.builtin.service:
     name: systemd-resolved
     state: restarted

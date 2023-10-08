@@ -35,4 +35,3 @@ services:
       - /media/disk1:/srv/disk1
     networks:
       network_public:
-

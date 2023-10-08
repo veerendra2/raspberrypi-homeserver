@@ -9,6 +9,8 @@
   ansible.builtin.get_url:
     url: https://github.com/joan2937/pigpio/archive/master.zip
     dest: "{{ tempdir.path }}"
+    owner: "{{ run_user }}"
+    mode: '0440'
 # TODO need to test!
 - name: Extract pigpio
   ansible.builtin.unarchive:
@@ -24,7 +26,6 @@
 
 - name: Set systemd unit parameters for pigpiod
   ansible.builtin.set_fact:
-    name: pigpiod
     description: Daemon required to control GPIO pins via pigpio
     exec_start_cmd: /usr/local/bin/pigpiod
     exec_kill_cmd: /bin/systemctl kill pigpiod
@@ -37,12 +38,13 @@
   ansible.builtin.template:
     src: templates/systemd_unit.service.j2
     dest: /lib/systemd/system/pigpiod.service
+    mode: '0640'
 
 - name: Enable and start pigpiod systemd daemon
   ansible.builtin.systemd:
     name: pigpiod
-    enabled: yes
-    daemon_reload: yes
+    enabled: true
+    daemon_reload: true
     state: started
 
 - name: Copy fan.py script
@@ -53,7 +55,6 @@
 
 - name: Set systemd unit parameters for fan-py
   ansible.builtin.set_fact:
-    name: fan-py
     description: Daemon required to control fan speed via pigpio
     exec_start_cmd: /usr/bin/python3 /usr/local/bin/fan.py
     exec_kill_cmd: /bin/kill -TERM $MAINPID
@@ -62,14 +63,15 @@
     pre_start_cmd: /bin/sleep 5
     service_type: simple
 
-- name: Create fan-py systemd unit
+- name: Create fan-py systemd unit file
   ansible.builtin.template:
     src: templates/systemd_unit.service.j2
     dest: /lib/systemd/system/fan-py.service
+    mode: '0640'
 
 - name: Enable and start fan-py systemd daemon
   ansible.builtin.systemd:
     name: fan-py
-    enabled: yes
-    daemon_reload: yes
+    enabled: true
+    daemon_reload: true
     state: started
