@@ -212,8 +212,8 @@ $ cd raspberrypi-homeserver
 $ ansible-playbook main.yml
 ```
 ### NOTE
-* The setup created to deploy all services on single node docker swarm cluster. If you want to use this setup on multi node swarm cluster, there are some additional tweaks required like
-  * Change plancement
+* This setup is created to deploy all services on single node docker swarm cluster. If you want to use this setup on multi node swarm cluster, there are some additional tweaks required like
+  * Change placement
     ```yaml
     ...
       deploy:
@@ -222,12 +222,13 @@ $ ansible-playbook main.yml
           constraints: [node.role == manager]
     ...
     ```
-* Currently I'm using duckdns sub-domain. Refer my [blog post](https://veerendra2.github.io/traefik-https) to get more info.
+* Currently I'm using duckdns sub-domain (Refer example -> [services/traefik/docker-stack.yml#32](./services/traefik/docker-stack.yml#32)). Refer my [blog post](https://veerendra2.medium.com/traefik-https-config-with-duckdns-for-local-homeserver-c55db9971683) to get more info.
+* Update docker volume mount paths.
 
 ## Related Blogs
-* [Portainer vs Yacht](https://veerendra2.github.io/portainer-vs-yacht)
-* [Pi-hole with DHCP Relay in Docker](https://veerendra2.github.io/pihole-dhcp-relay)
-* [Wireguard VPN and BitTorrent on Docker Swarm (Part 1)](https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-1)
-* [Wireguard VPN and BitTorrent on Docker Swarm (Part 2)](https://veerendra2.github.io/wireguard-qbittorrent-docker-swarm-2)
-* [Traefik HTTPS Config with DuckDNS for Local Homeserver](https://veerendra2.github.io/traefik-https)
+* [Portainer vs Yacht](https://veerendra2.medium.com/portainer-vs-yacht-316405b9e867)
+* [Pi-hole with DHCP Relay in Docker](https://veerendra2.medium.com/pi-hole-with-dhcp-relay-in-docker-cef397922e5a)
+* [Wireguard VPN and BitTorrent on Docker Swarm (Part 1)](https://veerendra2.medium.com/wireguard-vpn-and-bittorrent-on-docker-swarm-part-1-1100b4115cc0)
+* [Wireguard VPN and BitTorrent on Docker Swarm (Part 2)](https://veerendra2.medium.com/wireguard-vpn-and-bittorrent-on-docker-swarm-part-2-b92a251ba873)
+* [Traefik HTTPS Config with DuckDNS for Local Homeserver](https://veerendra2.medium.com/traefik-https-config-with-duckdns-for-local-homeserver-c55db9971683)
 * [How to Deploy rest-server(Restic) on Docker Swarm Behind Traefik Reverse Proxy](https://dev.to/veerendra2/how-to-deploy-rest-serverrestic-on-docker-swarm-behind-traefik-reverse-proxy-4a8h)
