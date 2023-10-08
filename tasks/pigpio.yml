@@ -12,19 +12,19 @@
     owner: "{{ run_user }}"
     mode: '0440'
 
-  - name: Extract pigpio
-    ansible.builtin.unarchive:
-      src: "{{ tempdir.path }}/pigpio-master.zip"
-      dest: "{{ tempdir.path }}"
-      remote_src: true
+- name: Extract pigpio
+  ansible.builtin.unarchive:
+    src: "{{ tempdir.path }}/pigpio-master.zip"
+    dest: "{{ tempdir.path }}"
+    remote_src: true
 
-  - name: Build and install pigpio
-    community.general.make:
-      chdir: "{{ tempdir.path }}/pigpio-master"
-      target: install
-      params:
-        NUM_THREADS: 2
-    become: true
+- name: Build and install pigpio
+  community.general.make:
+    chdir: "{{ tempdir.path }}/pigpio-master"
+    target: install
+    params:
+      NUM_THREADS: 2
+  become: true
 
 - name: Set systemd unit parameters for pigpiod
   ansible.builtin.set_fact:
